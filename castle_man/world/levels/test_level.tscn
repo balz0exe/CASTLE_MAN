@@ -44,12 +44,17 @@ position = Vector2(511, 214)
 position = Vector2(448, 15)
 
 [node name="skeleton" parent="." unique_id=1771659136 instance=ExtResource("10_4hgr8")]
-position = Vector2(-9, 153)
-dumb = true
+position = Vector2(429, 79)
 
 [node name="mushroom_man" parent="." unique_id=761871476 instance=ExtResource("9_gx6e6")]
 position = Vector2(553, 247)
 item = ExtResource("11_p75f5")
+
+[node name="skeleton2" parent="." unique_id=800734239 instance=ExtResource("10_4hgr8")]
+position = Vector2(136, 136)
+
+[node name="skeleton3" parent="." unique_id=1134364167 instance=ExtResource("10_4hgr8")]
+position = Vector2(789, 38)
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("11_ciqro")]
 position = Vector2(-8, 158)
