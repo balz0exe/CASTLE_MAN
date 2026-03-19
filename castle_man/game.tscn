@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dq7xs1jex1uq0"]
+
+[ext_resource type="Script" uid="uid://ctysdi0timweq" path="res://game.gd" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://dwna6gwnnofdn" path="res://health_bar.gd" id="2_e2o6t"]
+[ext_resource type="Script" uid="uid://dd1nnue2qbf2q" path="res://stamina_bar.gd" id="2_fc0e3"]
+[ext_resource type="Script" uid="uid://dnjuugyhkf7db" path="res://debug.gd" id="3_feb5d"]
+
+[node name="Game" type="Node" unique_id=1283195912]
+script = ExtResource("1_80nbo")
+
+[node name="MusicPlayer_1" type="AudioStreamPlayer2D" parent="." unique_id=901039015]
+bus = &"Music"
+
+[node name="MusicPlayer_2" type="AudioStreamPlayer2D" parent="." unique_id=679742568]
+bus = &"Music"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1736962219]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=48333705]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Refrence(disable)" type="ColorRect" parent="CanvasLayer/Control" unique_id=359379810]
+visible = false
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+
+[node name="StaminaBar" type="ColorRect" parent="CanvasLayer/Control" unique_id=1110337224]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 608.0
+offset_right = 37.0
+offset_bottom = 616.0
+color = Color(0.29803923, 0.8392157, 0, 1)
+script = ExtResource("2_fc0e3")
+
+[node name="HealthBar" type="ColorRect" parent="CanvasLayer/Control" unique_id=1148512425]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 623.0
+offset_right = 37.0
+offset_bottom = 641.0
+color = Color(1, 0, 0, 1)
+script = ExtResource("2_e2o6t")
+
+[node name="Debug" type="Label" parent="CanvasLayer/Control" unique_id=1112841144]
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 144.0
+offset_bottom = 283.0
+autowrap_mode = 3
+script = ExtResource("3_feb5d")

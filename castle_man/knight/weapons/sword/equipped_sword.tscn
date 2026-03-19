@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://blsce17mte76m"]
+
+[ext_resource type="Texture2D" uid="uid://dytqogt3wm5mp" path="res://knight/weapons/sword/sword.png" id="1_5uovl"]
+[ext_resource type="Script" uid="uid://clducvcf84gbf" path="res://knight/weapons/sword/equipped_sword.gd" id="1_q66nu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q66nu"]
+size = Vector2(16, 10)
+
+[node name="Area2D" type="Area2D" unique_id=1451861095]
+script = ExtResource("1_q66nu")
+weapon_name = "sword"
+throw_path = "res://knight/weapons/sword/sword_pickup.tscn"
+throwable = true
+damage = 10
+speed_scale = 1.2
+
+[node name="Hurtbox" type="CollisionShape2D" parent="." unique_id=1389238542]
+shape = SubResource("RectangleShape2D_q66nu")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=865262607]
+z_index = 1
+position = Vector2(2, 11)
+texture = ExtResource("1_5uovl")

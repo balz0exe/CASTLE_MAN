@@ -1,0 +1,20 @@
+extends Area2D
+
+var player
+
+func _ready() -> void:
+	player = get_parent()
+
+func _on_area_entered(area: Node2D) -> void:
+	if !player.dead:
+		if area.get_parent().is_in_group("enemies") and player.velocity.y > 0:
+			if Input.is_action_pressed("ui_down"):
+				Game.play_sfx(player.bounce_sfx, Game.sfx_volume)
+				player.velocity.y = player.jump_strength
+				area.get_parent().disarm()
+				if player.damage_on_bounce:
+					area.get_parent().take_damage(player.bounce_damage, player)
+			else:
+				var enemy = area.get_parent()
+				player.take_damage(enemy.damage_factor * 4, enemy)
+				player.velocity.y += player.jump_strength

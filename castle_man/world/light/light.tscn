@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://dtkrdwlwo8dqf"]
+
+[ext_resource type="Script" uid="uid://bdwqta2ck5hq4" path="res://world/light/bon_fire.gd" id="1_n0aq1"]
+[ext_resource type="Texture2D" uid="uid://djlrthe45covg" path="res://world/light/flame_06.png" id="2_ki1rl"]
+[ext_resource type="Texture2D" uid="uid://bu0bdov83ijd6" path="res://world/light/fire_02.png" id="3_c8f6s"]
+[ext_resource type="Texture2D" uid="uid://cq2fkaf8mn22" path="res://world/tile_map_1.png" id="4_sfxp4"]
+[ext_resource type="Script" uid="uid://bjfs0qfnjdso1" path="res://world/light/light.gd" id="5_d4urq"]
+[ext_resource type="Texture2D" uid="uid://b1rkfkk3cb1f7" path="res://world/light/light_01.png" id="6_qx8fj"]
+[ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://world/light/light_03.png" id="7_0k250"]
+[ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://world/light/star_09.png" id="8_c5vkb"]
+
+[sub_resource type="Curve" id="Curve_afulk"]
+_data = [Vector2(0.00564972, 0.124579), 0.0, 1.359, 0, 0, Vector2(0.596045, 0.068302), -1.47104, -1.47104, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_1ar80"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.541667, 0.651042)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0aq1"]
+atlas = ExtResource("4_sfxp4")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qqp6n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0aq1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_ar0sa"]
+_data = [Vector2(0, 0.327802), 0.0, 0.0, 0, 0, Vector2(0.782486, 0.062049), -2.39072, -2.39072, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_hbnbt"]
+offsets = PackedFloat32Array(0, 0.109375, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.880208, 0.880208, 0.880208, 1, 1, 1, 1, 1)
+
+[node name="light" type="Node2D" unique_id=149216288]
+show_behind_parent = true
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_n0aq1")
+
+[node name="Torch" type="Node2D" parent="." unique_id=2008161670]
+
+[node name="ball2" type="CPUParticles2D" parent="Torch" unique_id=1993215175]
+position = Vector2(0, 0.99999994)
+scale = Vector2(0.05, 0.05)
+amount = 120
+texture = ExtResource("3_c8f6s")
+lifetime = 1.4
+speed_scale = 4.0
+randomness = 1.0
+direction = Vector2(0, -1)
+spread = 22.5
+gravity = Vector2(0, -80)
+initial_velocity_min = 366.34
+initial_velocity_max = 371.29
+angular_velocity_min = -720.0
+angular_velocity_max = -720.0
+linear_accel_min = -100.0
+linear_accel_max = 100.0
+radial_accel_min = -100.0
+radial_accel_max = 100.0
+damping_max = 24.306
+scale_amount_min = 0.1
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_afulk")
+color = Color(1, 0.109804, 0, 1)
+color_ramp = SubResource("Gradient_1ar80")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Torch" unique_id=854483265]
+position = Vector2(0, 8)
+scale = Vector2(0.2, 0.6)
+sprite_frames = SubResource("SpriteFrames_qqp6n")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Torch" unique_id=1645503003]
+position = Vector2(0, -16)
+scale = Vector2(0.05, 0.05)
+amount = 10
+texture = ExtResource("2_ki1rl")
+lifetime = 0.6
+emission_shape = 3
+emission_rect_extents = Vector2(5, 1)
+gravity = Vector2(0, -980)
+radial_accel_min = -100.0
+radial_accel_max = 100.0
+tangential_accel_max = 100.0
+scale_amount_min = 0.01
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_ar0sa")
+color = Color(0.64731, 0, 0.066258, 1)
+color_ramp = SubResource("Gradient_hbnbt")
+
+[node name="glow" type="Node2D" parent="." unique_id=747868819]
+position = Vector2(0, -24)
+scale = Vector2(1.7, 1.7)
+script = ExtResource("5_d4urq")
+
+[node name="PointLight2D" type="PointLight2D" parent="glow" unique_id=642379405]
+color = Color(0.936483, 0, 0.0372923, 1)
+energy = 0.9
+texture = ExtResource("6_qx8fj")
+
+[node name="PointLight2D2" type="PointLight2D" parent="glow" unique_id=117972269]
+scale = Vector2(0.6, 0.6)
+color = Color(0.81, 0.81, 0, 1)
+energy = 0.8
+texture = ExtResource("7_0k250")
+
+[node name="PointLight2D3" type="PointLight2D" parent="glow" unique_id=1518930826]
+position = Vector2(-5.17647, 1.47059)
+energy = 1.2
+texture = ExtResource("8_c5vkb")

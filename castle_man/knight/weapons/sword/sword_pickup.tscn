@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://bcawry7vtpufa"]
+
+[ext_resource type="Script" uid="uid://d1mgtwvxoum7u" path="res://knight/weapons/sword/sword_pickup.gd" id="1_as0fl"]
+[ext_resource type="Texture2D" uid="uid://dytqogt3wm5mp" path="res://knight/weapons/sword/sword.png" id="2_as0fl"]
+[ext_resource type="Script" uid="uid://b6obkcgehoeoy" path="res://knight/weapons/sword/basic_hurt_box.gd" id="3_ry3hw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cx4lv"]
+size = Vector2(9, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wcj52"]
+radius = 4.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_as0fl"]
+size = Vector2(9, 9)
+
+[node name="SwordPickup" type="RigidBody2D" unique_id=907787714 groups=["weapons"]]
+collision_layer = 4
+mass = 0.5
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("1_as0fl")
+equip_path = "res://knight/weapons/sword/equipped_sword.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=690617699 groups=["weapons"]]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_cx4lv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=605635350]
+texture = ExtResource("2_as0fl")
+
+[node name="Area2D_R" type="Area2D" parent="." unique_id=1870875127]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+script = ExtResource("3_ry3hw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_R" unique_id=484833385]
+position = Vector2(15, 0)
+shape = SubResource("CircleShape2D_wcj52")
+debug_color = Color(0.99514896, 0, 0.21801919, 0.41960785)
+
+[node name="Area2D_L" type="Area2D" parent="." unique_id=2093870890]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+script = ExtResource("3_ry3hw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_L" unique_id=1017238699]
+position = Vector2(-14, 0)
+shape = SubResource("CircleShape2D_wcj52")
+debug_color = Color(0.99514896, 0, 0.21801919, 0.41960785)
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=349405687]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1860451315]
+shape = SubResource("RectangleShape2D_as0fl")
+
+[node name="Label" type="Label" parent="." unique_id=1804554678]
+visible = false
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
