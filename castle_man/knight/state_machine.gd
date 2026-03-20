@@ -51,10 +51,12 @@ func change_state(new_state_name: String):
 
 func _change_state(new_state_name: String):
 	var new_state = states.get(new_state_name)
+	var prev_state
 	if not (new_state == null or new_state == current_state) and not (new_state_name == "AttackState" and player.stamina <= player.weapon.stamina_cost) and not (new_state_name == "RollState" and player.stamina <= player.roll_stam_cost):
 		current_state.exit()
+		prev_state = current_state
 		current_state = new_state
 		player.state_version += 1
 		current_state.version = player.state_version
-		current_state.enter(current_state)
+		current_state.enter(prev_state)
 		state_changed.emit()

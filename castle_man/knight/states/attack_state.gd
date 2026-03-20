@@ -7,6 +7,7 @@ var attacking : bool
 var buffered_attack : bool
 var played : bool = false
 var clear: bool = false
+var prev_state: String
 
 func attack():
 	if !attacking:
@@ -23,6 +24,8 @@ func attack():
 			up_down_attack = false
 
 func enter(_prev_state):
+	prev_state = _prev_state.get_state_name()
+	print(prev_state)
 	if player.combo_cooldown_timer > 0 or player.stamina <= 0:
 		start_exit()
 		return
@@ -51,8 +54,11 @@ func physics_update(delta):
 				player.velocity.y = -50
 			if player.combo_counter == player.combo_count:
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 100
-			else:
+			elif prev_state != "RunState":
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 10
+		if prev_state == "RunState":
+			player.velocity.x += player.acceleration/2 * Input.get_axis("ui_left", "ui_right") * delta
+			player.velocity.x = clamp(player.velocity.x, -player.max_speed, player.max_speed)
 		if player.combo_reset_timer <= 0 and !attacking:
 			start_exit()
 	elif !player.weapon:
@@ -84,6 +90,7 @@ func async_animations():
 	Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 	attacking = false
 	if player.is_on_floor(): player.velocity.x = 0
+	if prev_state == "RunState": player.velocity.x = player.velocity.x/4
 	player.animation.play("idle")
 
 func update_input():

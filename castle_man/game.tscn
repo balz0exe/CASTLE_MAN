@@ -45,7 +45,6 @@ color = Color(1, 0, 0, 1)
 script = ExtResource("2_e2o6t")
 
 [node name="Debug" type="Label" parent="CanvasLayer/Control" unique_id=1112841144]
-visible = false
 layout_mode = 0
 offset_left = 14.0
 offset_top = 12.0
