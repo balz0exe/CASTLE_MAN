@@ -61,6 +61,8 @@ var combo_reset_timer: float = 0.0
 @export var combo_reset_time: float = 2
 var is_throw: bool = false
 
+signal attacked
+
 #MOVEMENT VARIABLES
 
 @onready var original_feet_target_position = feet_cast.target_position
@@ -270,9 +272,7 @@ func _do_equip():
 		
 	weapon = pending_weapon_scene.instantiate()
 	if pending_pickup_scene: pending_pickup_scene.queue_free()
-	# ... rest of your setup ...
-	
-	# Clear the pending status so it doesn't run again unless called
+
 	has_weapon = true
 	hurt_box.get_child(0).shape = weapon.get_child(0).shape
 	weapon_hurt_box_reach_offset = weapon.get_child(0).position.x

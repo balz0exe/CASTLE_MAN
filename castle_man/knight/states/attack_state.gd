@@ -52,13 +52,13 @@ func physics_update(delta):
 		if player.animation.animation.contains("attack"):
 			if !player.is_on_floor():
 				player.velocity.y = -50
-			if player.combo_counter == player.combo_count:
+			if player.combo_counter == player.combo_count and prev_state == "RunState":
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 100
 			elif prev_state != "RunState":
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 10
-		if prev_state == "RunState":
-			player.velocity.x += player.acceleration/2 * Input.get_axis("ui_left", "ui_right") * delta
-			player.velocity.x = clamp(player.velocity.x, -player.max_speed, player.max_speed)
+			elif prev_state == "RunState":
+				player.velocity.x += player.acceleration/2 * Input.get_axis("ui_left", "ui_right") * delta
+				player.velocity.x = clamp(player.velocity.x, -player.max_speed, player.max_speed)
 		if player.combo_reset_timer <= 0 and !attacking:
 			start_exit()
 	elif !player.weapon:
@@ -89,8 +89,8 @@ func async_animations():
 	player.combo_reset_timer = player.weapon.combo_reset_time
 	Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 	attacking = false
-	if player.is_on_floor(): player.velocity.x = 0
-	if prev_state == "RunState": player.velocity.x = player.velocity.x/4
+	if player.is_on_floor() and prev_state != "RunState": player.velocity.x = 0
+	if prev_state == "RunState": player.velocity.x = player.velocity.x/2
 	player.animation.play("idle")
 
 func update_input():

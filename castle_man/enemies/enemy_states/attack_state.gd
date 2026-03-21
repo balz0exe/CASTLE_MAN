@@ -54,6 +54,7 @@ func start_exit() -> void:
 		state_machine.change_state("FallState")
 
 func exit():
+	player.attacked.emit()
 	if player.combo_cooldown_timer <= 0 or player.basic_attack:
 		player.combo_cooldown_timer = player.combo_cooldown
 	attacking = false

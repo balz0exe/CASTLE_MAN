@@ -72,9 +72,12 @@ func state_entered() -> void:
 			var bodies = player.sight_bubble.get_overlapping_bodies()
 			for body in bodies:
 				if body.is_in_group("weapons"):
-					player.found_weapon = body
+					if abs(player.global_position.y - body.global_position.y) < 50:
+						player.found_weapon = body
 			while player.weapon == null and player.found_weapon != null:
 				_move_towards_x(player.found_weapon.global_position.x)
+				if player.global_position.x == player.found_weapon.global_position.x:
+					break
 				await get_tree().process_frame
 			looking_for_weapon = false
 			set_state(State.CHASE)
@@ -122,7 +125,12 @@ func _physics_process(_delta: float) -> void:
 				if !is_instance_valid(enemy):
 					set_state(State.PATROL)
 				if player.combo_reset_timer > 0:
-					if enemy: _move_towards_x(enemy.global_position.x + player.attack_range * player.direction, true)
+					await player.attacked
+					await Game.wait_for_seconds(0.1)
+					if state != State.FIGHT:
+						return
+					_flip()
+					if enemy: _move_towards_x(player.global_position.x - 10)
 			State.SEARCH_WEAPON:
 				pass
 
