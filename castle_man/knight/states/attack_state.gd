@@ -8,6 +8,7 @@ var buffered_attack : bool
 var played : bool = false
 var clear: bool = false
 var prev_state: String
+var run_attack: bool
 
 func attack():
 	if !attacking:
@@ -24,8 +25,12 @@ func attack():
 			up_down_attack = false
 
 func enter(_prev_state):
+	if not player.combo_cooldown_timer > 0:
+		player.combo_counter = 0
+	run_attack = false
 	prev_state = _prev_state.get_state_name()
-	print(prev_state)
+	if prev_state == "RunState":
+		run_attack = true
 	if player.combo_cooldown_timer > 0 or player.stamina <= 0:
 		start_exit()
 		return
@@ -43,7 +48,6 @@ func exit():
 	attacking = false
 	if player.combo_cooldown_timer <= 0 and player.combo_counter > player.combo_count - 1:
 		player.combo_cooldown_timer = player.combo_cooldown
-	player.combo_counter = 0
 	if state_machine.monitor:print("Exited Attack State")
 
 func physics_update(delta):
@@ -52,14 +56,14 @@ func physics_update(delta):
 		if player.animation.animation.contains("attack"):
 			if !player.is_on_floor():
 				player.velocity.y = -50
-			if player.combo_counter == player.combo_count and prev_state == "RunState":
+			if player.combo_counter == player.combo_count and run_attack:
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 100
-			elif prev_state != "RunState":
+			elif !run_attack:
 				player.velocity.x = player.max_speed * player.direction * delta * player.weapon.thrust_speed_factor * 10
-			elif prev_state == "RunState":
+			elif run_attack:
 				player.velocity.x += player.acceleration/2 * Input.get_axis("ui_left", "ui_right") * delta
 				player.velocity.x = clamp(player.velocity.x, -player.max_speed, player.max_speed)
-		if player.combo_reset_timer <= 0 and !attacking:
+		if (player.combo_reset_timer <= 0 and !attacking):
 			start_exit()
 	elif !player.weapon:
 		state_machine.change_state("IdleState")
@@ -89,12 +93,14 @@ func async_animations():
 	player.combo_reset_timer = player.weapon.combo_reset_time
 	Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 	attacking = false
-	if player.is_on_floor() and prev_state != "RunState": player.velocity.x = 0
-	if prev_state == "RunState": player.velocity.x = player.velocity.x/2
+	if player.is_on_floor() and !run_attack: player.velocity.x = 0
+	if run_attack: player.velocity.x = player.velocity.x/2
 	player.animation.play("idle")
 
 func update_input():
 	if clear:
+		if not Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
+			run_attack = false
 		if Input.is_action_just_pressed("attack"):
 			if !attacking:
 				attack()
