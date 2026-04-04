@@ -12,6 +12,11 @@ var run_attack: bool
 
 func attack():
 	if !attacking:
+		if Input.is_action_pressed("ui_up") or (not player.is_on_floor() and Input.is_action_pressed("ui_down")):
+			up_down_attack = true
+			up_down = Input.get_axis("ui_up", "ui_down")
+		else:
+			up_down_attack = false
 		player.combo_counter += 1
 		if player.combo_counter > player.combo_count or player.stamina <= 0:
 			start_exit()
@@ -19,10 +24,6 @@ func attack():
 		if player.weapon: player.stamina -= player.weapon.stamina_cost
 		played = false
 		attacking = true
-		if Input.is_action_pressed("ui_up") or (not player.is_on_floor() and Input.is_action_pressed("ui_down")):
-			up_down_attack = true
-		else:
-			up_down_attack = false
 
 func enter(_prev_state):
 	if not player.combo_cooldown_timer > 0:
@@ -52,7 +53,6 @@ func exit():
 
 func physics_update(delta):
 	if clear and player.weapon:
-		up_down = Input.get_axis("ui_up", "ui_down")
 		if player.animation.animation.contains("attack"):
 			if !player.is_on_floor():
 				player.velocity.y = -50
@@ -93,8 +93,9 @@ func async_animations():
 	player.combo_reset_timer = player.weapon.combo_reset_time
 	Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 	attacking = false
-	if player.is_on_floor() and !run_attack: player.velocity.x = 0
-	if run_attack: player.velocity.x = player.velocity.x/2
+	if !up_down_attack:
+		if player.is_on_floor() and !run_attack: player.velocity.x = 0
+		if run_attack: player.velocity.x = player.velocity.x/2
 	player.animation.play("idle")
 
 func update_input():
