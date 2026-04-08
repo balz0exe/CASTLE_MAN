@@ -40,6 +40,7 @@ func init(player_ref) -> void:
 # --- STATE MANAGEMENT ---
 
 var ran_patrol_x : float
+var has_attacked : bool = false
 
 func set_state(new_state: State) -> void:
 	if state == new_state or looking_for_weapon:
@@ -67,6 +68,7 @@ func state_entered() -> void:
 			pass
 		State.FIGHT:
 			player.ai_state = player.Ai_State_Request.attack
+			has_attacked = true
 		State.SEARCH_WEAPON:
 			looking_for_weapon = true
 			var bodies = player.sight_bubble.get_overlapping_bodies()
@@ -92,7 +94,7 @@ func state_exited() -> void:
 		State.CHASE:
 			pass
 		State.FIGHT:
-			pass
+			has_attacked = false
 		State.SEARCH_WEAPON:
 			done_looking_for_weapon.emit()
 			player.found_weapon = null
@@ -124,15 +126,10 @@ func _physics_process(_delta: float) -> void:
 			State.FIGHT:
 				if !is_instance_valid(enemy):
 					set_state(State.PATROL)
-				if player.combo_reset_timer > 0:
-					await player.attacked
-					await Game.wait_for_seconds(0.1)
-					if state != State.FIGHT:
-						return
-					_flip()
-					if enemy: _move_towards_x(player.global_position.x - 10)
+				_face_towards(enemy)
 			State.SEARCH_WEAPON:
-				pass
+				if player.weapon != null:
+					set_state(State.CHASE)
 
 signal done_looking_for_weapon
 
@@ -151,12 +148,18 @@ func control_process(delta) -> void:
 	else:
 		can_jump = true
 	
+	#update attack range
+	if player.weapon != null:
+		player.attack_range = player.original_attack_range + player.weapon.range_diff
+	else:
+		player.attack_range = player.original_attack_range
+	
 	if enemy != null:
 		if !enemy.dead:
 			var distance = enemy.global_position.x - player.global_position.x
-			if abs(distance) > player.attack_range + 20:
+			if abs(distance) > player.attack_range - 20:
 				if state != State.WAIT: set_state(State.CHASE)
-			elif abs(distance) < player.attack_range - 20 and not state == State.WAIT:
+			elif abs(distance) < player.attack_range + 20 and not state == State.WAIT:
 				if state != State.WAIT: set_state(State.FIGHT)
 		else:
 			lose_enemy(player.lose_time)
@@ -216,7 +219,6 @@ func navigate() -> void:
 			if (state == State.CHASE or state == State.SEARCH_WEAPON) and player.platform_cast.is_colliding():
 					if player.platform_cast.get_collider().is_in_group("enviroment"):
 						var x = player.global_position.x
-						print("!!!")
 						player.ai_state = player.Ai_State_Request.jump
 						player.update_ai_request()
 						while player.is_on_floor():
@@ -242,12 +244,8 @@ func _face_towards(target: Node2D) -> void:
 		return
 	
 	# Determine the direction to face
-	if target.global_position.x > player.global_position.x:
-		player.flip_h = false
-		player.direction = 1
-	else:
-		player.flip_h = true
-		player.direction = -1
+	if (target.global_position.x > player.global_position.x and player.direction == -1) or (target.global_position.x < player.global_position.x and player.direction == 1):
+		_flip()
 
 signal moved
 func _move_towards_x(target: float, _sprint: bool = false) -> void:

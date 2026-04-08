@@ -7,10 +7,13 @@
 size = Vector2(24, 17)
 
 [node name="Area2D" type="Area2D" unique_id=1451861095]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_ggtwv")
 weapon_name = "greatsword"
 throw_path = "res://knight/weapons/great_sword/great_sword_pickup.tscn"
 damage = 15
+range_diff = 20
 knockback = 7
 thrust_speed_factor = 0.2
 combo_count = 3

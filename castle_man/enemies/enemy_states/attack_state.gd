@@ -10,7 +10,6 @@ var clear: bool = false
 
 func attack():
 	if !played:
-		player.ENEMY_AI._face_towards(player.ENEMY_AI.enemy)
 		if player.weapon: if player.weapon.ranged: return
 		played = true
 		if !up_down_attack:
@@ -21,6 +20,9 @@ func attack():
 				player.animation.play("attack 1")
 				Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 				player.combo_reset_timer = randf_range(0.5, 1.5) * player.combo_reset_time
+		
+		player.hit_box.coll.disabled = false
+		player.velocity.x += 10 * player.direction
 		await player.animation.animation_finished
 		if version != player.state_version:
 			return
@@ -30,7 +32,8 @@ func enter(_prev_state):
 	if player.combo_reset_timer > 0:
 		start_exit()
 		return
-	player.velocity.x = 0
+	if !player.basic_attack:
+		player.velocity.x = 0
 	if player.combo_cooldown_timer <= 0:
 		player.combo_counter = 0
 	if player.weapon and player.weapon.combo_count == player.combo_counter + 1:
@@ -53,8 +56,11 @@ func start_exit() -> void:
 	else:
 		state_machine.change_state("FallState")
 
+func disable_hitbox() -> void:
+	player.hit_box.coll.disabled = true
+
 func exit():
-	player.attacked.emit()
+	call_deferred("disable_hitbox")
 	if player.combo_cooldown_timer <= 0 or player.basic_attack:
 		player.combo_cooldown_timer = player.combo_cooldown
 	attacking = false

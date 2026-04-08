@@ -21,7 +21,7 @@ func update_animation():
 		player.velocity.y = -300
 		player.animation.play("die")
 		await player.animation.animation_finished
-		player.hit_box.disabled = true
+		player.coll.disabled = true
 		while player.position.y < player.get_viewport_rect().size.y:
 			player.animation.animation = "die"
 			player.animation.frame = 3

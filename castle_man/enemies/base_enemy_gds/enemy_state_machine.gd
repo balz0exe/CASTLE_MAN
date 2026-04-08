@@ -52,5 +52,3 @@ func change_state(new_state_name: String):
 		player.state_version += 1
 		current_state.enter(current_state)
 		current_state.version = player.state_version
-
-#func _change_state(new_state_name: String):

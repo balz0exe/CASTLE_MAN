@@ -5,12 +5,13 @@
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="3_35jd6"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="4_40x2p"]
 [ext_resource type="Texture2D" uid="uid://ldef5xup3oma" path="res://enemies/skeleton.png" id="4_xens1"]
-[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hurt_box.gd" id="5_35jd6"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="5_35jd6"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="6_dh2e2"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="6_jtyv1"]
 [ext_resource type="Texture2D" uid="uid://bdekdcms1ibdn" path="res://enemies/skeleton_hurt_die.png" id="6_wsx01"]
 [ext_resource type="Texture2D" uid="uid://c7cxcsahjixdo" path="res://enemies/skeleton_head.png" id="7_076uc"]
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="7_ftnyf"]
+[ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="12_dh2e2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(19, 18)
@@ -368,7 +369,7 @@ animations = [{
 radius = 216.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xens1"]
-size = Vector2(35.375, 20)
+size = Vector2(14.6875, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_35jd6"]
 radius = 10.049875
@@ -383,10 +384,11 @@ hurt_sfx = ExtResource("2_bgjev")
 hit_sfx = ExtResource("2_bgjev")
 lose_time = 10.0
 follow_up = true
+combo_reset_time = 0.5
 can_double_jump = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
-position = Vector2(1, -10)
+position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_kdubu")
 
 [node name="EnemyAi" type="Node" parent="." unique_id=2028536122]
@@ -394,7 +396,6 @@ script = ExtResource("4_40x2p")
 
 [node name="StateMachine" type="Node" parent="." unique_id=540004747]
 script = ExtResource("3_35jd6")
-monitor = true
 
 [node name="debug" type="Label" parent="." unique_id=1367774439]
 visible = false
@@ -423,54 +424,55 @@ target_position = Vector2(0, 106)
 hit_from_inside = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
-position = Vector2(1, -10)
+position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
 animation = &"wind up"
 autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
-position = Vector2(1, -10)
+position = Vector2(0, -10)
 target_position = Vector2(40, -25)
 collision_mask = 3
 
 [node name="FeetCast" type="RayCast2D" parent="." unique_id=566618058]
-position = Vector2(2, -10)
+position = Vector2(1, -10)
 target_position = Vector2(38, 18)
 collision_mask = 3
 
 [node name="WallCast" type="RayCast2D" parent="." unique_id=909522511]
-position = Vector2(1, -10)
+position = Vector2(0, -10)
 target_position = Vector2(36, 0)
 collision_mask = 3
 
 [node name="SightCast" type="RayCast2D" parent="." unique_id=684348816]
-position = Vector2(1, -4)
+position = Vector2(0, -4)
 target_position = Vector2(36, 0)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="SightBubble" type="Area2D" parent="." unique_id=630095415 groups=["enemies"]]
-position = Vector2(1, -4)
+position = Vector2(0, -4)
 collision_layer = 0
 collision_mask = 6
 
 [node name="bubble_collision" type="CollisionShape2D" parent="SightBubble" unique_id=981739119]
 shape = SubResource("CircleShape2D_xens1")
 
-[node name="HurtBox" type="Area2D" parent="." unique_id=1952255876]
-position = Vector2(1, -4)
-collision_layer = 0
-collision_mask = 2
+[node name="HitBox" type="Area2D" parent="." unique_id=1952255876]
+position = Vector2(0, -4)
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("5_35jd6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1035466147]
-position = Vector2(0, -3)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1035466147]
+position = Vector2(13, -7)
 shape = SubResource("RectangleShape2D_xens1")
+disabled = true
 debug_color = Color(0.980167, 0, 0.38590178, 0.41960785)
 
 [node name="SoftCollisionBubble" type="Area2D" parent="." unique_id=525799803 groups=["soft collisions"]]
-position = Vector2(1, -4)
+position = Vector2(0, -4)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("6_jtyv1")
@@ -481,7 +483,7 @@ shape = SubResource("CircleShape2D_35jd6")
 debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
 
 [node name="HeadBox" type="Area2D" parent="." unique_id=1686892355]
-position = Vector2(1, -4)
+position = Vector2(0, -4)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeadBox" unique_id=1088278253]
@@ -491,6 +493,15 @@ debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1438646742]
 position = Vector2(0, -10)
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=24083146]
+script = ExtResource("12_dh2e2")
+metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=119073792]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_kdubu")
+debug_color = Color(0.98437876, 0, 0.348599, 0.41960785)
 
 [connection signal="area_entered" from="SoftCollisionBubble" to="SoftCollisionBubble" method="_on_area_entered"]
 [connection signal="area_exited" from="SoftCollisionBubble" to="SoftCollisionBubble" method="_on_area_exited"]

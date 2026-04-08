@@ -7,11 +7,14 @@
 size = Vector2(13, 14)
 
 [node name="Area2D" type="Area2D" unique_id=1451861095]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_4cbkp")
 weapon_name = "knife"
 throw_path = "res://knight/weapons/knife/knife_pickup.tscn"
 throwable = true
 damage = 5
+range_diff = -10
 stamina_cost = 3
 knockback = 3
 thrust_speed_factor = 0.5

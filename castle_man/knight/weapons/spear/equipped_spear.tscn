@@ -7,11 +7,14 @@
 size = Vector2(20, 7.5)
 
 [node name="Area2D" type="Area2D" unique_id=1451861095]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_m1h02")
 weapon_name = "spear"
 throw_path = "res://knight/weapons/spear/spear_pickup.tscn"
 throwable = true
 damage = 8
+range_diff = 10
 knockback = 10
 thrust_speed_factor = 1.2
 combo_count = 3

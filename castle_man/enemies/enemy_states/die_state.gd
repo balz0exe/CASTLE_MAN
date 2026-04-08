@@ -19,7 +19,7 @@ func update_animation():
 		played = true
 		player.animation.play("die")
 		await player.animation.animation_finished
-		player.hit_box.disabled = true
+		player.coll.disabled = true
 		player.velocity.y += player.jump_strength
 		while player.position.y < (player.get_viewport_rect().size.y - 150):
 			player.animation.animation = "die"

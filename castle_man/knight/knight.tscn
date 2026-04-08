@@ -7,12 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://dr5qu05xa2mf7" path="res://knight/knight_up_down_attacks.png" id="4_0whgt"]
 [ext_resource type="Script" uid="uid://bwg058o6bm8oq" path="res://knight/states/player_state.gd" id="4_mwio0"]
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="4_whyep"]
-[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hurt_box.gd" id="5_6gdd4"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="5_6gdd4"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_8vp70"]
 [ext_resource type="Texture2D" uid="uid://u0tkfqjwkdwn" path="res://knight/knight_dead.png" id="5_ew415"]
 [ext_resource type="Script" uid="uid://boaqcia5nrn71" path="res://knight/feet_box.gd" id="7_okdvf"]
+[ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="9_phnst"]
 [ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://world/light/light_03.png" id="14_vt0gp"]
 [ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://world/light/star_09.png" id="15_4yak4"]
+[ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="15_8ya1n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(19, 15)
@@ -467,7 +469,6 @@ script = ExtResource("3_b8vh2")
 script = ExtResource("4_mwio0")
 
 [node name="debug" type="Label" parent="." unique_id=1367774439]
-visible = false
 offset_left = -20.0
 offset_top = -46.0
 offset_right = 20.0
@@ -476,31 +477,16 @@ offset_bottom = -23.0
 [node name="weapon_hand" type="Node2D" parent="." unique_id=2001023644]
 position = Vector2(8, -17)
 
-[node name="Shadow" type="Node2D" parent="." unique_id=81872650]
-position = Vector2(0, -8)
-script = ExtResource("5_8vp70")
-
-[node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1839477398]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(1, 1, 1, 0.19607843)
-position = Vector2(-2, 11.999999)
-scale = Vector2(0.1015625, 0.054687474)
-texture = ExtResource("4_whyep")
-
-[node name="ShadowCast" type="RayCast2D" parent="Shadow" unique_id=326681739]
-position = Vector2(0, 7)
-target_position = Vector2(0, 106)
-hit_from_inside = true
-
-[node name="HurtBox" type="Area2D" parent="." unique_id=944954428]
+[node name="HitBox" type="Area2D" parent="." unique_id=944954428]
 position = Vector2(-2, -5)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_6gdd4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1922517320]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1922517320]
 position = Vector2(20, -3)
 shape = SubResource("RectangleShape2D_ew415")
+disabled = true
 debug_color = Color(0.980167, 0, 0.38590178, 0.41960785)
 
 [node name="FeetBox" type="Area2D" parent="." unique_id=976272222]
@@ -527,6 +513,7 @@ debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 position = Vector2(-2, -5)
 collision_layer = 8
 collision_mask = 8
+script = ExtResource("9_phnst")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SoftCollisionBubble" unique_id=144831965]
 position = Vector2(0, -6)
@@ -554,6 +541,29 @@ texture = ExtResource("14_vt0gp")
 position = Vector2(4.7683716e-07, -5.9604645e-07)
 energy = 1.2
 texture = ExtResource("15_4yak4")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=2098546708]
+script = ExtResource("15_8ya1n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=2134911815]
+position = Vector2(-2, -8)
+shape = SubResource("RectangleShape2D_kdubu")
+debug_color = Color(0.99779767, 0, 0.16816151, 0.41960785)
+
+[node name="Shadow" type="Node2D" parent="." unique_id=1031398540]
+script = ExtResource("5_8vp70")
+
+[node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1981193768]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.19607843)
+position = Vector2(1, 4.999998)
+scale = Vector2(0.1015625, 0.054687474)
+texture = ExtResource("4_whyep")
+
+[node name="ShadowCast" type="RayCast2D" parent="Shadow" unique_id=1910553579]
+position = Vector2(0, -1)
+target_position = Vector2(0, 106)
+hit_from_inside = true
 
 [connection signal="player_died" from="." to="Camera2D" method="_on_knight_player_died"]
 [connection signal="player_respawned" from="." to="Camera2D" method="_on_knight_player_respawned"]

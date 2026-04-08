@@ -3,7 +3,7 @@ extends CharacterBody2D
 class_name Enemy
 
 @onready var animation = $AnimatedSprite2D
-@onready var hit_box = $CollisionShape2D
+@onready var coll = $CollisionShape2D
 @onready var debug = $debug
 @onready var player_ref = self
 @onready var weapon_hand = $weapon_hand
@@ -12,7 +12,7 @@ class_name Enemy
 @onready var feet_cast = $FeetCast
 @onready var platform_cast = $PlatformCast
 @onready var sight_bubble = $SightBubble
-@onready var hurt_box = $HurtBox
+@onready var hit_box = $HitBox
 @onready var shadow = $Shadow
 var state_machine = Node
 var state_version : int = 0
@@ -30,11 +30,12 @@ var ENEMY_AI = Node
 #ENEMY.AI
 
 @export var lose_time: float = 1
-@export var attack_range: int = 50
+@export var original_attack_range: int = 50
+var attack_range: int = original_attack_range
 @export var attack_hits: int = 2
 @export var sight_radius: float = 216
 
-enum Ai_State_Request {attack, block, idle, jump, roll, run, throw, empty }
+enum Ai_State_Request {attack, block, idle, jump, roll, run, throw, empty}
 var ai_state : Ai_State_Request = Ai_State_Request.idle
 
 #WEAPON VARIABLES
@@ -60,8 +61,6 @@ var combo_cooldown_timer: float = 0.0
 var combo_reset_timer: float = 0.0
 @export var combo_reset_time: float = 2
 var is_throw: bool = false
-
-signal attacked
 
 #MOVEMENT VARIABLES
 
@@ -95,7 +94,6 @@ func _ready() -> void:
 	bubble_coll.shape.radius = sight_radius
 	state_machine = $StateMachine
 	ENEMY_AI = $EnemyAi
-	hurt_box.connect("body_entered", hurt_box_body_entered)
 	state_machine.init(player_ref)
 	ENEMY_AI.init(player_ref)
 	if item != null:
@@ -108,7 +106,7 @@ func _physics_process(delta: float) -> void:
 	elif weapon_user:
 		basic_attack = false
 
-	debug.text = ("dead:" + str(ENEMY_AI.state))
+	debug.text = (str(hit_box.monitoring))
 
 	if health <= 0 and !dead:
 		die()
@@ -128,13 +126,6 @@ func _physics_process(delta: float) -> void:
 		direction = 1
 
 	animation.flip_h = flip_h
-	
-	#hurt box collisions
-	
-	if animation.animation.contains("attack") and animation.frame == 1:
-		hurt_box.monitoring = true
-	else:
-		hurt_box.monitoring = false
 	
 	#gravity and air roll
 
@@ -189,8 +180,6 @@ func update_ai_request() -> void:
 		if ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)):
 			state_machine.change_state("JumpState")
 
-	ai_state == Ai_State_Request.empty
-
 func update_animations() -> void:
 	state_machine.current_state.update_animation()
 	if weapon != null:
@@ -212,7 +201,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			state_machine.current_state.retrigger()
 		else:
 			state_machine.change_state("HurtState")
-	
+
 func parried(from: Node2D, knockback: float = 3):
 	velocity.y -= 30
 	velocity.x = 0
@@ -220,11 +209,6 @@ func parried(from: Node2D, knockback: float = 3):
 	var knock_back_direction = -sign(from.global_position.x - global_position.x)
 	knockback_force = 10 * knockback * knock_back_direction
 	state_machine.change_state("HurtState")
-
-func hurt_box_body_entered(body) -> void:
-	if body.is_in_group("player") and !body.dead:
-		if weapon != null: body.take_damage(weapon.damage * damage_factor, self, weapon.knockback)
-		else: body.take_damage(damage_factor, self)
 
 func die() -> void:
 	dead = true
@@ -264,7 +248,7 @@ func disarm():
 			has_weapon = false
 			weapon.queue_free()
 
-var weapon_hurt_box_reach_offset: int
+var weapon_hit_box_reach_offset: int
 
 func _do_equip():
 	if not pending_weapon_scene:
@@ -274,8 +258,8 @@ func _do_equip():
 	if pending_pickup_scene: pending_pickup_scene.queue_free()
 
 	has_weapon = true
-	hurt_box.get_child(0).shape = weapon.get_child(0).shape
-	weapon_hurt_box_reach_offset = weapon.get_child(0).position.x
+	hit_box.get_child(0).shape = weapon.get_child(0).shape
+	weapon_hit_box_reach_offset = weapon.get_child(0).position.x
 	weapon.set_meta("resource_path", pending_weapon_scene.resource_path)
 	pending_weapon_scene = null
 	pending_pickup_scene = null

@@ -23,7 +23,7 @@ tile_map_data = PackedByteArray("AAD8/wEAAgABAAEAAAD9/wEAAgABAAEAAAD+/wEAAgABAAE
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=747752804]
 position = Vector2(346, 125)
-color = Color(0, 0, 0, 1)
+color = Color(0.19973177, 0.19973174, 0.19973174, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
 position = Vector2(-391, 37)

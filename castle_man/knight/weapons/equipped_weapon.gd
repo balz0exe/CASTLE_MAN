@@ -7,11 +7,12 @@ class_name WeaponItem
 @export var throwable: bool = false
 @export var ranged: bool = false
 @export var damage = 2
+@export var range_diff: int = 0
 @export var stamina_cost = 5
 @export var knockback = 5
 @export var thrust_speed_factor = 1.0
 @export var combo_count := 4
-var combo_reset_time: float = 0.4
+@export var combo_reset_time: float = 0.2
 @export var anim: Array[String]
 @export var speed_scale: = 1.0
 @export var dash_attack = false

@@ -2,10 +2,11 @@
 extends CharacterBody2D
 
 @onready var animation = $AnimatedSprite2D
-@onready var hit_box = $CollisionShape2D
+@onready var coll = $CollisionShape2D
 @onready var debug = $debug
 @onready var player_ref = self
 @onready var weapon_hand = $weapon_hand
+@onready var hit_box = $HitBox
 @onready var hurt_box = $HurtBox
 @onready var camera = $Camera2D
 @onready var shadow = $Shadow
@@ -49,7 +50,7 @@ var held_frame_counter: float = 0.0
 var held_frames: float = 0.35
 var is_throw: bool = false
 var invincible: bool = false
-var invincible_time: float = 2
+var invincible_time: float = 0.5
 var invincible_timer: float = 0.0
 
 #MOVEMENT VARIABLES
@@ -81,8 +82,7 @@ var can_air_throw = false
 func _ready() -> void:
 	state_machine = $StateMachine
 	state_machine.init(player_ref)
-	hurt_box.connect("body_entered", hurt_box_body_entered)
-	
+	shadow.visible = true
 	can_air_roll = true
 	can_double_jump = true
 	can_air_throw = true
@@ -103,7 +103,7 @@ func _physics_process(delta: float) -> void:
 		can_air_throw = false
 		damage_on_bounce = false
 
-	debug.text = str(str(hits_taken) + " : " + str(recovery_timer))
+	debug.text = str(combo_reset_timer)
 
 	#check for death
 
@@ -146,9 +146,9 @@ func _physics_process(delta: float) -> void:
 	#hurt box collisions
 
 	if animation.animation.contains("attack") and animation.frame == 1:
-		hurt_box.monitoring = true
+		hit_box.coll.disabled = false
 	else:
-		hurt_box.monitoring = false
+		hit_box.coll.disabled = true
 
 	#gravity and air roll
 
@@ -171,11 +171,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("drop_item"):
 		disarm()
 
-	if Input.is_action_just_pressed("ui_down"):
-		if not state_machine.current_state.get_state_name() == "ThrowState":
-			if is_on_floor() and has_weapon: state_machine.change_state("BlockState")
-		else:
-			held_frame_counter = 0
 	if has_weapon:
 		if Input.is_action_pressed("attack"):
 			held_frame_counter += 1 * delta
@@ -187,6 +182,10 @@ func _physics_process(delta: float) -> void:
 		if Input	.is_action_just_released("attack"):
 			held_frame_counter = 0
 
+	if invincible:
+		hurt_box.coll.disabled = true
+	else:
+		hurt_box.coll.disabled = false
 	#combat timers
 	if invincible_timer > 0.0:
 		invincible_timer -= delta * 1
@@ -236,7 +235,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			return
 		health = health - damage
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
-		knockback_force = 5 * knockback * knock_back_direction
+		knockback_force = 15 * knockback * knock_back_direction
 		if state_machine.current_state.get_state_name() == "HurtState":
 			hits_taken += 1
 			state_machine.current_state.retrigger()
@@ -244,20 +243,13 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			hits_taken += 1
 			state_machine.change_state("HurtState")
 
-func hurt_box_body_entered(body) -> void:
-	if body.is_in_group("enemies") and !body.dead:
-		if animation.animation == "attack down":
-			velocity.y = jump_strength
-			velocity.x += 100 * direction
-		body.take_damage(weapon.damage, self, weapon.knockback)
-
 signal player_respawned
 func respawn() -> void:
 	player_respawned.emit()
 	health = max_health
 	rotation = 0
 	dead = false
-	hit_box.disabled = false
+	coll.disabled = false
 	state_machine.change_state("IdleState")
 	global_position = Vector2.ZERO
 
@@ -288,7 +280,7 @@ func die() -> void:
 			drop.apply_impulse(Vector2(0, -10))
 			drop.apply_torque(-direction * 10)
 			get_parent().add_child(drop)
-		if shadow: shadow.queue_free()
+		if shadow: shadow.visible = false
 		state_machine.change_state("DieState")
 
 var pending_weapon_scene: PackedScene = null
@@ -301,7 +293,7 @@ func equip_weapon(weapon_scene: PackedScene, pickup_scene: RigidBody2D):
 	# Schedule the actual equip for the end of the frame
 	call_deferred("_do_equip")
 
-var weapon_hurt_box_reach_offset: int
+var weapon_hit_box_reach_offset: int
 
 func _do_equip():
 	if not pending_weapon_scene:
@@ -313,8 +305,8 @@ func _do_equip():
 	
 	# Clear the pending status so it doesn't run again unless called
 	has_weapon = true
-	hurt_box.get_child(0).shape = weapon.get_child(0).shape
-	weapon_hurt_box_reach_offset = weapon.get_child(0).position.x
+	hit_box.get_child(0).shape = weapon.get_child(0).shape
+	weapon_hit_box_reach_offset = weapon.get_child(0).position.x
 	weapon.set_meta("resource_path", pending_weapon_scene.resource_path)
 	pending_weapon_scene = null
 	pending_pickup_scene = null

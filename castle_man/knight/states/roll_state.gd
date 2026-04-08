@@ -6,7 +6,6 @@ var playing : bool = false
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Roll State")
 	player.stamina -= player.roll_stam_cost
-	player.invincible = true
 	Game.play_sfx_pitched(player.jump_sfx, Game.sfx_volume, player, 0.8)
 	if player.is_on_floor():
 		player.velocity.x = player.roll_distance * 10 * Input.get_axis("ui_left", "ui_right")
@@ -17,7 +16,7 @@ func exit():
 	if state_machine.monitor:print("Exited Roll State")
 
 func physics_update(_delta):
-	pass
+	player.invincible = true
 
 func update_animation():
 	if !playing:
