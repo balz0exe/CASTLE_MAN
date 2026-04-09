@@ -382,9 +382,10 @@ collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
 hit_sfx = ExtResource("2_bgjev")
-lose_time = 10.0
+lose_time = 100.0
 follow_up = true
 combo_reset_time = 0.5
+max_speed = 30
 can_double_jump = false
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 
@@ -433,7 +434,7 @@ autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
 position = Vector2(0, -10)
-target_position = Vector2(40, -25)
+target_position = Vector2(10, -25)
 collision_mask = 3
 
 [node name="FeetCast" type="RayCast2D" parent="." unique_id=566618058]

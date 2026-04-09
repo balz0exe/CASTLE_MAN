@@ -6,4 +6,5 @@ func _on_area_2d_r_body_entered(body: Node2D) -> void:
 		queue_free()
 
 func _on_area_2d_l_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+	if body.is_in_group("enemies") or body.is_in_group("player"):
+		queue_free()

@@ -11,6 +11,7 @@ var sfx_volume: int = -18
 var music: bool = true
 @onready var music_player_a = $MusicPlayer_1
 @onready var music_player_b = $MusicPlayer_2
+@onready var camera
 var active_player = null
 var inactive_player = null
 var current_music_path := ""

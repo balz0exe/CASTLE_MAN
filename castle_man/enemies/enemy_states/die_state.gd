@@ -21,7 +21,8 @@ func update_animation():
 		await player.animation.animation_finished
 		player.coll.disabled = true
 		player.velocity.y += player.jump_strength
-		while player.position.y < (player.get_viewport_rect().size.y - 150):
+		var screen = player.get_viewport_rect().size + Game.camera.global_position
+		while player.position.y < (screen.y - 150):
 			player.animation.animation = "die"
 			player.animation.frame = 3
 			await get_tree().process_frame

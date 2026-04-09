@@ -87,6 +87,8 @@ func _ready() -> void:
 	can_double_jump = true
 	can_air_throw = true
 	damage_on_bounce = true
+	
+	Game.camera = camera
 
 
 func _physics_process(delta: float) -> void:
