@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://b55f4iyfy51pa"]
+
+[ext_resource type="Script" uid="uid://duaxtju3gbtgt" path="res://object.gd" id="1_vclw4"]
+[ext_resource type="Texture2D" uid="uid://cq2fkaf8mn22" path="res://world/tile_map_1.png" id="2_0un4w"]
+[ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="3_pjg8k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_743et"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vclw4"]
+atlas = ExtResource("2_0un4w")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0un4w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vclw4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="WorldObject" type="RigidBody2D" unique_id=642084380]
+script = ExtResource("1_vclw4")
+breakable = false
+metadata/_custom_type_script = "uid://duaxtju3gbtgt"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=961605934]
+shape = SubResource("RectangleShape2D_743et")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1807331112]
+modulate = Color(1, 0.87058824, 0, 1)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_0un4w")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=792347286]
+script = ExtResource("3_pjg8k")
+metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1039463075]
+shape = SubResource("RectangleShape2D_743et")

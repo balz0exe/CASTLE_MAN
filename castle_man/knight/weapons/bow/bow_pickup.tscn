@@ -19,6 +19,7 @@ mass = 0.5
 contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("1_nxy5f")
+ranged = true
 equip_path = "res://knight/weapons/bow/equipped_bow.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=690617699 groups=["weapons"]]

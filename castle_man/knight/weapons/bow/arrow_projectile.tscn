@@ -13,7 +13,7 @@ radius = 1.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6wwtb"]
 size = Vector2(3.75, 2)
 
-[node name="ArrowProjectile" type="RigidBody2D" unique_id=907787714 groups=["weapons"]]
+[node name="ArrowProjectile" type="RigidBody2D" unique_id=907787714]
 collision_layer = 4
 mass = 0.3
 center_of_mass_mode = 1

@@ -38,7 +38,7 @@ var attack_range: int = original_attack_range
 enum Ai_State_Request {attack, block, idle, jump, roll, run, throw, empty}
 var ai_state : Ai_State_Request = Ai_State_Request.idle
 
-#WEAPON VARIABLES
+#COMBAT VARIABLES
 
 @export var item: PackedScene
 @export var follow_up: bool
@@ -59,6 +59,7 @@ var combo_counter: int = 0
 var combo_cooldown: float = 0.7
 var combo_cooldown_timer: float = 0.0
 var combo_reset_timer: float = 0.0
+var pickup_reset_timer: float = 0.0
 @export var combo_reset_time: float = 2
 var is_throw: bool = false
 
@@ -146,6 +147,8 @@ func _physics_process(delta: float) -> void:
 
 	#attack timers
 
+	if pickup_reset_timer > 0.0:
+		pickup_reset_timer -= delta * 1
 	if combo_cooldown_timer > 0.0:
 		combo_cooldown_timer -= delta * 1
 	if combo_reset_timer > 0.0:
@@ -229,6 +232,8 @@ var pending_weapon_scene
 var pending_pickup_scene
 
 func equip_weapon(weapon_scene: PackedScene, pickup_scene: RigidBody2D):
+	if pickup_reset_timer > 0:
+		return
 	# Just store the latest request
 	pending_weapon_scene = weapon_scene
 	if pickup_scene: pending_pickup_scene = pickup_scene
@@ -247,6 +252,7 @@ func disarm():
 			get_parent().add_child(drop)
 			has_weapon = false
 			weapon.queue_free()
+			pickup_reset_timer = 3
 
 var weapon_hit_box_reach_offset: int
 

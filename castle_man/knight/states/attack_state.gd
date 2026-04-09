@@ -61,6 +61,9 @@ func physics_update(delta):
 				elif run_attack:
 					player.velocity.x += player.acceleration/2 * Input.get_axis("ui_left", "ui_right") * delta
 					player.velocity.x = clamp(player.velocity.x, -player.max_speed, player.max_speed)
+			else:
+				if up_down == -1:
+					player.velocity.x = move_toward(player.velocity.x, 0, delta * 500)
 		if (player.combo_reset_timer <= 0 and !attacking):
 			start_exit()
 	elif !player.weapon:

@@ -377,7 +377,7 @@ radius = 10.049875
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyv1"]
 size = Vector2(18, 11)
 
-[node name="skeleton" type="CharacterBody2D" unique_id=1190708844 groups=["enemies"]]
+[node name="skeleton" type="CharacterBody2D" unique_id=1435472188 groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
@@ -386,6 +386,7 @@ lose_time = 10.0
 follow_up = true
 combo_reset_time = 0.5
 can_double_jump = false
+metadata/_custom_type_script = "uid://dduusotyiwunv"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
 position = Vector2(0, -10)

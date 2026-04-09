@@ -469,6 +469,7 @@ script = ExtResource("3_b8vh2")
 script = ExtResource("4_mwio0")
 
 [node name="debug" type="Label" parent="." unique_id=1367774439]
+visible = false
 offset_left = -20.0
 offset_top = -46.0
 offset_right = 20.0
@@ -520,6 +521,21 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_whyep")
 debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
 
+[node name="Shadow" type="Node2D" parent="." unique_id=1031398540]
+script = ExtResource("5_8vp70")
+
+[node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1981193768]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.19607843)
+position = Vector2(1, 4.999998)
+scale = Vector2(0.1015625, 0.054687474)
+texture = ExtResource("4_whyep")
+
+[node name="ShadowCast" type="RayCast2D" parent="Shadow" unique_id=1910553579]
+position = Vector2(0, -1)
+target_position = Vector2(0, 106)
+hit_from_inside = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
 position = Vector2(-2, -10)
 scale = Vector2(1, 0.6)
@@ -549,21 +565,6 @@ script = ExtResource("15_8ya1n")
 position = Vector2(-2, -8)
 shape = SubResource("RectangleShape2D_kdubu")
 debug_color = Color(0.99779767, 0, 0.16816151, 0.41960785)
-
-[node name="Shadow" type="Node2D" parent="." unique_id=1031398540]
-script = ExtResource("5_8vp70")
-
-[node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1981193768]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(1, 1, 1, 0.19607843)
-position = Vector2(1, 4.999998)
-scale = Vector2(0.1015625, 0.054687474)
-texture = ExtResource("4_whyep")
-
-[node name="ShadowCast" type="RayCast2D" parent="Shadow" unique_id=1910553579]
-position = Vector2(0, -1)
-target_position = Vector2(0, 106)
-hit_from_inside = true
 
 [connection signal="player_died" from="." to="Camera2D" method="_on_knight_player_died"]
 [connection signal="player_respawned" from="." to="Camera2D" method="_on_knight_player_respawned"]

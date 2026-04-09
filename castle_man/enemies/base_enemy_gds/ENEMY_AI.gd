@@ -73,8 +73,8 @@ func state_entered() -> void:
 			looking_for_weapon = true
 			var bodies = player.sight_bubble.get_overlapping_bodies()
 			for body in bodies:
-				if body.is_in_group("weapons"):
-					if abs(player.global_position.y - body.global_position.y) < 50:
+				if body.is_in_group("weapons") and !body.ranged:
+					if abs(player.global_position.y - body.global_position.y) < 10:
 						player.found_weapon = body
 			while player.weapon == null and player.found_weapon != null:
 				_move_towards_x(player.found_weapon.global_position.x)
