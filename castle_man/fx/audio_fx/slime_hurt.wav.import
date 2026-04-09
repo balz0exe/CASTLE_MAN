@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://b1dej1uktrtn4"
-path="res://.godot/imported/troll_hurt.wav-a2493a635f7ae428f225b2fb12e584a1.sample"
+uid="uid://0xsd666n03oi"
+path="res://.godot/imported/slime_hurt.wav-646c561c2ca881833e67781d0c610686.sample"
 
 [deps]
 
-source_file="res://audio_fx/troll_hurt.wav"
-dest_files=["res://.godot/imported/troll_hurt.wav-a2493a635f7ae428f225b2fb12e584a1.sample"]
+source_file="res://fx/audio_fx/slime_hurt.wav"
+dest_files=["res://.godot/imported/slime_hurt.wav-646c561c2ca881833e67781d0c610686.sample"]
 
 [params]
 

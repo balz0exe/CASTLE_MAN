@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bynlowytipfhn"]
+
+[ext_resource type="Script" uid="uid://dprfd2x42jx8n" path="res://fx/particle_oneshot.gd" id="2_tnyvy"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=2105818994]
+emitting = false
+amount = 80
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.8
+fixed_fps = 30
+spread = 180.0
+gravity = Vector2(0, 800)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0, 0, 1)
+hue_variation_min = -0.4
+script = ExtResource("2_tnyvy")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"

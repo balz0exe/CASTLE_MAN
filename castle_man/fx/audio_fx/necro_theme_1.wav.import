@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d2adcesrvuokw"
-path="res://.godot/imported/necro_theme_1.wav-f0bfa686b401e363da3490fa6f5692bc.sample"
+path="res://.godot/imported/necro_theme_1.wav-171c089da7ce38dc411c8aee4d659b76.sample"
 
 [deps]
 
-source_file="res://audio_fx/necro_theme_1.wav"
-dest_files=["res://.godot/imported/necro_theme_1.wav-f0bfa686b401e363da3490fa6f5692bc.sample"]
+source_file="res://fx/audio_fx/necro_theme_1.wav"
+dest_files=["res://.godot/imported/necro_theme_1.wav-171c089da7ce38dc411c8aee4d659b76.sample"]
 
 [params]
 

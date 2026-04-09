@@ -26,6 +26,10 @@ signal not_ready
 func _ready() -> void:
 	is_ready = true
 
+func _physics_process(delta: float) -> void:
+	if pause_timer > 0:
+		pause_timer -= 1 * delta
+
 func wait_for_seconds(seconds: float) -> Signal:
 	if is_ready:
 		var timer: Timer = Timer.new()
@@ -81,6 +85,23 @@ func _crossfade_to(new_stream: AudioStream):
 	await tween.finished
 	inactive_player.stop()
 	inactive_player.stream = null
+
+var pause_timer: float = 0.0
+var pause_cooldown: float = 0.3
+
+func hit_pause(duration: float = 0.1, pause_scale: float = 0.6) -> void:
+	if pause_timer <= 0.0:
+		await wait_for_seconds(0.01)
+		Engine.time_scale = pause_scale
+		await get_tree().create_timer(duration, true).timeout
+		pause_timer = pause_cooldown
+		Engine.time_scale = 1.0
+
+func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO) -> void:
+	var particles = load(fx)
+	particles = particles.instantiate()
+	from.add_child(particles)
+	particles.global_position = from.global_position + offset
 
 func get_available_sfx_player() -> AudioStreamPlayer2D:
 	for sfx_player in sfx_pool:

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dcxtpm4xfev66"
-path="res://.godot/imported/fireball_shoot.wav-fadf1aeb6476543892ec9086b581af10.sample"
+path="res://.godot/imported/fireball_shoot.wav-793ae417c713a96c99833cad8124737d.sample"
 
 [deps]
 
-source_file="res://audio_fx/fireball_shoot.wav"
-dest_files=["res://.godot/imported/fireball_shoot.wav-fadf1aeb6476543892ec9086b581af10.sample"]
+source_file="res://fx/audio_fx/fireball_shoot.wav"
+dest_files=["res://.godot/imported/fireball_shoot.wav-793ae417c713a96c99833cad8124737d.sample"]
 
 [params]
 

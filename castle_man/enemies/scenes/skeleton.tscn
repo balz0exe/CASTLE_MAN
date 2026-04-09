@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dx1kpxx4gyrwm"]
 
 [ext_resource type="Script" uid="uid://oy534o4yr82f" path="res://enemies/scenes/scripts/skeleton.gd" id="1_40x2p"]
-[ext_resource type="AudioStream" uid="uid://bu1be634b5dcg" path="res://audio_fx/skeleton_hurt.wav" id="2_bgjev"]
+[ext_resource type="AudioStream" uid="uid://bu1be634b5dcg" path="res://fx/audio_fx/skeleton_hurt.wav" id="2_bgjev"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="3_35jd6"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="4_40x2p"]
 [ext_resource type="Texture2D" uid="uid://ldef5xup3oma" path="res://enemies/skeleton.png" id="4_xens1"]
@@ -381,7 +381,6 @@ size = Vector2(18, 11)
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
-hit_sfx = ExtResource("2_bgjev")
 lose_time = 100.0
 follow_up = true
 combo_reset_time = 0.5

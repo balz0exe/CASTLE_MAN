@@ -15,7 +15,7 @@
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
-music = "res://audio_fx/necro_theme_1.wav"
+music = "res://fx/audio_fx/necro_theme_1.wav"
 
 [node name="map" parent="." unique_id=878101330 instance=ExtResource("2_o4dlw")]
 position = Vector2(737, 88)

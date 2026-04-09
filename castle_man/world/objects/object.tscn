@@ -27,7 +27,6 @@ size = Vector2(26, 26)
 [node name="WorldObject" type="RigidBody2D" unique_id=642084380]
 script = ExtResource("1_vclw4")
 ground = true
-pushable = true
 metadata/_custom_type_script = "uid://duaxtju3gbtgt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=961605934]

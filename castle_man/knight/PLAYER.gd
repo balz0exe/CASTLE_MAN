@@ -15,12 +15,12 @@ var state_version: int = 0
 
 #PLAYER SFX
 
-var jump_sfx: AudioStream = load("res://audio_fx/player_jump.wav")
-var hit_sfx: AudioStream = load("res://audio_fx/sword_swing.wav")
-var bounce_sfx: AudioStream = load("res://audio_fx/bounce.wav")
-var run_sfx: AudioStream = load("res://audio_fx/foot_steps_.wav")
-var run_sfx_2: AudioStream = load("res://audio_fx/player_landing.wav")
-var hurt_sfx: AudioStream = load("res://audio_fx/player_hurt.wav")
+var jump_sfx: AudioStream = load("res://fx/audio_fx/player_jump.wav")
+var hit_sfx: AudioStream = load("res://fx/audio_fx/sword_swing.wav")
+var bounce_sfx: AudioStream = load("res://fx/audio_fx/bounce.wav")
+var run_sfx: AudioStream = load("res://fx/audio_fx/foot_steps_.wav")
+var run_sfx_2: AudioStream = load("res://fx/audio_fx/player_landing.wav")
+var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 
 #PLAYER STATS
 
@@ -230,12 +230,16 @@ func update_animations() -> void:
 	if weapon != null:
 		weapon.sync_with_animation(animation.animation, animation.frame, flip_h)
 
+var blood_path = "res://knight/blood_particles.tscn"
+
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !dead and !invincible:
 		if parry:
 			from.parried(self)
 			return
 		health = health - damage
+		Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
+		Game.hit_pause(0.2)
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
 		knockback_force = 15 * knockback * knock_back_direction
 		if state_machine.current_state.get_state_name() == "HurtState":

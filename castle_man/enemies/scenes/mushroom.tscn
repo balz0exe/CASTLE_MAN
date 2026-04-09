@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6lhxu4r6vwn8"]
 
 [ext_resource type="Script" uid="uid://b4jqg1c5xptkc" path="res://enemies/scenes/scripts/mushroom.gd" id="1_ginqw"]
-[ext_resource type="AudioStream" uid="uid://0xsd666n03oi" path="res://audio_fx/slime_hurt.wav" id="2_govpf"]
+[ext_resource type="AudioStream" uid="uid://0xsd666n03oi" path="res://fx/audio_fx/slime_hurt.wav" id="2_govpf"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="2_xcu2f"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="3_govpf"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="4_utm06"]

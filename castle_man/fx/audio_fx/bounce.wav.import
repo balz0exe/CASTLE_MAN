@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dp2n0c0pcgnyj"
-path="res://.godot/imported/necro_speak.wav-aa8120b598a956620200858d3ce54e4b.sample"
+uid="uid://p4i2pyfwqabj"
+path="res://.godot/imported/bounce.wav-b5d08fd059733c8a953011f5e377985d.sample"
 
 [deps]
 
-source_file="res://audio_fx/necro_speak.wav"
-dest_files=["res://.godot/imported/necro_speak.wav-aa8120b598a956620200858d3ce54e4b.sample"]
+source_file="res://fx/audio_fx/bounce.wav"
+dest_files=["res://.godot/imported/bounce.wav-b5d08fd059733c8a953011f5e377985d.sample"]
 
 [params]
 
