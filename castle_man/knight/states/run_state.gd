@@ -4,6 +4,9 @@ extends PlayerState
 var is_breaking: bool = false
 
 func enter(_prev_state):
+	if Input.get_axis("ui_left", "ui_right") == 0:
+		state_machine.change_state("IdleState")
+		return
 	if state_machine.monitor:print("Entered Run State")
 	sfx()
 
@@ -25,6 +28,8 @@ func sfx() -> void:
 			break
 
 func physics_update(delta):
+	if Input.get_axis("ui_left", "ui_right") == 0:
+		state_machine.change_state("IdleState")
 	if not is_breaking:
 		player.velocity.x += player.acceleration * Input.get_axis("ui_left", "ui_right") * delta
 	else:

@@ -19,15 +19,8 @@ func update_animation():
 		played = true
 		player.animation.play("die")
 		await player.animation.animation_finished
-		player.coll.disabled = true
-		player.velocity.y += player.jump_strength
-		var screen = player.get_viewport_rect().size + Game.camera.global_position
-		while player.position.y < (screen.y - 150):
-			player.animation.animation = "die"
-			player.animation.frame = 3
-			await get_tree().process_frame
-			player.rotation += 0.1
-		player.queue_free()
+		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", player, Vector2(0, -10))
+		Game.fade_out_sprite(player.animation)
 
 func update_input():
 	pass

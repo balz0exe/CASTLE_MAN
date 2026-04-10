@@ -29,7 +29,7 @@ var enemy: Node2D
 var sight_is_searching: bool = false
 var looking_for_weapon: bool = false
 
-var player: CharacterBody2D
+var player: Enemy
 var patrol_origin: float
 
 func init(player_ref) -> void:
@@ -41,6 +41,8 @@ func init(player_ref) -> void:
 
 var ran_patrol_x : float
 var has_attacked : bool = false
+var searched_timer : float = 0.0
+var search_cooldown : float = 1
 
 func set_state(new_state: State) -> void:
 	if state == new_state or looking_for_weapon:
@@ -65,11 +67,13 @@ func state_entered() -> void:
 		State.PATROL:
 			ran_patrol_x = patrol_origin + randf_range(-player.patrol_range, player.patrol_range)
 		State.CHASE:
-			pass
+			if player.weapon_user and !player.weapon and !player.found_weapon and searched_timer <= 0:
+				set_state(State.SEARCH_WEAPON)
 		State.FIGHT:
 			player.ai_state = player.Ai_State_Request.attack
 			has_attacked = true
 		State.SEARCH_WEAPON:
+			searched_timer = search_cooldown
 			looking_for_weapon = true
 			var bodies = player.sight_bubble.get_overlapping_bodies()
 			for body in bodies:
@@ -99,7 +103,10 @@ func state_exited() -> void:
 			done_looking_for_weapon.emit()
 			player.found_weapon = null
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if searched_timer > 0:
+		searched_timer -= delta * 1
+
 	if player.state_machine.current_state.get_state_name() != "HurtState":
 		match state:
 			State.WAIT:
@@ -154,21 +161,24 @@ func control_process(delta) -> void:
 	else:
 		player.attack_range = player.original_attack_range
 	
+	navigate()
+	
+	if state == State.SEARCH_WEAPON:
+		return
+	
 	if enemy != null:
 		if !enemy.dead:
 			var distance = enemy.global_position.x - player.global_position.x
 			if abs(distance) > player.attack_range - 20:
-				if state != State.WAIT: set_state(State.CHASE)
+				set_state(State.CHASE)
 			elif abs(distance) < player.attack_range + 20 and not state == State.WAIT:
-				if state != State.WAIT: set_state(State.FIGHT)
+				set_state(State.FIGHT)
 		else:
 			lose_enemy(player.lose_time)
 			if state != State.WAIT: set_state(State.PATROL)
 	else:
 		if state != State.WAIT: set_state(State.PATROL)
 		
-
-	navigate()
 
 func navigate() -> void:
 	
@@ -183,32 +193,19 @@ func navigate() -> void:
 	#navigating
 
 	var colliders = player.sight_bubble.get_overlapping_bodies()
-	var is_player = false
-	var _body
 	for body in colliders:
 		if body.is_in_group("player"):
-			is_player = true
-			_body = body
-	if is_player:
-		sight_is_searching = true
-		player.sight_cast.target_position = _body.global_position - player.global_position
-		player.sight_cast.force_raycast_update()
+			player.sight_cast.target_position = body.global_position - player.global_position
+			player.sight_cast.force_raycast_update()
 
-		if player.sight_cast.is_colliding():
-			var collider = player.sight_cast.get_collider()
-			if collider and not collider.is_in_group("enviroment"):
-				if enemy == null:
-					if player.weapon_user and player.weapon == null and !looking_for_weapon:
-						set_state(State.SEARCH_WEAPON)
-					else:
-						set_state(State.PATROL)
-					enemy = _body
-			else:
-				lose_enemy(player.lose_time)
-		else:
-			lose_enemy(player.lose_time)
-	else:
-		sight_is_searching = false
+			if player.sight_cast.is_colliding():
+				var collider = player.sight_cast.get_collider()
+				if collider and not collider.is_in_group("enviroment"):
+					enemy = body
+				elif collider.is_in_group("enviroment"):
+					lose_enemy(player.lose_time)
+		if enemy == null and state != State.WAIT:
+			set_state(State.PATROL)
 
 	var line_of_sight = player.wall_cast.get_collider()
 	if line_of_sight != null and enemy == null:
@@ -229,9 +226,6 @@ func navigate() -> void:
 						if x == y:
 							lose_enemy(player.lose_time)
 
-	var _last_feet_collider
-	if player.feet_cast.get_collider() != null:
-		_last_feet_collider = player.feet_cast.get_collider()
 	if player.is_on_floor():
 		if player.feet_cast.get_collider() == null:
 			if state == State.PATROL:

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cy0xoi7weps6r"]
+
+[ext_resource type="Script" uid="uid://x0chs14wio4o" path="res://fx/particle_fx/enemy_death_particles.gd" id="1_vmf5f"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=2105818994]
+emitting = false
+amount = 512
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.8
+fixed_fps = 30
+emission_shape = 4
+emission_points = PackedVector2Array()
+emission_colors = PackedColorArray()
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_max = 2.0
+color = Color(1, 1, 1, 0.7921569)
+script = ExtResource("1_vmf5f")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"

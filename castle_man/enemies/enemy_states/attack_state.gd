@@ -15,7 +15,7 @@ func attack():
 		if !up_down_attack:
 			if player.weapon:
 				player.animation.play("attack " + str(player.weapon.anim[player.combo_counter - 1]))
-				Game.play_sfx(load("res://audio_fx/sword_swing.wav"), Game.sfx_volume, player)
+				Game.play_sfx(load("res://fx/audio_fx/sword_swing.wav"), Game.sfx_volume, player)
 			else:
 				player.animation.play("attack 1")
 				Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)

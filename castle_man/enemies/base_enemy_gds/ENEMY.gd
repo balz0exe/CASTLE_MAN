@@ -107,7 +107,7 @@ func _physics_process(delta: float) -> void:
 	elif weapon_user:
 		basic_attack = false
 
-	debug.text = (str(hit_box.monitoring))
+	debug.text = (str(ENEMY_AI.state))
 
 	if health <= 0 and !dead:
 		die()
@@ -198,6 +198,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			from.parried(self)
 			return
 		health = health - damage
+		damage_particles()
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
 		knockback_force = 5 * knockback * knock_back_direction
 		if state_machine.current_state.get_state_name() == "HurtState":
@@ -272,3 +273,8 @@ func _do_equip():
 	weapon.owner_player = self
 	weapon_hand.add_child(weapon)
 	weapon.on_equip(self)
+
+#EMPTY FUNCTIONS
+
+func damage_particles() -> void:
+	pass

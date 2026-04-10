@@ -335,7 +335,7 @@ hit_from_inside = true
 position = Vector2(1, -2)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
-animation = &"wind up"
+animation = &"die"
 autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
@@ -352,7 +352,6 @@ collision_mask = 3
 position = Vector2(0, -8)
 target_position = Vector2(36, 0)
 collision_mask = 3
-hit_from_inside = true
 
 [node name="WallCast" type="RayCast2D" parent="." unique_id=909522511]
 position = Vector2(0, -8)

@@ -15,7 +15,6 @@
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
-music = "res://fx/audio_fx/necro_theme_1.wav"
 
 [node name="map" parent="." unique_id=878101330 instance=ExtResource("2_o4dlw")]
 position = Vector2(737, 88)
@@ -23,12 +22,12 @@ tile_map_data = PackedByteArray("AAD8/wEAAgABAAEAAAD9/wEAAgABAAEAAAD+/wEAAgABAAE
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=747752804]
 position = Vector2(346, 125)
-color = Color(0.19973177, 0.19973174, 0.19973174, 1)
+color = Color(0.42365062, 0.42365065, 0.42365062, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
 
 [node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
-position = Vector2(38, 20)
+position = Vector2(425, 115)
 
 [node name="BowPickup" parent="." unique_id=1298919994 instance=ExtResource("5_jbcfa")]
 position = Vector2(393, -19)

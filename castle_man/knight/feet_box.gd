@@ -19,5 +19,6 @@ func _on_area_entered(area: Node2D) -> void:
 				player.velocity.y += player.jump_strength
 
 func bounce():
-	Game.play_sfx(player.bounce_sfx, Game.sfx_volume)
+	Game.play_sfx(player.bounce_sfx, Game.sfx_volume, player)
+	Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume + 3, player)
 	player.velocity.y = player.jump_strength

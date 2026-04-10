@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="6_dh2e2"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="6_jtyv1"]
 [ext_resource type="Texture2D" uid="uid://bdekdcms1ibdn" path="res://enemies/skeleton_hurt_die.png" id="6_wsx01"]
-[ext_resource type="Texture2D" uid="uid://c7cxcsahjixdo" path="res://enemies/skeleton_head.png" id="7_076uc"]
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="7_ftnyf"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="12_dh2e2"]
 
@@ -64,6 +63,10 @@ region = Rect2(192, 0, 64, 32)
 atlas = ExtResource("4_xens1")
 region = Rect2(64, 0, 64, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftnyf"]
+atlas = ExtResource("4_xens1")
+region = Rect2(192, 96, 64, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_wsx01"]
 atlas = ExtResource("6_wsx01")
 region = Rect2(0, 32, 64, 32)
@@ -71,14 +74,6 @@ region = Rect2(0, 32, 64, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_dh2e2"]
 atlas = ExtResource("6_wsx01")
 region = Rect2(64, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ftnyf"]
-atlas = ExtResource("6_wsx01")
-region = Rect2(128, 32, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jurec"]
-atlas = ExtResource("7_076uc")
-region = Rect2(0, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r0yif"]
 atlas = ExtResource("4_xens1")
@@ -242,17 +237,14 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftnyf")
+}, {
 "duration": 3.0,
 "texture": SubResource("AtlasTexture_wsx01")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dh2e2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ftnyf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jurec")
 }],
 "loop": false,
 "name": &"die",
@@ -381,7 +373,7 @@ size = Vector2(18, 11)
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
-lose_time = 100.0
+lose_time = 5.0
 follow_up = true
 combo_reset_time = 0.5
 max_speed = 30
@@ -428,7 +420,7 @@ hit_from_inside = true
 position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
-animation = &"wind up"
+animation = &"die"
 autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
@@ -450,7 +442,6 @@ collision_mask = 3
 position = Vector2(0, -4)
 target_position = Vector2(36, 0)
 collision_mask = 3
-hit_from_inside = true
 
 [node name="SightBubble" type="Area2D" parent="." unique_id=630095415 groups=["enemies"]]
 position = Vector2(0, -4)

@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cu0mueqyl68d3"]
 
-[ext_resource type="Script" uid="uid://btdmtuwprcg7l" path="res://player/ground_pound_particles.gd" id="1_sjkee"]
+[ext_resource type="Script" uid="uid://dprfd2x42jx8n" path="res://fx/particle_fx/particle_oneshot.gd" id="1_1m3hq"]
 
-[node name="CPUParticles2D" type="CPUParticles2D"]
-scale = Vector2(0.5, 0.5)
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=1442582419]
+scale = Vector2(0.2, 0.2)
 emitting = false
 amount = 60
-lifetime = 0.3
+lifetime = 0.15000000000000002
 one_shot = true
 explosiveness = 0.6
 local_coords = true
@@ -22,4 +22,5 @@ scale_amount_min = 6.0
 scale_amount_max = 8.0
 color = Color(0.184314, 0.184314, 0.184314, 0.54902)
 hue_variation_min = -0.4
-script = ExtResource("1_sjkee")
+script = ExtResource("1_1m3hq")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"

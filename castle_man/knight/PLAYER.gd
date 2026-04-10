@@ -77,6 +77,7 @@ var can_air_roll = false
 var has_air_rolled = false
 var can_double_jump = false
 var has_double_jumped = false
+var jumps : int = 0
 var can_air_throw = false
 
 func _ready() -> void:
@@ -156,12 +157,13 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor():
 		velocity.y += Game.GRAVITY * delta
-		if not coyote_timer > 0 and in_air == false:
+		if  coyote_timer <= 0 and in_air == false:
 			coyote_timer = coyote_time
 			in_air = true
 		if velocity.y > 10 and not (animation.animation.contains("attack") or animation.animation.contains("roll")):
 			if !dead: state_machine.change_state("FallState")
 	else:
+		jumps = 0
 		in_air = false
 		has_air_rolled = false
 		has_double_jumped = false
@@ -230,7 +232,7 @@ func update_animations() -> void:
 	if weapon != null:
 		weapon.sync_with_animation(animation.animation, animation.frame, flip_h)
 
-var blood_path = "res://knight/blood_particles.tscn"
+var blood_path = "res://fx/particle_fx/blood_particles.tscn"
 
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !dead and !invincible:

@@ -5,7 +5,7 @@ var GRAVITY: int = 800
 
 # SFX pooling
 var sfx_pool: Array[AudioStreamPlayer2D] = []
-var sfx_volume: int = -18
+var sfx_volume: int = -9
 
 # Music
 var music: bool = true
@@ -97,11 +97,21 @@ func hit_pause(duration: float = 0.1, pause_scale: float = 0.6) -> void:
 		pause_timer = pause_cooldown
 		Engine.time_scale = 1.0
 
-func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO) -> void:
+func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO, color = null, behind_parent: bool = true) -> void:
 	var particles = load(fx)
 	particles = particles.instantiate()
 	from.add_child(particles)
+	particles.show_behind_parent = behind_parent
+	if color != null: particles.color = color
 	particles.global_position = from.global_position + offset
+
+func fade_out_sprite(sprite: Node2D, duration: float = 0.5):
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 0.0, duration)
+	
+func fade_in_sprite(sprite: Node2D, duration: float = 0.5):
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 100, duration)
 
 func get_available_sfx_player() -> AudioStreamPlayer2D:
 	for sfx_player in sfx_pool:
