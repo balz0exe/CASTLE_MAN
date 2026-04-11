@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/light/light.tscn" id="11_ciqro"]
 [ext_resource type="PackedScene" uid="uid://dug4131un3jsu" path="res://knight/weapons/knife/equipped_knife.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
+[ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
+[ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrel.tscn" id="14_ev2xu"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -22,12 +24,12 @@ tile_map_data = PackedByteArray("AAD8/wEAAgABAAEAAAD9/wEAAgABAAEAAAD+/wEAAgABAAE
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=747752804]
 position = Vector2(346, 125)
-color = Color(0.42365062, 0.42365065, 0.42365062, 1)
+color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
 
 [node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
-position = Vector2(425, 115)
+position = Vector2(26, 13)
 
 [node name="BowPickup" parent="." unique_id=1298919994 instance=ExtResource("5_jbcfa")]
 position = Vector2(393, -19)
@@ -131,7 +133,7 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(1048, -160)
 
 [node name="WorldObject2" parent="." unique_id=513867795 instance=ExtResource("12_p75f5")]
-position = Vector2(174, 73)
+position = Vector2(251, 47)
 
 [node name="WorldObject3" parent="." unique_id=747298615 instance=ExtResource("12_p75f5")]
 position = Vector2(397, -19)
@@ -141,3 +143,39 @@ position = Vector2(252, 76)
 
 [node name="WorldObject5" parent="." unique_id=160059812 instance=ExtResource("12_p75f5")]
 position = Vector2(251, 107)
+
+[node name="slime" parent="." unique_id=1156871339 instance=ExtResource("13_qh6br")]
+position = Vector2(91, 119)
+
+[node name="Barrel3" parent="." unique_id=880333515 instance=ExtResource("14_ev2xu")]
+position = Vector2(150, 83)
+
+[node name="Barrel4" parent="." unique_id=1174116074 instance=ExtResource("14_ev2xu")]
+position = Vector2(901, -49)
+
+[node name="Barrel5" parent="." unique_id=915677099 instance=ExtResource("14_ev2xu")]
+position = Vector2(1123, -54)
+
+[node name="Barrel6" parent="." unique_id=433631840 instance=ExtResource("14_ev2xu")]
+position = Vector2(1079, 17)
+
+[node name="Barrel7" parent="." unique_id=212277536 instance=ExtResource("14_ev2xu")]
+position = Vector2(895, 85)
+
+[node name="Barrel8" parent="." unique_id=1039608337 instance=ExtResource("14_ev2xu")]
+position = Vector2(939, 84)
+
+[node name="Barrel9" parent="." unique_id=1447864346 instance=ExtResource("14_ev2xu")]
+position = Vector2(920, 85)
+
+[node name="Barrel10" parent="." unique_id=164631808 instance=ExtResource("14_ev2xu")]
+position = Vector2(909, 63)
+
+[node name="Barrel11" parent="." unique_id=2022731980 instance=ExtResource("14_ev2xu")]
+position = Vector2(934, 63)
+
+[node name="Barrel2" parent="." unique_id=155941488 instance=ExtResource("14_ev2xu")]
+position = Vector2(-48, 44)
+
+[node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
+position = Vector2(55, 12)

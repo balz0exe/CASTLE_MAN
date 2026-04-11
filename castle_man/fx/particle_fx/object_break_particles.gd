@@ -6,8 +6,9 @@ var colors = []
 func _ready() -> void:
 	super()
 	connect("done_emitting", _done_emitting)
-	var frames = player.sprite_frames
-	var image = frames.get_frame_texture("die", 2).get_image()
+	var frames = player.anim.sprite_frames
+	var image = frames.get_frame_texture("default", 0).get_image()
+	scale = player.anim.scale
 	var half_size = Vector2(image.get_size()) / 2
 	
 	for x in range(image.get_width()):
@@ -22,6 +23,7 @@ func _ready() -> void:
 	emission_shape = CPUParticles2D.EMISSION_SHAPE_POINTS
 	emission_points = PackedVector2Array(points)
 	emission_colors = PackedColorArray(colors)
+	modulate = player.anim.modulate
 
 func _done_emitting():
-	player.get_parent().queue_free()
+	player.queue_free()

@@ -14,6 +14,7 @@ weapon_name = "sword"
 throw_path = "res://knight/weapons/sword/sword_pickup.tscn"
 throwable = true
 damage = 10
+range_diff = 10
 speed_scale = 1.2
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." unique_id=1389238542]

@@ -25,6 +25,7 @@ var ENEMY_AI = Node
 @export var weapon_user = true
 
 @export var max_health: float = 100
+@export var basic_damage: float = 5
 @export var damage_factor: float = 1.0
 
 #ENEMY.AI
@@ -60,7 +61,7 @@ var combo_cooldown: float = 0.7
 var combo_cooldown_timer: float = 0.0
 var combo_reset_timer: float = 0.0
 var pickup_reset_timer: float = 0.0
-@export var combo_reset_time: float = 2
+@export var combo_reset_time: float = 1
 var is_throw: bool = false
 
 #MOVEMENT VARIABLES
@@ -90,6 +91,9 @@ var dead = false
 var basic_attack: bool = true
 var health = max_health
 
+signal attacked
+signal died
+
 func _ready() -> void:
 	var bubble_coll = $SightBubble/bubble_collision
 	bubble_coll.shape.radius = sight_radius
@@ -99,6 +103,9 @@ func _ready() -> void:
 	ENEMY_AI.init(player_ref)
 	if item != null:
 		equip_weapon(item, null)
+	
+	connect("attacked", on_attacked)
+	connect("died", on_died)
 
 func _physics_process(delta: float) -> void:
 
@@ -107,7 +114,7 @@ func _physics_process(delta: float) -> void:
 	elif weapon_user:
 		basic_attack = false
 
-	debug.text = (str(ENEMY_AI.state))
+	debug.text = (str(velocity.x))
 
 	if health <= 0 and !dead:
 		die()
@@ -200,7 +207,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		health = health - damage
 		damage_particles()
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
-		knockback_force = 5 * knockback * knock_back_direction
+		knockback_force = 15 * knockback * knock_back_direction
 		if state_machine.current_state.get_state_name() == "HurtState":
 			state_machine.current_state.retrigger()
 		else:
@@ -277,4 +284,10 @@ func _do_equip():
 #EMPTY FUNCTIONS
 
 func damage_particles() -> void:
+	pass
+
+func on_attacked() -> void:
+	pass
+
+func on_died() -> void:
 	pass

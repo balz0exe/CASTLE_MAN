@@ -1,24 +1,30 @@
 [gd_scene format=3 uid="uid://dsxsxpncsprvd"]
 
 [ext_resource type="Script" uid="uid://bf8dehjmo6p48" path="res://enemies/scenes/scripts/slime.gd" id="1_mac71"]
+[ext_resource type="AudioStream" uid="uid://0xsd666n03oi" path="res://fx/audio_fx/slime_hurt.wav" id="2_lldys"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="4_lo47o"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="5_efxpl"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="6_tlbgi"]
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="7_ufnm6"]
 [ext_resource type="Texture2D" uid="uid://b8t05mht2pg3e" path="res://enemies/slime-Sheet.png" id="8_y7mmp"]
+[ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="9_ev7j4"]
 [ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="11_j8ckl"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="12_fkd87"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(11, 10)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vsukq"]
-atlas = ExtResource("8_y7mmp")
-region = Rect2(128, 0, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5ltp"]
 atlas = ExtResource("8_y7mmp")
 region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ev7j4"]
+atlas = ExtResource("8_y7mmp")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsukq"]
+atlas = ExtResource("8_y7mmp")
+region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lo47o"]
 atlas = ExtResource("8_y7mmp")
@@ -38,15 +44,11 @@ region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iqgci"]
 atlas = ExtResource("8_y7mmp")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ap4ka"]
 atlas = ExtResource("8_y7mmp")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5owa6"]
-atlas = ExtResource("8_y7mmp")
-region = Rect2(128, 0, 32, 32)
+region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w6d8g"]
 atlas = ExtResource("8_y7mmp")
@@ -124,10 +126,13 @@ region = Rect2(64, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vsukq")
+"texture": SubResource("AtlasTexture_g5ltp")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g5ltp")
+"texture": SubResource("AtlasTexture_ev7j4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vsukq")
 }],
 "loop": false,
 "name": &"attack 1",
@@ -148,7 +153,7 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
-"duration": 3.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ufnm6")
 }, {
 "duration": 1.0,
@@ -156,9 +161,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ap4ka")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5owa6")
 }],
 "loop": false,
 "name": &"die",
@@ -252,20 +254,30 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_xens1"]
 radius = 216.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xens1"]
-size = Vector2(19, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lldys"]
+size = Vector2(13, 12)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_35jd6"]
-radius = 4.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_w6d8g"]
+radius = 7.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyv1"]
-size = Vector2(7, 5.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7mmp"]
+size = Vector2(14, 5.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vsukq"]
+size = Vector2(14, 10)
 
 [node name="slime" type="CharacterBody2D" unique_id=1190708844 groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_mac71")
+hurt_sfx = ExtResource("2_lldys")
 weapon_user = false
+max_health = 20.0
+basic_damage = 2.0
 damage_factor = 0.2
+original_attack_range = 60
+combo_reset_time = 0.8
+max_speed = 30
+jump_strength = -300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
 position = Vector2(0, -4)
@@ -307,10 +319,8 @@ hit_from_inside = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
 position = Vector2(2, -2)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
-animation = &"idle"
+animation = &"die"
 autoplay = "idle"
-frame = 1
-frame_progress = 1.0
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
 position = Vector2(1, -4)
@@ -340,35 +350,49 @@ collision_mask = 6
 [node name="bubble_collision" type="CollisionShape2D" parent="SightBubble" unique_id=981739119]
 shape = SubResource("CircleShape2D_xens1")
 
-[node name="HurtBox" type="Area2D" parent="." unique_id=1952255876]
-position = Vector2(1, -4)
+[node name="HitBox" type="Area2D" parent="." unique_id=649392954]
+position = Vector2(2, -5)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("11_j8ckl")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1035466147]
-position = Vector2(-1, -1)
-shape = SubResource("RectangleShape2D_xens1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=2061543018]
+position = Vector2(4.5, -1)
+shape = SubResource("RectangleShape2D_lldys")
 debug_color = Color(0.980167, 0, 0.38590178, 0.41960785)
 
-[node name="SoftCollisionBubble" type="Area2D" parent="." unique_id=525799803 groups=["soft collisions"]]
-position = Vector2(1, -4)
+[node name="SoftCollisionBubble" type="Area2D" parent="." unique_id=1472333135 groups=["soft collisions"]]
+position = Vector2(0, -4)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("12_fkd87")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SoftCollisionBubble" unique_id=998870470]
-shape = SubResource("CircleShape2D_35jd6")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SoftCollisionBubble" unique_id=338052906]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_w6d8g")
 debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
 
-[node name="HeadBox" type="Area2D" parent="." unique_id=1686892355]
-position = Vector2(1, -4)
+[node name="HeadBox" type="Area2D" parent="." unique_id=1287200421]
+position = Vector2(0, -4)
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadBox" unique_id=1088278253]
-position = Vector2(-0.5, -3.25)
-shape = SubResource("RectangleShape2D_jtyv1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadBox" unique_id=1859171609]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_y7mmp")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=805742739]
+position = Vector2(0, -3)
+rect = Rect2(-8, -10, 15, 13)
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=751068651]
+script = ExtResource("9_ev7j4")
+metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1837179572]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_vsukq")
+debug_color = Color(0.9896118, 0, 0.29386717, 0.41960785)
 
 [connection signal="area_entered" from="SoftCollisionBubble" to="SoftCollisionBubble" method="_on_area_entered"]
 [connection signal="area_exited" from="SoftCollisionBubble" to="SoftCollisionBubble" method="_on_area_exited"]

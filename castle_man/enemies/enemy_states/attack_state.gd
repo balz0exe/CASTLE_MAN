@@ -20,7 +20,7 @@ func attack():
 				player.animation.play("attack 1")
 				Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 				player.combo_reset_timer = randf_range(0.5, 1.5) * player.combo_reset_time
-		
+		player.attacked.emit()
 		player.hit_box.coll.disabled = false
 		player.velocity.x += 10 * player.direction
 		await player.animation.animation_finished

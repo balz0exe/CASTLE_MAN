@@ -292,7 +292,8 @@ collision_layer = 2
 script = ExtResource("1_ginqw")
 hurt_sfx = ExtResource("2_govpf")
 weapon_user = false
-combo_reset_time = 1.0
+max_health = 50.0
+basic_damage = 3.0
 max_speed = 50
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]

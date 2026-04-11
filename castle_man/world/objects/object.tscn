@@ -25,11 +25,13 @@ animations = [{
 size = Vector2(26, 26)
 
 [node name="WorldObject" type="RigidBody2D" unique_id=642084380]
+collision_layer = 33
+collision_mask = 33
 script = ExtResource("1_vclw4")
 ground = true
 metadata/_custom_type_script = "uid://duaxtju3gbtgt"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=961605934]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=486453809]
 shape = SubResource("RectangleShape2D_743et")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1807331112]
@@ -37,16 +39,16 @@ modulate = Color(1, 0.87058824, 0, 1)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_0un4w")
 
-[node name="HurtBox" type="Area2D" parent="." unique_id=792347286]
-script = ExtResource("3_pjg8k")
-metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1039463075]
-shape = SubResource("RectangleShape2D_743et")
-
 [node name="PushArea" type="Area2D" parent="." unique_id=848839933]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea" unique_id=1721489196]
 shape = SubResource("RectangleShape2D_vclw4")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=792347286]
+script = ExtResource("3_pjg8k")
+metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1039463075]
+shape = SubResource("RectangleShape2D_743et")

@@ -373,10 +373,11 @@ size = Vector2(18, 11)
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
+damage_factor = 0.8
 lose_time = 5.0
 follow_up = true
 combo_reset_time = 0.5
-max_speed = 30
+max_speed = 40
 can_double_jump = false
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 

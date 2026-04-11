@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://fr0ry00s1wo3"]
+
+[ext_resource type="Script" uid="uid://duaxtju3gbtgt" path="res://object.gd" id="1_rdxsi"]
+[ext_resource type="Texture2D" uid="uid://ccj6ihntvot2x" path="res://world/objects/Barrel-0001.png" id="2_ygdis"]
+[ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="3_6iawg"]
+[ext_resource type="Script" uid="uid://c2m4wxcyxdgsp" path="res://world/objects/barrel_anim.gd" id="3_f7xxn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43c1c"]
+size = Vector2(22, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otb82"]
+atlas = ExtResource("2_ygdis")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8e3ql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otb82")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_llmgx"]
+size = Vector2(26, 20)
+
+[node name="Barrel" type="RigidBody2D" unique_id=134338807]
+script = ExtResource("1_rdxsi")
+max_health = 20.0
+breakable = true
+metadata/_custom_type_script = "uid://duaxtju3gbtgt"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=138312980]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_43c1c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=726467670]
+modulate = Color(0.427493, 0.42749307, 0.42749307, 1)
+scale = Vector2(1, 0.6)
+sprite_frames = SubResource("SpriteFrames_8e3ql")
+frame_progress = 1.0
+flip_v = true
+script = ExtResource("3_f7xxn")
+
+[node name="PushArea" type="Area2D" parent="." unique_id=181441116]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea" unique_id=203536960]
+shape = SubResource("RectangleShape2D_llmgx")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1431557732]
+script = ExtResource("3_6iawg")
+metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1017197438]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_43c1c")

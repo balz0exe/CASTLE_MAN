@@ -3,6 +3,7 @@ extends EnemyState
 
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Die State")
+	player.died.emit()
 	player.animation.stop()
 	Game.play_sfx(player.hurt_sfx, Game.sfx_volume, player)
 
@@ -19,7 +20,7 @@ func update_animation():
 		played = true
 		player.animation.play("die")
 		await player.animation.animation_finished
-		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", player, Vector2(0, -10))
+		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", player.animation)
 		Game.fade_out_sprite(player.animation)
 
 func update_input():
