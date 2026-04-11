@@ -13,6 +13,10 @@ func _on_knight_player_respawned() -> void:
 	global_position = Vector2.ZERO
 	top_level =  false
 
+func _physics_process(_delta: float) -> void:
+	#if player.state_machine.current_state.get_state_name() != "HurtState":
+	Game.tween_camera_position(self, Vector2(player.direction * 15, 5))
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_pressed():

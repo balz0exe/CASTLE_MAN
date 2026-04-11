@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fr0ry00s1wo3"]
 
-[ext_resource type="Script" uid="uid://duaxtju3gbtgt" path="res://object.gd" id="1_rdxsi"]
+[ext_resource type="Script" uid="uid://b3asgnryvpgry" path="res://world/objects/barrel.gd" id="1_f7xxn"]
 [ext_resource type="Texture2D" uid="uid://ccj6ihntvot2x" path="res://world/objects/Barrel-0001.png" id="2_ygdis"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="3_6iawg"]
 [ext_resource type="Script" uid="uid://c2m4wxcyxdgsp" path="res://world/objects/barrel_anim.gd" id="3_f7xxn"]
@@ -27,7 +27,7 @@ animations = [{
 size = Vector2(26, 20)
 
 [node name="Barrel" type="RigidBody2D" unique_id=134338807]
-script = ExtResource("1_rdxsi")
+script = ExtResource("1_f7xxn")
 max_health = 20.0
 breakable = true
 metadata/_custom_type_script = "uid://duaxtju3gbtgt"

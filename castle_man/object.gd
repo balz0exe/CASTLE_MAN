@@ -7,11 +7,18 @@ extends RigidBody2D
 @export var max_health: float = 1
 var health : float
 @export var breakable: bool = false
+var broken : bool = false
 @export var ground: bool = false
 @export var pushable: bool = false
 @export var drop: PackedScene
 
+signal _broken
+
 func _ready() -> void:
+	connect("_broken", on_broken)
+	set_collision_layer_value(6, true)
+	set_collision_mask_value(6, true)
+	z_index = 0
 	push_area.connect("body_entered", _on_push_area_body_entered)
 	health = max_health
 	if ground:
@@ -21,25 +28,43 @@ func _ready() -> void:
 		set_collision_layer_value(1, false)
 		
 func take_damage(damage, from: Node2D, knockback: float = 10):
-	var knock_back_direction = -sign(from.global_position - global_position)
-	var knockback_force: Vector2 = 15 * knockback * knock_back_direction
-	apply_impulse(knockback_force)
-	if breakable:
-		health -= damage
-		print(health)
-		if health < 0:
-			_break()
+	if !broken:
+		var knock_back_direction = -sign(from.global_position - global_position)
+		var knockback_force: Vector2 = 15 * knockback * knock_back_direction
+		apply_impulse(knockback_force)
+		if breakable:
+			health -= damage
+			print(health)
+			if health < 0:
+				_break()
 
 func _on_push_area_body_entered(from) -> void:
-	if !pushable:
-		return
-	var knock_back_direction = -sign(from.global_position - global_position)
-	var knockback_force: Vector2 = 15 * 10 * knock_back_direction
-	apply_impulse(knockback_force)
+	if !broken:
+		if !pushable:
+			return
+		var knock_back_direction = -sign(from.global_position - global_position)
+		var knockback_force: Vector2 = 15 * 10 * knock_back_direction
+		apply_impulse(knockback_force)
+
+func _drop_item():
+	if drop:
+		await get_tree().process_frame
+		if drop != null:
+			var _drop = drop.instantiate()
+			_drop.global_position = global_position
+			get_parent().add_child(_drop)
 
 func _break():
+	if drop != null:
+		_drop_item()
+	broken = true
+	_broken.emit()
+	set_collision_layer_value(6, false)
 	Game.spawn_particle_oneshot("res://fx/particle_fx/object_break_particles.tscn", self)
 	Game.fade_out_sprite(anim, 0.05)
 
 func _physics_process(_delta: float) -> void:
+	pass
+
+func on_broken() -> void:
 	pass

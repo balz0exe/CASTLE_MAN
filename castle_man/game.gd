@@ -105,6 +105,10 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	if color != null: particles.color = color
 	particles.global_position = from.global_position + offset
 
+func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float = 0.5):
+	var tween = create_tween()
+	tween.tween_property(_camera, "position", position, duration)
+
 func fade_out_sprite(sprite: Node2D, duration: float = 0.5):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, duration)

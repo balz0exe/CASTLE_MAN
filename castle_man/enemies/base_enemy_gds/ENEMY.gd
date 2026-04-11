@@ -89,13 +89,15 @@ var has_double_jumped = false
 
 var dead = false
 var basic_attack: bool = true
-var health = max_health
+var health : float
 
 signal attacked
 signal died
 
 func _ready() -> void:
+	z_index = 1
 	var bubble_coll = $SightBubble/bubble_collision
+	health = max_health
 	bubble_coll.shape.radius = sight_radius
 	state_machine = $StateMachine
 	ENEMY_AI = $EnemyAi
@@ -114,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	elif weapon_user:
 		basic_attack = false
 
-	debug.text = (str(velocity.x))
+	debug.text = (str(health))
 
 	if health <= 0 and !dead:
 		die()

@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrel.tscn" id="14_ev2xu"]
+[ext_resource type="PackedScene" uid="uid://dc47a1k2hg7nw" path="res://knight/weapons/great_sword/great_sword_pickup.tscn" id="15_p72ms"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -164,18 +165,22 @@ position = Vector2(895, 85)
 
 [node name="Barrel8" parent="." unique_id=1039608337 instance=ExtResource("14_ev2xu")]
 position = Vector2(939, 84)
+drop = ExtResource("13_qh6br")
 
 [node name="Barrel9" parent="." unique_id=1447864346 instance=ExtResource("14_ev2xu")]
 position = Vector2(920, 85)
+drop = ExtResource("13_qh6br")
 
 [node name="Barrel10" parent="." unique_id=164631808 instance=ExtResource("14_ev2xu")]
 position = Vector2(909, 63)
 
 [node name="Barrel11" parent="." unique_id=2022731980 instance=ExtResource("14_ev2xu")]
 position = Vector2(934, 63)
+drop = ExtResource("13_qh6br")
 
 [node name="Barrel2" parent="." unique_id=155941488 instance=ExtResource("14_ev2xu")]
 position = Vector2(-48, 44)
+drop = ExtResource("15_p72ms")
 
 [node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
 position = Vector2(55, 12)
