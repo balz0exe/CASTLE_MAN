@@ -24,4 +24,6 @@ func _ready() -> void:
 	emission_colors = PackedColorArray(colors)
 
 func _done_emitting():
+	if player.get_parent().is_in_group("player"):
+		return
 	player.get_parent().queue_free()

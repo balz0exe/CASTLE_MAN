@@ -90,11 +90,9 @@ var pause_timer: float = 0.0
 var pause_cooldown: float = 0.3
 
 func hit_pause(duration: float = 0.1, pause_scale: float = 0.6, ignore_timer: bool = false) -> void:
-	print(pause_timer)
 	if pause_timer <= 0.0 or ignore_timer:
 		await wait_for_seconds(0.01)
 		Engine.time_scale = pause_scale
-		print(Engine.time_scale)
 		await get_tree().create_timer(duration, true).timeout
 		pause_timer = pause_cooldown
 		Engine.time_scale = 1.0
@@ -116,9 +114,10 @@ func explode(from, radius, damage, knockback, explosion):
 	explosion.global_position = from.global_position
 	explosion.explode(radius, damage, knockback)
 
-func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float = 0.5):
+func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float = 0.5) -> Tween:
 	var tween = create_tween()
 	tween.tween_property(_camera, "position", position, duration)
+	return tween
 
 func fade_out_sprite(sprite: Node2D, duration: float = 0.5):
 	var tween = create_tween()

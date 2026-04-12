@@ -6,16 +6,17 @@ var death_pos: Vector2
 
 func _on_knight_player_died() -> void:
 	death_pos = global_position
-	top_level =  true
+	top_level = true
 	global_position = death_pos
 
 func _on_knight_player_respawned() -> void:
-	global_position = Vector2.ZERO
-	top_level =  false
+	top_level = false
 
 func _physics_process(_delta: float) -> void:
-	#if player.state_machine.current_state.get_state_name() != "HurtState":
-	Game.tween_camera_position(self, Vector2(player.direction * 15, 5))
+	if player.dead:
+		global_position = death_pos
+	else:
+		position = position.lerp(Vector2(player.direction * 15, 5), 4 * _delta)
 
 func _input(event):
 	if event is InputEventMouseButton:

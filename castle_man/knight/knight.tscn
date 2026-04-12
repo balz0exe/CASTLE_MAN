@@ -320,7 +320,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die",
-"speed": 5.0
+"speed": 2.5
 }, {
 "frames": [{
 "duration": 1.0,
@@ -540,8 +540,10 @@ hit_from_inside = true
 position = Vector2(-2, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_ei405")
-animation = &"run"
+animation = &"die"
 autoplay = "idle"
+frame = 2
+frame_progress = 1.0
 
 [node name="glow" type="Node2D" parent="." unique_id=1146105093]
 position = Vector2(-1.9999999, -31)

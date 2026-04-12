@@ -27,7 +27,7 @@ var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 var max_health = 100
 var health = max_health
 var dead = false
-var max_stamina: float = 100
+var max_stamina: float = 50
 var stamina: float = max_stamina
 var stamina_regen: float = 10
 
@@ -112,6 +112,7 @@ func _physics_process(delta: float) -> void:
 
 	if health <= 0:
 		die()
+		health = 1
 
 	#update animations and sound
 
@@ -253,6 +254,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 signal player_respawned
 func respawn() -> void:
 	player_respawned.emit()
+	animation.modulate.a = 100
 	health = max_health
 	rotation = 0
 	dead = false

@@ -9,6 +9,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !broken:
 		var knock_back_direction = -sign(from.global_position - global_position)
 		var knockback_force: Vector2 = 15 * knockback * knock_back_direction
+		if knockback_force.y > 0: knockback_force.y = 0
 		apply_impulse(knockback_force)
 		if from.name == "Explosion":
 			await Game.wait_for_seconds(0.5)
