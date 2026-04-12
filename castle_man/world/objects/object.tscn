@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b55f4iyfy51pa"]
 
-[ext_resource type="Script" uid="uid://duaxtju3gbtgt" path="res://object.gd" id="1_vclw4"]
+[ext_resource type="Script" uid="uid://duaxtju3gbtgt" path="res://world/objects/object.gd" id="1_vclw4"]
 [ext_resource type="Texture2D" uid="uid://cq2fkaf8mn22" path="res://world/tile_map_1.png" id="2_0un4w"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="3_pjg8k"]
 

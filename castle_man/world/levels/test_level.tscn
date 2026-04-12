@@ -9,12 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://b6lhxu4r6vwn8" path="res://enemies/scenes/mushroom.tscn" id="9_gx6e6"]
 [ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="10_4hgr8"]
 [ext_resource type="PackedScene" uid="uid://bm2k44icb7wtw" path="res://knight/weapons/spear/equipped_spear.tscn" id="10_p75f5"]
-[ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/light/light.tscn" id="11_ciqro"]
+[ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="11_ciqro"]
 [ext_resource type="PackedScene" uid="uid://dug4131un3jsu" path="res://knight/weapons/knife/equipped_knife.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
-[ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrel.tscn" id="14_ev2xu"]
+[ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
 [ext_resource type="PackedScene" uid="uid://dc47a1k2hg7nw" path="res://knight/weapons/great_sword/great_sword_pickup.tscn" id="15_p72ms"]
+[ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -183,4 +184,43 @@ position = Vector2(-48, 44)
 drop = ExtResource("15_p72ms")
 
 [node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
-position = Vector2(55, 12)
+position = Vector2(-80, 78)
+
+[node name="ExplodingBarrel" parent="." unique_id=1915653960 instance=ExtResource("16_k8ngv")]
+position = Vector2(75, 17)
+
+[node name="ExplodingBarrel2" parent="." unique_id=882429707 instance=ExtResource("16_k8ngv")]
+position = Vector2(47, 18)
+
+[node name="ExplodingBarrel3" parent="." unique_id=615196459 instance=ExtResource("16_k8ngv")]
+position = Vector2(919, 8)
+
+[node name="ExplodingBarrel4" parent="." unique_id=1228645122 instance=ExtResource("16_k8ngv")]
+position = Vector2(936, -115)
+
+[node name="ExplodingBarrel5" parent="." unique_id=301502715 instance=ExtResource("16_k8ngv")]
+position = Vector2(897, -117)
+
+[node name="ExplodingBarrel6" parent="." unique_id=2099365359 instance=ExtResource("16_k8ngv")]
+position = Vector2(962, -45)
+
+[node name="ExplodingBarrel7" parent="." unique_id=1159053825 instance=ExtResource("16_k8ngv")]
+position = Vector2(936, -48)
+
+[node name="ExplodingBarrel8" parent="." unique_id=2099698666 instance=ExtResource("16_k8ngv")]
+position = Vector2(1004, -48)
+
+[node name="ExplodingBarrel9" parent="." unique_id=1840216514 instance=ExtResource("16_k8ngv")]
+position = Vector2(1054, -45)
+
+[node name="ExplodingBarrel10" parent="." unique_id=886017140 instance=ExtResource("16_k8ngv")]
+position = Vector2(1184, -48)
+
+[node name="ExplodingBarrel11" parent="." unique_id=1118436637 instance=ExtResource("16_k8ngv")]
+position = Vector2(982, -61)
+
+[node name="ExplodingBarrel12" parent="." unique_id=529872755 instance=ExtResource("16_k8ngv")]
+position = Vector2(1219, -54)
+
+[node name="ExplodingBarrel13" parent="." unique_id=1362127417 instance=ExtResource("16_k8ngv")]
+position = Vector2(953, -75)

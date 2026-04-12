@@ -89,10 +89,12 @@ func _crossfade_to(new_stream: AudioStream):
 var pause_timer: float = 0.0
 var pause_cooldown: float = 0.3
 
-func hit_pause(duration: float = 0.1, pause_scale: float = 0.6) -> void:
-	if pause_timer <= 0.0:
+func hit_pause(duration: float = 0.1, pause_scale: float = 0.6, ignore_timer: bool = false) -> void:
+	print(pause_timer)
+	if pause_timer <= 0.0 or ignore_timer:
 		await wait_for_seconds(0.01)
 		Engine.time_scale = pause_scale
+		print(Engine.time_scale)
 		await get_tree().create_timer(duration, true).timeout
 		pause_timer = pause_cooldown
 		Engine.time_scale = 1.0
@@ -104,6 +106,15 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	particles.show_behind_parent = behind_parent
 	if color != null: particles.color = color
 	particles.global_position = from.global_position + offset
+
+func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50):
+	var explosion = load("res://world/misc/explosion/explosion.tscn")
+	explosion = explosion.instantiate()
+	call_deferred("explode", from, radius, damage, knockback, explosion)
+func explode(from, radius, damage, knockback, explosion):
+	add_child(explosion)
+	explosion.global_position = from.global_position
+	explosion.explode(radius, damage, knockback)
 
 func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float = 0.5):
 	var tween = create_tween()

@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://cp1pglxscegpd"]
+
+[ext_resource type="Script" uid="uid://d1lmt6nsr8bw7" path="res://world/misc/explosion/explosion.gd" id="1_f8lue"]
+[ext_resource type="Texture2D" uid="uid://bu0bdov83ijd6" path="res://fx/particle_fx/particle_images/fire_02.png" id="2_ff52h"]
+[ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://fx/particle_fx/particle_images/light_03.png" id="3_l7axt"]
+
+[sub_resource type="Gradient" id="Gradient_l7axt"]
+offsets = PackedFloat32Array(0.6111111, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Curve" id="Curve_2ojqj"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.29532158), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_6acth"]
+offsets = PackedFloat32Array(0.64506173, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uy4sd"]
+radius = 30.0
+
+[node name="Explosion" type="Area2D" unique_id=1838100501]
+collision_layer = 0
+collision_mask = 34
+script = ExtResource("1_f8lue")
+
+[node name="FireParticle" type="CPUParticles2D" parent="." unique_id=85370111]
+emitting = false
+amount = 64
+texture = ExtResource("2_ff52h")
+one_shot = true
+explosiveness = 0.8
+emission_shape = 2
+emission_sphere_radius = 30.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, -100)
+scale_amount_min = 0.02
+scale_amount_max = 0.05
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("Gradient_l7axt")
+hue_variation_min = -0.5
+hue_variation_max = 0.5
+
+[node name="CircleParticle" type="CPUParticles2D" parent="." unique_id=64989475]
+emitting = false
+amount = 1
+texture = ExtResource("3_l7axt")
+one_shot = true
+speed_scale = 2.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_2ojqj")
+color = Color(1, 1, 1, 0.3529412)
+color_ramp = SubResource("Gradient_6acth")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=885914664]
+shape = SubResource("CircleShape2D_uy4sd")

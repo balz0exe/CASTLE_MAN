@@ -16,7 +16,7 @@ func _on_area_entered(area: Node2D) -> void:
 			else:
 				var enemy = area.get_parent()
 				player.take_damage(enemy.damage_factor * 4, enemy)
-				player.velocity.y += player.jump_strength
+				player.velocity.y = player.jump_strength/ 4
 
 func bounce():
 	Game.play_sfx(player.bounce_sfx, Game.sfx_volume, player)

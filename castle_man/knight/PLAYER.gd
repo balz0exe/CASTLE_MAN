@@ -241,7 +241,6 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			return
 		health = health - damage
 		Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
-		Game.hit_pause(0.2)
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
 		knockback_force = 15 * knockback * knock_back_direction
 		if state_machine.current_state.get_state_name() == "HurtState":

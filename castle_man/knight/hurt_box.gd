@@ -17,5 +17,5 @@ func on_area_entered(hit_box: HitBox):
 			elif hit_box.owner.is_in_group("enemies"): owner.take_damage(hit_box.owner.weapon.damage * hit_box.owner.damage_factor, hit_box.owner, hit_box.owner.weapon.knockback)
 		else:
 			owner.take_damage(hit_box.owner.basic_damage, hit_box.owner)
-		if hit_box.owner.is_in_group("player"):
-			Game.hit_pause(0.2)
+		if hit_box.owner.is_in_group("player") or owner.is_in_group("player"):
+			Game.hit_pause(0.05, 0.3)

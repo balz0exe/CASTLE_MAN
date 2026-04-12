@@ -12,8 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://u0tkfqjwkdwn" path="res://knight/knight_dead.png" id="5_ew415"]
 [ext_resource type="Script" uid="uid://boaqcia5nrn71" path="res://knight/feet_box.gd" id="7_okdvf"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="9_phnst"]
-[ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://world/light/light_03.png" id="14_vt0gp"]
-[ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://world/light/star_09.png" id="15_4yak4"]
+[ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://fx/particle_fx/particle_images/light_03.png" id="14_vt0gp"]
+[ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://fx/particle_fx/particle_images/star_09.png" id="15_4yak4"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="15_8ya1n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]

@@ -27,7 +27,7 @@ func update_animation():
 			player.animation.frame = 3
 			await get_tree().process_frame
 			player.rotation += 0.03
-		await Game.wait_for_seconds(3)
+		await Game.wait_for_seconds(10)
 		player.respawn()
 
 func update_input():

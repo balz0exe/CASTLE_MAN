@@ -10,14 +10,18 @@ var health : float
 var broken : bool = false
 @export var ground: bool = false
 @export var pushable: bool = false
+@export var collide_with_objects: bool = true
+@export var pixel_break: bool = true
 @export var drop: PackedScene
 
 signal _broken
 
 func _ready() -> void:
 	connect("_broken", on_broken)
-	set_collision_layer_value(6, true)
-	set_collision_mask_value(6, true)
+	if collide_with_objects:
+		set_collision_mask_value(6, true)
+		set_collision_layer_value(6, true)
+		
 	z_index = 0
 	push_area.connect("body_entered", _on_push_area_body_entered)
 	health = max_health
@@ -34,7 +38,6 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		apply_impulse(knockback_force)
 		if breakable:
 			health -= damage
-			print(health)
 			if health < 0:
 				_break()
 
@@ -60,7 +63,7 @@ func _break():
 	broken = true
 	_broken.emit()
 	set_collision_layer_value(6, false)
-	Game.spawn_particle_oneshot("res://fx/particle_fx/object_break_particles.tscn", self)
+	if pixel_break: Game.spawn_particle_oneshot("res://fx/particle_fx/object_break_particles.tscn", self)
 	Game.fade_out_sprite(anim, 0.05)
 
 func _physics_process(_delta: float) -> void:
