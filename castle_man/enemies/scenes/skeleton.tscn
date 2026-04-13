@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="3_35jd6"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="4_40x2p"]
 [ext_resource type="Texture2D" uid="uid://ldef5xup3oma" path="res://enemies/skeleton.png" id="4_xens1"]
-[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="5_35jd6"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://knight/hit_box.gd" id="5_35jd6"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="6_dh2e2"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="6_jtyv1"]
 [ext_resource type="Texture2D" uid="uid://bdekdcms1ibdn" path="res://enemies/skeleton_hurt_die.png" id="6_wsx01"]
@@ -376,7 +376,6 @@ hurt_sfx = ExtResource("2_bgjev")
 damage_factor = 0.8
 lose_time = 5.0
 follow_up = true
-combo_reset_time = 0.5
 max_speed = 40
 can_double_jump = false
 metadata/_custom_type_script = "uid://dduusotyiwunv"

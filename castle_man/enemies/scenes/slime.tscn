@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="7_ufnm6"]
 [ext_resource type="Texture2D" uid="uid://b8t05mht2pg3e" path="res://enemies/slime-Sheet.png" id="8_y7mmp"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="9_ev7j4"]
-[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="11_j8ckl"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://knight/hit_box.gd" id="11_j8ckl"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="12_fkd87"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]

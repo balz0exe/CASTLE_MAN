@@ -15,6 +15,8 @@ func _on_area_entered(area: Node2D) -> void:
 					area.get_parent().take_damage(player.bounce_damage, player)
 			else:
 				var enemy = area.get_parent()
+				if enemy.dead:
+					return
 				player.take_damage(enemy.damage_factor * 4, enemy)
 				player.velocity.y = player.jump_strength/ 4
 

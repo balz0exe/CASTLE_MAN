@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://dhiquygu02c6j"]
 
-[ext_resource type="Script" uid="uid://bccbxhdij6ryn" path="res://enemies/scenes/goblin.gd" id="1_s0lts"]
+[ext_resource type="Script" uid="uid://bccbxhdij6ryn" path="res://enemies/scenes/scripts/goblin.gd" id="1_s0lts"]
 [ext_resource type="PackedScene" uid="uid://bm2k44icb7wtw" path="res://knight/weapons/spear/equipped_spear.tscn" id="2_ruiqh"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_cak5h"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="4_w3bh5"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_s6as6"]
 [ext_resource type="Texture2D" uid="uid://cwh4r8whojcbx" path="res://icon.svg" id="6_wfu7d"]
 [ext_resource type="Texture2D" uid="uid://hckuoay02eqd" path="res://enemies/goblin.png" id="8_6jbhy"]
-[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://enemies/hit_box.gd" id="9_raidn"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://knight/hit_box.gd" id="9_raidn"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="10_cgyx3"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="11_5mo7f"]
 

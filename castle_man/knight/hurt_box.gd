@@ -9,7 +9,7 @@ func _ready() -> void:
 	connect("area_entered", on_area_entered)
 	
 func on_area_entered(hit_box: HitBox):
-	if hit_box == null or (owner.is_in_group("enemies") and hit_box.owner.is_in_group("enemies")):
+	if hit_box == null or (owner.is_in_group("enemies") and hit_box.owner.is_in_group("enemies")) or (hit_box.owner.is_in_group("enemies") and hit_box.owner.dead):
 		return
 	if owner.has_method("take_damage"):
 		if hit_box.owner.weapon != null:

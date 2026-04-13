@@ -9,7 +9,11 @@ func _ready() -> void:
 func _physics_process(_delta):
 	for area in colliders:
 		var current = player.state_machine.current_state.get_state_name()
-		if !current == "AttackState" and !current == "HurtState": player.velocity += (player.global_position - area.global_position).normalized() * 0.5
+		if !current == "HurtState":
+			if current == "RunState":
+				player.velocity += (player.global_position - area.global_position).normalized() * 1
+			else:
+				player.velocity += (player.global_position - area.global_position).normalized() * 20
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("soft collisions"):

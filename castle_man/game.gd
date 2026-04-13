@@ -119,6 +119,25 @@ func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float
 	tween.tween_property(_camera, "position", position, duration)
 	return tween
 
+var active_bounces: Array[Node2D] = []
+func animate_bouncing(sprite: Node2D, strength: float = 10):
+	if active_bounces.has(sprite):
+		return
+	var tween = create_tween()
+	var original_pos = sprite.offset
+	active_bounces.append(sprite)
+
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(sprite, "offset", original_pos + Vector2(0, -strength), 0.1)
+	tween.tween_property(sprite, "offset", original_pos, 0.1)
+
+	await tween.finished
+	
+	if is_instance_valid(sprite):
+		active_bounces.erase(sprite)
+
 func fade_out_sprite(sprite: Node2D, duration: float = 0.5):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, duration)

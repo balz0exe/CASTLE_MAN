@@ -31,6 +31,8 @@ func _ready():
 	define_default_sync_data()
 
 func _physics_process(_delta: float) -> void:
+	if owner_player:
+		sprite.offset = owner_player.animation.offset
 	monitorable = can_damage
 	hurtbox.disabled = !can_damage
 

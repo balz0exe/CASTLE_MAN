@@ -13,7 +13,7 @@ func exit():
 	if state_machine.monitor:print("Exited Die State")
 
 func physics_update(_delta):
-	pass
+	player.velocity.x = 0
 
 func update_animation():
 	if !played:
