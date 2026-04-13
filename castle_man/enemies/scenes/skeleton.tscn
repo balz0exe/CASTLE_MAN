@@ -364,7 +364,7 @@ radius = 216.0
 size = Vector2(14.6875, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_35jd6"]
-radius = 10.049875
+radius = 7.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyv1"]
 size = Vector2(18, 11)
@@ -373,6 +373,7 @@ size = Vector2(18, 11)
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
+max_health = 50.0
 damage_factor = 0.8
 lose_time = 5.0
 follow_up = true

@@ -282,7 +282,7 @@ radius = 216.0
 size = Vector2(13, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_35jd6"]
-radius = 7.0
+radius = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyv1"]
 size = Vector2(14, 5.5)
@@ -292,7 +292,7 @@ collision_layer = 2
 script = ExtResource("1_ginqw")
 hurt_sfx = ExtResource("2_govpf")
 weapon_user = false
-max_health = 50.0
+max_health = 30.0
 basic_damage = 3.0
 max_speed = 50
 

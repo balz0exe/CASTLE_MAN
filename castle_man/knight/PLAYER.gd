@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var player_ref = self
 @onready var weapon_hand = $weapon_hand
 @onready var hit_box = $HitBox
+@onready var soft_coll: Area2D = $SoftCollisionBubble
 @onready var hurt_box = $HurtBox
 @onready var camera = $Camera2D
 @onready var shadow = $Shadow
@@ -106,7 +107,7 @@ func _physics_process(delta: float) -> void:
 		can_air_throw = false
 		damage_on_bounce = false
 
-	debug.text = str(combo_reset_timer)
+	debug.text = str(collision_layer)
 
 	#check for death
 
@@ -142,10 +143,11 @@ func _physics_process(delta: float) -> void:
 		flip_h = false
 	elif velocity.x < 0:
 		flip_h = true
-	if flip_h:
-		direction = -1
-	else:
-		direction = 1
+	if soft_coll.get_overlapping_areas() != null:
+		if flip_h:
+			direction = -1
+		else:
+			direction = 1
 
 	#hurt box collisions
 

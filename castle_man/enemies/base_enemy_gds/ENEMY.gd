@@ -2,7 +2,7 @@
 extends CharacterBody2D
 class_name Enemy
 
-@onready var animation = $AnimatedSprite2D
+@onready var animation: AnimatedSprite2D = $AnimatedSprite2D
 @onready var coll = $CollisionShape2D
 @onready var debug = $debug
 @onready var player_ref = self
@@ -23,6 +23,7 @@ var ENEMY_AI = Node
 
 @export var dumb: bool = false
 @export var weapon_user = true
+@export var will_throw = false
 
 @export var max_health: float = 100
 @export var basic_damage: float = 5
@@ -130,8 +131,8 @@ func _physics_process(delta: float) -> void:
 	#update animation and Ai script
 	
 	if state_machine.current_state.get_state_name() != "HurtState":
-		update_ai_request()
 		ENEMY_AI.control_process(delta)
+		update_ai_request()
 	update_animations()
 	
 	#check direction
@@ -150,7 +151,7 @@ func _physics_process(delta: float) -> void:
 			coyote_timer = coyote_time
 			in_air = true
 		velocity.y += Game.GRAVITY * delta
-		if velocity.y > 50 and not animation.animation.contains("attack") and not state_machine.current_state.get_state_name() == "HurtState":
+		if velocity.y > 100 and not animation.animation.contains("attack") and not state_machine.current_state.get_state_name() == "HurtState":
 			if !dead: state_machine.change_state("FallState")
 	else:
 		in_air = false
@@ -191,6 +192,8 @@ func update_ai_request() -> void:
 	if current != "HurtState" and current != "AttackState":
 		if ai_state == Ai_State_Request.attack:
 			state_machine.change_state("AttackState")
+		if ai_state == Ai_State_Request.throw:
+			state_machine.change_state("ThrowState")
 		if ai_state == Ai_State_Request.idle:
 			state_machine.change_state("IdleState")
 		if ai_state == Ai_State_Request.run:

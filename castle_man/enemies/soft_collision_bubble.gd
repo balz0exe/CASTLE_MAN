@@ -10,7 +10,9 @@ func _physics_process(_delta):
 	for area in colliders:
 		var current = player.state_machine.current_state.get_state_name()
 		if !current == "HurtState":
-			if current == "RunState":
+			if current == "AttackState":
+				player.velocity += (player.global_position - area.global_position).normalized() * 5
+			elif current == "RunState":
 				player.velocity += (player.global_position - area.global_position).normalized() * 1
 			else:
 				player.velocity += (player.global_position - area.global_position).normalized() * 20

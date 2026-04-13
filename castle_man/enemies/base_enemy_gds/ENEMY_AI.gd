@@ -13,7 +13,6 @@ var state_exited_flag: bool = false
 
 var state_version : int = 1
 
-var control_state: String
 var is_sprinting: bool = false
 var can_flip: bool = true
 var flip_timer: float = 0.0
@@ -168,10 +167,13 @@ func control_process(delta) -> void:
 	
 	if enemy != null:
 		if !enemy.dead:
-			var distance = enemy.global_position.x - player.global_position.x
-			if abs(distance) > player.attack_range - 20:
+			var distance = enemy.global_position - player.global_position
+			if abs(distance.x) > player.attack_range - 20:
+				if player.weapon:
+					if (player.will_throw and abs(distance.x) > player.weapon.ai_throw_range) and abs(distance.y) < 30:
+						player.ai_state = player.Ai_State_Request.throw
 				set_state(State.CHASE)
-			elif abs(distance) < player.attack_range + 20 and not state == State.WAIT:
+			elif abs(distance.x) < player.attack_range + 20 and not state == State.WAIT:
 				set_state(State.FIGHT)
 		else:
 			lose_enemy(player.lose_time)
@@ -200,7 +202,7 @@ func navigate() -> void:
 
 			if player.sight_cast.is_colliding():
 				var collider = player.sight_cast.get_collider()
-				if collider and not collider.is_in_group("enviroment"):
+				if collider and not collider.is_in_group("enviroment") and enemy == null:
 					enemy = body
 				elif collider.is_in_group("enviroment"):
 					lose_enemy(player.lose_time)

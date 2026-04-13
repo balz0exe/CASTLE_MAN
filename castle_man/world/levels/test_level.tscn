@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dc47a1k2hg7nw" path="res://knight/weapons/great_sword/great_sword_pickup.tscn" id="15_p72ms"]
 [ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
+[ext_resource type="PackedScene" uid="uid://bajv35xiorm7l" path="res://knight/weapons/spear/spear_pickup.tscn" id="17_yxjfw"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -29,9 +30,6 @@ position = Vector2(346, 125)
 color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
-
-[node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
-position = Vector2(26, 13)
 
 [node name="mushroom_man2" parent="." unique_id=927970572 instance=ExtResource("9_gx6e6")]
 position = Vector2(926, 180)
@@ -226,3 +224,9 @@ position = Vector2(953, -75)
 
 [node name="goblin" parent="." unique_id=1435472188 instance=ExtResource("16_yxjfw")]
 position = Vector2(-165, 115)
+
+[node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
+position = Vector2(438, 121)
+
+[node name="SpearPickup" parent="." unique_id=672487218 instance=ExtResource("17_yxjfw")]
+position = Vector2(65, 53)

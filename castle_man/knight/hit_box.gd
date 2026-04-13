@@ -4,7 +4,7 @@ extends Area2D
 @onready var coll = $CollisionShape2D
 @onready var original_coll_position = coll.position
 @onready var original_coll_shape = coll.shape
-var player
+var player: Node2D
 
 func _ready() -> void:
 	collision_layer = 16
@@ -13,21 +13,27 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if player != null:
-		if player.is_in_group("enemies") and player.basic_attack:
-			coll.shape = original_coll_shape
-			coll.position.y = original_coll_position.y
-			coll.position.x = player.direction * original_coll_position.x
-			return
-		if player.animation.animation == "attack up" or player.animation.animation == "attack down":
-			if player.animation.animation == "attack up":
-				coll.position.x = 0
-				coll.position.y = -30 - (player.weapon_hit_box_reach_offset)
-			if player.animation.animation == "attack down":
-				coll.position.x = 0
-				coll.position.y = 20
-		else:
-			coll.position.y = 0
-			if player.direction == 1:
-				coll.position.x = 30 + (player.weapon_hit_box_reach_offset)
-			if player.direction == -1:
-				coll.position.x = -30 - (player.weapon_hit_box_reach_offset)
+		if player.is_class("RigidBody2D"):
+			if player.sprite.flip_h:
+				coll.position = original_coll_position * -1
+			else:
+				coll.position = original_coll_position
+		elif player.is_class("CharacterBody2D"):
+			if player.is_in_group("enemies") and player.basic_attack:
+				coll.shape = original_coll_shape
+				coll.position.y = original_coll_position.y
+				coll.position.x = player.direction * original_coll_position.x
+				return
+			if player.animation.animation == "attack up" or player.animation.animation == "attack down":
+				if player.animation.animation == "attack up":
+					coll.position.x = 0
+					coll.position.y = -30 - (player.weapon_hit_box_reach_offset)
+				if player.animation.animation == "attack down":
+					coll.position.x = 0
+					coll.position.y = 20
+			else:
+				coll.position.y = 0
+				if player.direction == 1:
+					coll.position.x = 30 + (player.weapon_hit_box_reach_offset)
+				if player.direction == -1:
+					coll.position.x = -30 - (player.weapon_hit_box_reach_offset)

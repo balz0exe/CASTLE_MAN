@@ -3,8 +3,7 @@ class_name WeaponPickup
 
 @onready var sprite = $Sprite2D
 @onready var coll = $CollisionShape2D
-@onready var hurt_box_l = $Area2D_L
-@onready var hurt_box_r = $Area2D_R
+@onready var hit_box = $HitBox
 @onready var interaction = $InteractionArea
 
 @export var ranged: bool = false
@@ -32,22 +31,12 @@ func init() -> void:
 
 func _physics_process(delta: float) -> void:
 	if equip_delay_timer > 0: equip_delay_timer -= delta * 1
-	var velocity = get_linear_velocity()
-	if abs(velocity) > Vector2(5, 5) and thrown:
-		if velocity.x > 0:
-			hurt_box_r.monitoring = true
-			hurt_box_l.monitoring = false
-		if velocity.x < 0:
-			hurt_box_l.monitoring = true
-			hurt_box_r.monitoring = false
+	var velocity = linear_velocity.length()
+	if velocity > 0:
+		hit_box.monitorable = true
 	else:
 		thrown = false
-		hurt_box_r.monitoring = false
-		hurt_box_l.monitoring = false
-	if abs(velocity) < Vector2(1, 1) and thrown:
-		sleeping = true
-	else:
-		sleeping = false
+		hit_box.monitorable = false
 		
 	check_contacts(delta)
 	

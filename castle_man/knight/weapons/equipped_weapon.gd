@@ -5,6 +5,7 @@ class_name WeaponItem
 @export var throw_path: String
 @export var projectile_path: String
 @export var throwable: bool = false
+@export var ai_throw_range: int = 150
 @export var ranged: bool = false
 @export var damage = 2
 @export var range_diff: int = 0
@@ -57,7 +58,7 @@ func throw() -> void:
 	owner_player.get_parent().add_child(projectile)
 	projectile.sprite.flip_h = owner_player.flip_h
 	projectile.global_position = Vector2(owner_player.global_position.x + owner_player.direction * 15, owner_player.global_position.y - 5)
-	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -100))
+	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -150))
 	projectile.thrown = true
 	owner_player.state_machine.change_state("IdleState")
 

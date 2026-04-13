@@ -2,16 +2,16 @@
 
 [ext_resource type="Script" uid="uid://b2yb6n38vg2by" path="res://knight/weapons/knife/knife_pickup.gd" id="1_co1h3"]
 [ext_resource type="Texture2D" uid="uid://bsq8wxa7ij5cj" path="res://knight/weapons/knife/knife.png" id="2_co1h3"]
-[ext_resource type="Script" uid="uid://b6obkcgehoeoy" path="res://knight/weapons/sword/basic_hurt_box.gd" id="3_w2t1g"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://knight/hit_box.gd" id="3_w2t1g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cx4lv"]
 size = Vector2(9, 4)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wcj52"]
-radius = 4.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co1h3"]
 size = Vector2(9, 9)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r7gtc"]
+radius = 4.0
 
 [node name="KnifePickup" type="RigidBody2D" unique_id=907787714]
 collision_layer = 4
@@ -30,33 +30,19 @@ shape = SubResource("RectangleShape2D_cx4lv")
 position = Vector2(1, 0)
 texture = ExtResource("2_co1h3")
 
-[node name="Area2D_R" type="Area2D" parent="." unique_id=1870875127]
-position = Vector2(1, 0)
-collision_layer = 0
-collision_mask = 2
-monitoring = false
-script = ExtResource("3_w2t1g")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_R" unique_id=484833385]
-position = Vector2(10, 0)
-shape = SubResource("CircleShape2D_wcj52")
-debug_color = Color(0.99514896, 0, 0.21801919, 0.41960785)
-
-[node name="Area2D_L" type="Area2D" parent="." unique_id=2093870890]
-position = Vector2(1, 0)
-collision_layer = 0
-collision_mask = 2
-monitoring = false
-script = ExtResource("3_w2t1g")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_L" unique_id=1017238699]
-position = Vector2(-4, 0)
-shape = SubResource("CircleShape2D_wcj52")
-debug_color = Color(0.99514896, 0, 0.21801919, 0.41960785)
-
 [node name="InteractionArea" type="Area2D" parent="." unique_id=810639330]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=656755791]
 shape = SubResource("RectangleShape2D_co1h3")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=828220931]
+position = Vector2(-9, 0)
+script = ExtResource("3_w2t1g")
+metadata/_custom_type_script = "uid://dr15uthiq5us1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=388031837]
+position = Vector2(18, 0)
+shape = SubResource("CircleShape2D_r7gtc")
+debug_color = Color(0.99514896, 0, 0.21801919, 0.41960785)
