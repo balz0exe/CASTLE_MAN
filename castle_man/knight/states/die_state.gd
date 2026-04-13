@@ -21,7 +21,6 @@ func update_animation():
 		player.velocity.y = -300
 		player.animation.play("die")
 		await player.animation.animation_finished
-		await player.is_on_floor()
 		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", player.animation)
 		Game.fade_out_sprite(player.animation)
 		await Game.wait_for_seconds(3)

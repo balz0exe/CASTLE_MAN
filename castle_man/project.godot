@@ -27,6 +27,7 @@ Game="*uid://dq7xs1jex1uq0"
 
 window/size/viewport_width=576
 window/size/viewport_height=324
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/scale=0.5
 
@@ -140,3 +141,4 @@ rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.07683582, 0.07683582, 0.0768358, 0.81960785)
+textures/size/mode=2

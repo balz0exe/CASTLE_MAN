@@ -24,13 +24,11 @@ var owner_player: Node = null
 var animation_sync_data := {}
 var flip_h = false
 var can_damage = false
+var offset: Vector2 = Vector2(5,0)
 
 func _ready():
 	hurtbox.disabled = true
-	if ranged:
-		define_default_sync_data_ranged()
-	else:
-		define_default_sync_data_not_ranged()
+	define_default_sync_data()
 
 func _physics_process(_delta: float) -> void:
 	monitorable = can_damage
@@ -82,11 +80,15 @@ func sync_with_animation(anim_name: String, frame: int, anim_flip_h: bool) -> vo
 	if data:
 		var pos = data.position
 		var rot = data.rotation
-		if anim_flip_h:
-			pos.x = -pos.x -20
+		if owner_player.animation.flip_h:
+			pos.x = -pos.x - (2* get_parent().position.x)
 			rot = -rot
-		global_position = get_parent().to_global(pos)
-		rotation = rot
+		global_position = get_parent().to_global(pos + Vector2(offset.x * owner_player.direction, offset.y))
+		if owner_player.is_in_group("player") and owner_player.state_machine.current_state.get_state_name() == "HurtState" or owner_player.animation.animation == "attack up":
+			rotation = -rot
+			global_position = get_parent().to_global(pos + Vector2(offset.x * -owner_player.direction, offset.y))
+		else:
+			rotation = rot
 		show()
 		scale.x = -1 if anim_flip_h else 1
 	else:
@@ -99,7 +101,7 @@ func get_frame_data(anim_name: String, frame: int) -> Dictionary:
 			return anim_data[frame]
 	return {}
 
-func define_default_sync_data_ranged():
+func define_default_sync_data():
 	animation_sync_data = {
 		"idle": {
 			0: { "position": Vector2(0, 0), "rotation": 0 },
@@ -121,88 +123,21 @@ func define_default_sync_data_ranged():
 			5: { "position": Vector2(0, 0), "rotation": deg_to_rad(5) },
 		},
 		"jump": {
-			0: { "position": Vector2(-5, -0.5), "rotation": deg_to_rad(10) },
-			1: { "position": Vector2(-6, 0), "rotation": deg_to_rad(-45) },
-			2: { "position": Vector2(-6, 0), "rotation": deg_to_rad(-70) },
-			3: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
+			0: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(10) },
+			1: { "position": Vector2(1, -5), "rotation": deg_to_rad(-45) },
+			2: { "position": Vector2(1, -5), "rotation": deg_to_rad(-70) },
+			3: { "position": Vector2(2, -4.5), "rotation": deg_to_rad(-90) },
 		},
 		"fall": {
-			0: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(-7, 1.5), "rotation": deg_to_rad(-90) },
-			2: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
-		},
-		"throw": {
-			0: { "position": Vector2(-18, 0), "rotation": deg_to_rad(-10) }
-		},
-		"attack 1": {
-			0: { "position": Vector2(-4, 3), "rotation":deg_to_rad(-135) },
-			1: { "position": Vector2(12, -4), "rotation": deg_to_rad(0) },
-		},
-		"attack 2": {
-			0: { "position": Vector2(7, -3), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(8, 3), "rotation": deg_to_rad(25) },
-		},
-		"attack 3": {
-			0: { "position": Vector2(-17, 7), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(6, -1), "rotation": deg_to_rad(-35) },
-		},
-		"attack up": {
-			0: { "position": Vector2(-24, 6), "rotation": deg_to_rad(-155) },
-			1: { "position": Vector2(-12, -8), "rotation": deg_to_rad(-45) },
-		},
-		"attack down": {
-			0: { "position": Vector2(-17, 7), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(6, -1), "rotation": deg_to_rad(-35) },
-		},
-		"roll": {
-			4: { "position": Vector2(-6, 4), "rotation": 5 },
-			5: { "position": Vector2(4, -6), "rotation": deg_to_rad(0) },
-			6: { "position": Vector2(3, -2), "rotation": deg_to_rad(0) },
-		},
-		"wind up": {
-			0: { "position": Vector2(3, 0), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(4, 6), "rotation": deg_to_rad(25) },
-			2: { "position": Vector2(2, 7), "rotation": deg_to_rad(25) },
-		},
-	}
-
-func define_default_sync_data_not_ranged():
-	animation_sync_data = {
-		"idle": {
-			0: { "position": Vector2(0, 0), "rotation": 0 },
-			1: { "position": Vector2(3, 2), "rotation": deg_to_rad(5) },
-			2: { "position": Vector2(2, 2), "rotation": deg_to_rad(5) },
-			3: { "position": Vector2(1, 1), "rotation": deg_to_rad(3) },
-		},
-		"block": {
-			0: { "position": Vector2(0, 0), "rotation": 0 },
-			1: { "position": Vector2(-17, 8), "rotation": deg_to_rad(-95) },
-			2: { "position": Vector2(2, 2), "rotation": deg_to_rad(5) },
-		},
-		"run": {
-			0: { "position": Vector2(1, -1), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(2, -0.5), "rotation": deg_to_rad(-10) },
-			2: { "position": Vector2(0, 0), "rotation": deg_to_rad(-5) },
-			3: { "position": Vector2(-1, -1), "rotation": deg_to_rad(0) },
-			4: { "position": Vector2(-2, -0.5), "rotation": deg_to_rad(5) },
-			5: { "position": Vector2(0, 0), "rotation": deg_to_rad(5) },
-		},
-		"jump": {
-			0: { "position": Vector2(-5, -0.5), "rotation": deg_to_rad(10) },
-			1: { "position": Vector2(-6, 0), "rotation": deg_to_rad(-45) },
-			2: { "position": Vector2(-6, 0), "rotation": deg_to_rad(-70) },
-			3: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
-		},
-		"fall": {
-			0: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(-7, 1.5), "rotation": deg_to_rad(-90) },
-			2: { "position": Vector2(-7, 0.5), "rotation": deg_to_rad(-90) },
+			0: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(-90) },
+			1: { "position": Vector2(0, -4.5), "rotation": deg_to_rad(-90) },
+			2: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(-90) },
 		},
 		"throw": {
 			0: { "position": Vector2(-18, 22), "rotation": deg_to_rad(215) }
 		},
 		"attack 1": {
-			0: { "position": Vector2(-4, 3), "rotation":deg_to_rad(-135) },
+			0: { "position": Vector2(-4, -6), "rotation":deg_to_rad(-50) },
 			1: { "position": Vector2(12, -4), "rotation": deg_to_rad(0) },
 		},
 		"attack 2": {
@@ -210,12 +145,12 @@ func define_default_sync_data_not_ranged():
 			1: { "position": Vector2(8, 3), "rotation": deg_to_rad(25) },
 		},
 		"attack 3": {
-			0: { "position": Vector2(-17, 7), "rotation": deg_to_rad(-90) },
+			0: { "position": Vector2(-17, 0), "rotation": deg_to_rad(-90) },
 			1: { "position": Vector2(6, -1), "rotation": deg_to_rad(-35) },
 		},
 		"attack up": {
-			0: { "position": Vector2(-24, 6), "rotation": deg_to_rad(-155) },
-			1: { "position": Vector2(-12, -8), "rotation": deg_to_rad(-45) },
+			0: { "position": Vector2(5, -6), "rotation": deg_to_rad(-155) },
+			1: { "position": Vector2(-20, -8), "rotation": deg_to_rad(-45) },
 		},
 		"attack down": {
 			0: { "position": Vector2(-17, 7), "rotation": deg_to_rad(-90) },

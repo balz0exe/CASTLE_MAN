@@ -314,7 +314,7 @@ offset_right = 20.0
 offset_bottom = -23.0
 
 [node name="weapon_hand" type="Node2D" parent="." unique_id=2001023644]
-position = Vector2(10, -16)
+position = Vector2(7, -4)
 
 [node name="Shadow" type="Node2D" parent="." unique_id=173886855]
 position = Vector2(0, -4)

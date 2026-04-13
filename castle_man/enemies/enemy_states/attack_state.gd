@@ -70,9 +70,7 @@ func exit():
 func physics_update(_delta):
 	if clear:
 		if player.animation.animation.contains("attack"):
-			if !player.is_on_floor():
-				player.velocity.y = -50
-			else:
+			if player.is_on_floor():
 				player.velocity.x = 50 * player.direction
 
 func update_animation():

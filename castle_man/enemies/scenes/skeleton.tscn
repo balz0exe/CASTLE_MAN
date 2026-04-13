@@ -400,7 +400,7 @@ offset_bottom = -23.0
 metadata/_edit_use_anchors_ = true
 
 [node name="weapon_hand" type="Node2D" parent="." unique_id=2001023644]
-position = Vector2(11, -16)
+position = Vector2(9, -6)
 
 [node name="Shadow" type="Node2D" parent="." unique_id=1752425081]
 script = ExtResource("6_dh2e2")

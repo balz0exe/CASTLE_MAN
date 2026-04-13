@@ -42,6 +42,7 @@ var ai_state : Ai_State_Request = Ai_State_Request.idle
 #COMBAT VARIABLES
 
 @export var item: PackedScene
+@export var weapon_hand_offset: Vector2 = Vector2(0,0)
 @export var follow_up: bool
 @export var patrol_range: float = 100
 var found_weapon
@@ -61,7 +62,8 @@ var combo_cooldown: float = 0.7
 var combo_cooldown_timer: float = 0.0
 var combo_reset_timer: float = 0.0
 var pickup_reset_timer: float = 0.0
-@export var combo_reset_time: float = 1
+@export var combo_reset_time: float = 0.5
+var original_combo_reset: float = combo_reset_timer
 var is_throw: bool = false
 
 #MOVEMENT VARIABLES
@@ -110,11 +112,15 @@ func _ready() -> void:
 	connect("died", on_died)
 
 func _physics_process(delta: float) -> void:
-
+	
+	secondary_process()
+	
 	if weapon == null:
 		basic_attack = true
+		combo_reset_time = 0.5
 	elif weapon_user:
 		basic_attack = false
+		combo_reset_time = original_combo_reset
 
 	debug.text = (str(health))
 
@@ -292,4 +298,7 @@ func on_attacked() -> void:
 	pass
 
 func on_died() -> void:
+	pass
+	
+func secondary_process() -> void:
 	pass

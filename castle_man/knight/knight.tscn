@@ -455,11 +455,11 @@ collision_layer = 2
 script = ExtResource("1_f8xjr")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1648207416]
-position = Vector2(0, -5)
+position = Vector2(2, -5)
 script = ExtResource("2_f5jhb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
-position = Vector2(-2, -8)
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_kdubu")
 
 [node name="StateMachine" type="Node" parent="." unique_id=540004747]
@@ -476,10 +476,10 @@ offset_right = 20.0
 offset_bottom = -23.0
 
 [node name="weapon_hand" type="Node2D" parent="." unique_id=2001023644]
-position = Vector2(8, -17)
+position = Vector2(10, -7)
 
 [node name="HitBox" type="Area2D" parent="." unique_id=944954428]
-position = Vector2(-2, -5)
+position = Vector2(0, -5)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_6gdd4")
@@ -491,7 +491,7 @@ disabled = true
 debug_color = Color(0.980167, 0, 0.38590178, 0.41960785)
 
 [node name="FeetBox" type="Area2D" parent="." unique_id=976272222]
-position = Vector2(-2, -5)
+position = Vector2(0, -5)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_okdvf")
@@ -502,7 +502,7 @@ shape = SubResource("RectangleShape2D_okdvf")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 
 [node name="HeadBox" type="Area2D" parent="." unique_id=383852087]
-position = Vector2(-2, -8)
+position = Vector2(0, -8)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeadBox" unique_id=1732057913]
@@ -511,7 +511,7 @@ shape = SubResource("RectangleShape2D_okdvf")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 
 [node name="SoftCollisionBubble" type="Area2D" parent="." unique_id=1048978800 groups=["soft collisions"]]
-position = Vector2(-2, -5)
+position = Vector2(0, -5)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("9_phnst")
@@ -537,16 +537,14 @@ target_position = Vector2(0, 106)
 hit_from_inside = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
-position = Vector2(-2, -10)
+position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_ei405")
-animation = &"die"
+animation = &"idle"
 autoplay = "idle"
-frame = 2
-frame_progress = 1.0
 
 [node name="glow" type="Node2D" parent="." unique_id=1146105093]
-position = Vector2(-1.9999999, -31)
+position = Vector2(0, -31)
 scale = Vector2(0.7, 0.7)
 
 [node name="PointLight2D2" type="PointLight2D" parent="glow" unique_id=1046099762]
@@ -561,6 +559,7 @@ energy = 1.2
 texture = ExtResource("15_4yak4")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=2098546708]
+position = Vector2(2, 0)
 script = ExtResource("15_8ya1n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=2134911815]

@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://b3fveg8tr8dnh" path="res://world/levels/test_level.gd" id="1_766oa"]
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="1_scip0"]
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="2_o4dlw"]
-[ext_resource type="PackedScene" uid="uid://boqtoi0nfpo34" path="res://knight/weapons/bow/bow_pickup.tscn" id="5_jbcfa"]
 [ext_resource type="PackedScene" uid="uid://bcawry7vtpufa" path="res://knight/weapons/sword/sword_pickup.tscn" id="7_scip0"]
 [ext_resource type="PackedScene" uid="uid://bu6nu3va6i4o4" path="res://knight/weapons/great_sword/equipped_great_sword.tscn" id="9_ciqro"]
 [ext_resource type="PackedScene" uid="uid://b6lhxu4r6vwn8" path="res://enemies/scenes/mushroom.tscn" id="9_gx6e6"]
@@ -16,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
 [ext_resource type="PackedScene" uid="uid://dc47a1k2hg7nw" path="res://knight/weapons/great_sword/great_sword_pickup.tscn" id="15_p72ms"]
 [ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
+[ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -32,9 +32,6 @@ color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 
 [node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
 position = Vector2(26, 13)
-
-[node name="BowPickup" parent="." unique_id=1298919994 instance=ExtResource("5_jbcfa")]
-position = Vector2(393, -19)
 
 [node name="mushroom_man2" parent="." unique_id=927970572 instance=ExtResource("9_gx6e6")]
 position = Vector2(926, 180)
@@ -163,6 +160,7 @@ position = Vector2(1079, 17)
 
 [node name="Barrel7" parent="." unique_id=212277536 instance=ExtResource("14_ev2xu")]
 position = Vector2(895, 85)
+drop = ExtResource("16_yxjfw")
 
 [node name="Barrel8" parent="." unique_id=1039608337 instance=ExtResource("14_ev2xu")]
 position = Vector2(939, 84)
@@ -174,6 +172,7 @@ drop = ExtResource("13_qh6br")
 
 [node name="Barrel10" parent="." unique_id=164631808 instance=ExtResource("14_ev2xu")]
 position = Vector2(909, 63)
+drop = ExtResource("16_yxjfw")
 
 [node name="Barrel11" parent="." unique_id=2022731980 instance=ExtResource("14_ev2xu")]
 position = Vector2(934, 63)
@@ -224,3 +223,6 @@ position = Vector2(1219, -54)
 
 [node name="ExplodingBarrel13" parent="." unique_id=1362127417 instance=ExtResource("16_k8ngv")]
 position = Vector2(953, -75)
+
+[node name="goblin" parent="." unique_id=1435472188 instance=ExtResource("16_yxjfw")]
+position = Vector2(-165, 115)

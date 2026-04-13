@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpwsv3vrgjrrr"
-path="res://.godot/imported/bow.png-99a584677be999b6f53a041d662e405e.ctex"
+uid="uid://hckuoay02eqd"
+path="res://.godot/imported/goblin.png-6e941669d2adc445c801411bf8e64e40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://knight/weapons/bow/bow.png"
-dest_files=["res://.godot/imported/bow.png-99a584677be999b6f53a041d662e405e.ctex"]
+source_file="res://enemies/goblin.png"
+dest_files=["res://.godot/imported/goblin.png-6e941669d2adc445c801411bf8e64e40.ctex"]
 
 [params]
 
