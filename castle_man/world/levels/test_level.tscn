@@ -3,20 +3,14 @@
 [ext_resource type="Script" uid="uid://b3fveg8tr8dnh" path="res://world/levels/test_level.gd" id="1_766oa"]
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="1_scip0"]
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="2_o4dlw"]
-[ext_resource type="PackedScene" uid="uid://bcawry7vtpufa" path="res://knight/weapons/sword/sword_pickup.tscn" id="7_scip0"]
-[ext_resource type="PackedScene" uid="uid://bu6nu3va6i4o4" path="res://knight/weapons/great_sword/equipped_great_sword.tscn" id="9_ciqro"]
-[ext_resource type="PackedScene" uid="uid://b6lhxu4r6vwn8" path="res://enemies/scenes/mushroom.tscn" id="9_gx6e6"]
-[ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="10_4hgr8"]
-[ext_resource type="PackedScene" uid="uid://bm2k44icb7wtw" path="res://knight/weapons/spear/equipped_spear.tscn" id="10_p75f5"]
+[ext_resource type="Resource" uid="uid://cs8rfomadsmxt" path="res://weapons/great_sword/great_sword.tres" id="9_p75f5"]
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="11_ciqro"]
-[ext_resource type="PackedScene" uid="uid://dug4131un3jsu" path="res://knight/weapons/knife/equipped_knife.tscn" id="11_p75f5"]
+[ext_resource type="PackedScene" uid="uid://cd4h4og1bn6hd" path="res://weapons/weapon_object.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
-[ext_resource type="PackedScene" uid="uid://dc47a1k2hg7nw" path="res://knight/weapons/great_sword/great_sword_pickup.tscn" id="15_p72ms"]
 [ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
-[ext_resource type="PackedScene" uid="uid://bajv35xiorm7l" path="res://knight/weapons/spear/spear_pickup.tscn" id="17_yxjfw"]
 
 [node name="TestLevel" type="Node2D" unique_id=892004404]
 script = ExtResource("1_766oa")
@@ -30,25 +24,6 @@ position = Vector2(346, 125)
 color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
-
-[node name="mushroom_man2" parent="." unique_id=927970572 instance=ExtResource("9_gx6e6")]
-position = Vector2(926, 180)
-item = ExtResource("11_p75f5")
-
-[node name="mushroom_man" parent="." unique_id=761871476 instance=ExtResource("9_gx6e6")]
-position = Vector2(944, 210)
-item = ExtResource("11_p75f5")
-
-[node name="skeleton" parent="." unique_id=1771659136 instance=ExtResource("10_4hgr8")]
-position = Vector2(825, -19)
-item = ExtResource("9_ciqro")
-
-[node name="skeleton2" parent="." unique_id=800734239 instance=ExtResource("10_4hgr8")]
-position = Vector2(527, 99)
-
-[node name="skeleton3" parent="." unique_id=1134364167 instance=ExtResource("10_4hgr8")]
-position = Vector2(1180, 1)
-item = ExtResource("10_p75f5")
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("11_ciqro")]
 position = Vector2(383, 121)
@@ -71,51 +46,6 @@ visible_torch = false
 modulate = Color(1, 0, 0, 1)
 position = Vector2(1279, -100)
 visible_torch = false
-
-[node name="mushroom_man3" parent="." unique_id=1502270884 instance=ExtResource("9_gx6e6")]
-position = Vector2(1233, 1430)
-
-[node name="mushroom_man4" parent="." unique_id=868206276 instance=ExtResource("9_gx6e6")]
-position = Vector2(1345, 1430)
-
-[node name="mushroom_man5" parent="." unique_id=746329295 instance=ExtResource("9_gx6e6")]
-position = Vector2(1439, 1430)
-
-[node name="mushroom_man6" parent="." unique_id=1003479181 instance=ExtResource("9_gx6e6")]
-position = Vector2(1382, 1420)
-
-[node name="mushroom_man7" parent="." unique_id=1499319964 instance=ExtResource("9_gx6e6")]
-position = Vector2(1294, 1424)
-
-[node name="mushroom_man8" parent="." unique_id=493203869 instance=ExtResource("9_gx6e6")]
-position = Vector2(1186, 1424)
-
-[node name="mushroom_man9" parent="." unique_id=561120576 instance=ExtResource("9_gx6e6")]
-position = Vector2(1943, 1424)
-
-[node name="mushroom_man10" parent="." unique_id=300389172 instance=ExtResource("9_gx6e6")]
-position = Vector2(1984, 1427)
-
-[node name="mushroom_man11" parent="." unique_id=1268850781 instance=ExtResource("9_gx6e6")]
-position = Vector2(2011, 1417)
-
-[node name="mushroom_man12" parent="." unique_id=327794016 instance=ExtResource("9_gx6e6")]
-position = Vector2(2048, 1420)
-
-[node name="mushroom_man13" parent="." unique_id=932126290 instance=ExtResource("9_gx6e6")]
-position = Vector2(2085, 1420)
-
-[node name="mushroom_man14" parent="." unique_id=341119451 instance=ExtResource("9_gx6e6")]
-position = Vector2(2129, 1424)
-
-[node name="mushroom_man15" parent="." unique_id=1439599649 instance=ExtResource("9_gx6e6")]
-position = Vector2(1253, 1414)
-
-[node name="mushroom_man16" parent="." unique_id=2052223205 instance=ExtResource("9_gx6e6")]
-position = Vector2(1318, 1407)
-
-[node name="mushroom_man17" parent="." unique_id=292746892 instance=ExtResource("9_gx6e6")]
-position = Vector2(1409, 1414)
 
 [node name="light6" parent="." unique_id=318240401 instance=ExtResource("11_ciqro")]
 position = Vector2(339, 1398)
@@ -178,16 +108,16 @@ drop = ExtResource("13_qh6br")
 
 [node name="Barrel2" parent="." unique_id=155941488 instance=ExtResource("14_ev2xu")]
 position = Vector2(-48, 44)
-drop = ExtResource("15_p72ms")
+drop = ExtResource("9_p75f5")
 
 [node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
 position = Vector2(-80, 78)
 
 [node name="ExplodingBarrel" parent="." unique_id=1915653960 instance=ExtResource("16_k8ngv")]
-position = Vector2(75, 17)
+position = Vector2(116, 47)
 
 [node name="ExplodingBarrel2" parent="." unique_id=882429707 instance=ExtResource("16_k8ngv")]
-position = Vector2(47, 18)
+position = Vector2(109, 84)
 
 [node name="ExplodingBarrel3" parent="." unique_id=615196459 instance=ExtResource("16_k8ngv")]
 position = Vector2(919, 8)
@@ -223,10 +153,8 @@ position = Vector2(1219, -54)
 position = Vector2(953, -75)
 
 [node name="goblin" parent="." unique_id=1435472188 instance=ExtResource("16_yxjfw")]
-position = Vector2(-165, 115)
+position = Vector2(-30, 85)
 
-[node name="SwordPickup" parent="." unique_id=907787714 instance=ExtResource("7_scip0")]
-position = Vector2(438, 121)
-
-[node name="SpearPickup" parent="." unique_id=672487218 instance=ExtResource("17_yxjfw")]
-position = Vector2(65, 53)
+[node name="WeaponObject" parent="." unique_id=258884919 instance=ExtResource("11_p75f5")]
+position = Vector2(65, 4)
+res = ExtResource("9_p75f5")

@@ -271,9 +271,10 @@ collision_layer = 2
 script = ExtResource("1_mac71")
 hurt_sfx = ExtResource("2_lldys")
 weapon_user = false
-max_health = 20.0
+max_health = 10.0
 basic_damage = 2.0
 damage_factor = 0.2
+lose_time = 0.0
 original_attack_range = 60
 combo_reset_time = 0.8
 max_speed = 30
@@ -343,6 +344,7 @@ target_position = Vector2(36, 0)
 collision_mask = 3
 
 [node name="SightBubble" type="Area2D" parent="." unique_id=630095415 groups=["enemies"]]
+visible = false
 position = Vector2(1, -4)
 collision_layer = 0
 collision_mask = 6

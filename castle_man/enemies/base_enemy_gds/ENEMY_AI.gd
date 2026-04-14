@@ -195,8 +195,10 @@ func navigate() -> void:
 	#navigating
 
 	var colliders = player.sight_bubble.get_overlapping_bodies()
+	var is_player = false
 	for body in colliders:
 		if body.is_in_group("player"):
+			is_player = true
 			player.sight_cast.target_position = body.global_position - player.global_position
 			player.sight_cast.force_raycast_update()
 
@@ -208,6 +210,8 @@ func navigate() -> void:
 					lose_enemy(player.lose_time)
 		if enemy == null and state != State.WAIT:
 			set_state(State.PATROL)
+	if !is_player:
+		lose_enemy(player.lose_time)
 
 	var line_of_sight = player.wall_cast.get_collider()
 	if line_of_sight != null and enemy == null:
@@ -266,7 +270,7 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 			return
 
 func lose_enemy(time: float):
-	await Game.wait_for_seconds(time)
+	if time > 0: await Game.wait_for_seconds(time)
 	patrol_origin = player.global_position.x
 	enemy = null
 

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://c1jyf00fplg2q"]
+
+[ext_resource type="Texture2D" uid="uid://dytqogt3wm5mp" path="res://weapons/sword/sword.png" id="1_trl4a"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_gqeam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q66nu"]
+size = Vector2(16, 10)
+
+[resource]
+script = ExtResource("2_gqeam")
+weapon_name = "sword"
+image = ExtResource("1_trl4a")
+hurt_box_shape = SubResource("RectangleShape2D_q66nu")
+throwable = true
+range_diff = 10
+anim = Array[String](["1", "2", "3", "2"])
+speed_scale = 1.2
+hit_box_pos = Vector2(13, 0)

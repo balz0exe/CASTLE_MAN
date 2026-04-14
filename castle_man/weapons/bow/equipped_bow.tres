@@ -1,0 +1,193 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://c6evbrlhet7ys"]
+
+[ext_resource type="Texture2D" uid="uid://btqx74e2esiwi" path="res://weapons/bow/bow.png" id="1_1178n"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_1178n"]
+
+[resource]
+script = ExtResource("2_1178n")
+image = ExtResource("1_1178n")
+animated = {
+"h_frames": 4,
+"range": 3,
+"true": true,
+"v_frames": 1
+}
+ranged = true
+offset = Vector2(10, 0)
+sync_data = {
+"attack 1": {
+0: {
+"position": Vector2(-4, -6),
+"rotation": -0.8726646259971648
+},
+1: {
+"position": Vector2(12, -4),
+"rotation": 0.0
+}
+},
+"attack 2": {
+0: {
+"position": Vector2(7, -3),
+"rotation": -0.08726646259971647
+},
+1: {
+"position": Vector2(8, 3),
+"rotation": 0.4363323129985824
+}
+},
+"attack 3": {
+0: {
+"position": Vector2(-17, 0),
+"rotation": -1.5707963267948966
+},
+1: {
+"position": Vector2(6, -1),
+"rotation": -0.6108652381980153
+}
+},
+"attack down": {
+0: {
+"position": Vector2(-17, 7),
+"rotation": -1.5707963267948966
+},
+1: {
+"position": Vector2(6, -1),
+"rotation": -0.6108652381980153
+}
+},
+"attack up": {
+0: {
+"position": Vector2(5, -6),
+"rotation": -2.705260340591211
+},
+1: {
+"position": Vector2(-20, -8),
+"rotation": -0.7853981633974483
+}
+},
+"block": {
+0: {
+"position": Vector2(0, 0),
+"rotation": 0
+},
+1: {
+"position": Vector2(-17, 8),
+"rotation": -1.6580627893946132
+},
+2: {
+"position": Vector2(2, 2),
+"rotation": 0.08726646259971647
+}
+},
+"fall": {
+0: {
+"position": Vector2(0, -5.5),
+"rotation": -1.5707963267948966
+},
+1: {
+"position": Vector2(0, -4.5),
+"rotation": -1.5707963267948966
+},
+2: {
+"position": Vector2(0, -5.5),
+"rotation": -1.5707963267948966
+}
+},
+"idle": {
+0: {
+"position": Vector2(0, 0),
+"rotation": 0
+},
+1: {
+"position": Vector2(3, 2),
+"rotation": 0.08726646259971647
+},
+2: {
+"position": Vector2(2, 2),
+"rotation": 0.08726646259971647
+},
+3: {
+"position": Vector2(1, 1),
+"rotation": 0.05235987755982989
+}
+},
+"jump": {
+0: {
+"position": Vector2(0, -5.5),
+"rotation": 0.17453292519943295
+},
+1: {
+"position": Vector2(1, -5),
+"rotation": -0.7853981633974483
+},
+2: {
+"position": Vector2(1, -5),
+"rotation": -1.2217304763960306
+},
+3: {
+"position": Vector2(2, -4.5),
+"rotation": -1.5707963267948966
+}
+},
+"roll": {
+4: {
+"position": Vector2(-6, 4),
+"rotation": 5
+},
+5: {
+"position": Vector2(4, -6),
+"rotation": 0.0
+},
+6: {
+"position": Vector2(3, -2),
+"rotation": 0.0
+}
+},
+"run": {
+0: {
+"position": Vector2(1, -1),
+"rotation": -0.08726646259971647
+},
+1: {
+"position": Vector2(2, -0.5),
+"rotation": -0.17453292519943295
+},
+2: {
+"position": Vector2(0, 0),
+"rotation": -0.08726646259971647
+},
+3: {
+"position": Vector2(-1, -1),
+"rotation": 0.0
+},
+4: {
+"position": Vector2(-2, -0.5),
+"rotation": 0.08726646259971647
+},
+5: {
+"position": Vector2(0, 0),
+"rotation": 0.08726646259971647
+}
+},
+"throw": {
+0: {
+"position": Vector2(-10, 0),
+"rotation": 0.0
+}
+},
+"wind up": {
+0: {
+"position": Vector2(3, 0),
+"rotation": -0.08726646259971647
+},
+1: {
+"position": Vector2(4, 6),
+"rotation": 0.4363323129985824
+},
+2: {
+"position": Vector2(2, 7),
+"rotation": 0.4363323129985824
+}
+}
+}
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

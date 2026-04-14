@@ -10,8 +10,8 @@ func enter(_prev_state):
 func exit():
 	if state_machine.monitor:print("Exited Die State")
 
-func physics_update(_delta):
-	pass
+func physics_update(delta):
+	player.velocity.x = move_toward(player.velocity.x, 0, delta * 10)
 
 var played = false
 

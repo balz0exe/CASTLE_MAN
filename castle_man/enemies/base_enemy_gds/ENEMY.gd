@@ -42,12 +42,13 @@ var ai_state : Ai_State_Request = Ai_State_Request.idle
 
 #COMBAT VARIABLES
 
-@export var item: PackedScene
+@export var item: Resource
 @export var weapon_hand_offset: Vector2 = Vector2(0,0)
 @export var follow_up: bool
 @export var patrol_range: float = 100
 var found_weapon
 @export var attack_thrust_factor : float = 1.0
+@export var knockback_factor: float = 1.0
 var knocked_back: bool
 var knockback_force: int
 @export var knockback_recovery: float = 0.35
@@ -218,7 +219,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		health = health - damage
 		damage_particles()
 		var knock_back_direction = -sign(from.global_position.x - global_position.x)
-		knockback_force = 15 * knockback * knock_back_direction
+		knockback_force = 15 * knockback * knock_back_direction * knockback_factor
 		if state_machine.current_state.get_state_name() == "HurtState":
 			state_machine.current_state.retrigger()
 		else:
@@ -237,60 +238,57 @@ func die() -> void:
 	dumb = true
 	var drop
 	if weapon:
-		drop = load(weapon.throw_path)
+		drop = WeaponPickup.new()
 	if drop != null:
-		drop = drop.instantiate()
+		get_parent().add_child(drop)
 		drop.global_position = global_position
 		drop.apply_impulse(Vector2(0, -10))
 		drop.apply_torque(-direction * 10)
-		get_parent().add_child(drop)
 	shadow.queue_free()
 	state_machine.change_state("DieState")
 
-var pending_weapon_scene
-var pending_pickup_scene
+var pending_weapon_res: Resource = null
+var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(weapon_scene: PackedScene, pickup_scene: RigidBody2D):
-	if pickup_reset_timer > 0:
-		return
+func equip_weapon(res: Resource, pickup: RigidBody2D):
 	# Just store the latest request
-	pending_weapon_scene = weapon_scene
-	if pickup_scene: pending_pickup_scene = pickup_scene
+	pending_weapon_res = res
+	pending_pickup_scene = pickup
 	# Schedule the actual equip for the end of the frame
 	call_deferred("_do_equip")
 
-func disarm():
-	if weapon:
-		var drop = load(weapon.throw_path)
-		await get_tree().process_frame
-		if drop != null:
-			drop = drop.instantiate()
-			drop.global_position = global_position
-			drop.apply_impulse(Vector2(0, -10))
-			drop.apply_torque(-direction * 10)
-			get_parent().add_child(drop)
-			has_weapon = false
-			weapon.queue_free()
-			pickup_reset_timer = 3
-
-var weapon_hit_box_reach_offset: int
+var weapon_hit_box_reach_offset: Vector2
 
 func _do_equip():
-	if not pending_weapon_scene:
+	if not pending_weapon_res:
 		return
 		
-	weapon = pending_weapon_scene.instantiate()
+	weapon = WeaponItem.new()
 	if pending_pickup_scene: pending_pickup_scene.queue_free()
-
+	# ... rest of your setup ...
+	
+	# Clear the pending status so it doesn't run again unless called
 	has_weapon = true
-	hit_box.get_child(0).shape = weapon.get_child(0).shape
-	weapon_hit_box_reach_offset = weapon.get_child(0).position.x
-	weapon.set_meta("resource_path", pending_weapon_scene.resource_path)
-	pending_weapon_scene = null
+	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
+	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset
+	weapon.set_meta("resource_path", pending_weapon_res.resource_path)
 	pending_pickup_scene = null
 	weapon.owner_player = self
 	weapon_hand.add_child(weapon)
-	weapon.on_equip(self)
+	weapon.on_equip(self, pending_weapon_res)
+	pending_weapon_res = null
+
+func disarm():
+	if weapon:
+		var drop = WeaponPickup.new()
+		await get_tree().process_frame
+		if drop != null:
+			get_parent().add_child(drop)
+			drop.global_position = global_position
+			drop.apply_impulse(Vector2(0, -10))
+			drop.apply_torque(-direction * 10)
+			has_weapon = false
+			weapon.call_deferred("queue_free")
 
 #EMPTY FUNCTIONS
 

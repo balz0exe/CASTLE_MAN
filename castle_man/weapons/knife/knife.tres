@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://bcscbtqfsyrdv"]
+
+[ext_resource type="Texture2D" uid="uid://bsq8wxa7ij5cj" path="res://weapons/knife/knife.png" id="1_rk7q8"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_rk7q8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cbkp"]
+size = Vector2(13, 14)
+
+[resource]
+script = ExtResource("2_rk7q8")
+weapon_name = "knife"
+image = ExtResource("1_rk7q8")
+hurt_box_shape = SubResource("RectangleShape2D_4cbkp")
+hurt_box_offset = Vector2(-10, -11)
+throwable = true
+range_diff = -10
+stamina_cost = 3
+thrust_speed_factor = 0.5
+combo_count = 6
+anim = Array[String](["2", "2", "1", "2", "2", "3"])
+speed_scale = 1.4
+throw_speed = 200
+throw_damage = 4
+hit_box_pos = Vector2(8, 0)

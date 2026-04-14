@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://bgws0teqy1t1b"]
+
+[ext_resource type="Texture2D" uid="uid://bypk1ddo4ceuh" path="res://weapons/spear/spear.png" id="1_i5v5j"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_i5v5j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m1h02"]
+size = Vector2(20, 7.5)
+
+[resource]
+script = ExtResource("2_i5v5j")
+weapon_name = "spear"
+image = ExtResource("1_i5v5j")
+hurt_box_shape = SubResource("RectangleShape2D_m1h02")
+hurt_box_offset = Vector2(3, 0)
+throwable = true
+range_diff = 10
+thrust_speed_factor = 1.2
+combo_count = 3
+anim = Array[String](["2", "2", "2"])
+speed_scale = 1.2
+throw_speed = 200
+throw_damage = 10
+hit_box_pos = Vector2(18, 0)

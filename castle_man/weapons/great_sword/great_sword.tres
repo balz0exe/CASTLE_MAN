@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://cs8rfomadsmxt"]
+
+[ext_resource type="Texture2D" uid="uid://c4iq1adp80m18" path="res://weapons/great_sword/greatsword.png" id="1_2cc2q"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_2cc2q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q66nu"]
+size = Vector2(24, 17)
+
+[resource]
+script = ExtResource("2_2cc2q")
+weapon_name = "greatsword"
+image = ExtResource("1_2cc2q")
+knockback = 8
+damage = 12
+hurt_box_shape = SubResource("RectangleShape2D_q66nu")
+hurt_box_offset = Vector2(4, 0)
+range_diff = 20
+thrust_speed_factor = 0.2
+combo_count = 3
+anim = Array[String](["1", "3", "2"])

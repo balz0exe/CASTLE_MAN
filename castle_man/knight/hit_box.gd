@@ -1,17 +1,23 @@
 class_name HitBox
 extends Area2D
 
-@onready var coll = $CollisionShape2D
-@onready var original_coll_position = coll.position
-@onready var original_coll_shape = coll.shape
+@onready var coll = $CollisionShape2D if has_node("CollisionShape2D") else CollisionShape2D.new()
+@onready var original_coll_position: Vector2
+@onready var original_coll_shape: Shape2D
 var player: Node2D
 
 func _ready() -> void:
 	collision_layer = 16
 	collision_mask = 0
 	player = get_parent()
+	while coll == null:
+		await get_tree().process_frame
+	original_coll_shape = coll.shape
+	original_coll_position = coll.position
 
 func _physics_process(_delta: float) -> void:
+	if coll == null:
+		return
 	if player != null:
 		if player.is_class("RigidBody2D"):
 			if player.sprite.flip_h:
@@ -27,13 +33,13 @@ func _physics_process(_delta: float) -> void:
 			if player.animation.animation == "attack up" or player.animation.animation == "attack down":
 				if player.animation.animation == "attack up":
 					coll.position.x = 0
-					coll.position.y = -30 - (player.weapon_hit_box_reach_offset)
+					coll.position.y = -30 - (player.weapon_hit_box_reach_offset.x)
 				if player.animation.animation == "attack down":
 					coll.position.x = 0
 					coll.position.y = 20
 			else:
-				coll.position.y = 0
+				coll.position.y = player.weapon_hit_box_reach_offset.y
 				if player.direction == 1:
-					coll.position.x = 30 + (player.weapon_hit_box_reach_offset)
+					coll.position.x = 30 + (player.weapon_hit_box_reach_offset.x)
 				if player.direction == -1:
-					coll.position.x = -30 - (player.weapon_hit_box_reach_offset)
+					coll.position.x = -30 - (player.weapon_hit_box_reach_offset.x)

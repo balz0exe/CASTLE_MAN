@@ -266,14 +266,14 @@ func respawn() -> void:
 
 func disarm():
 	if weapon:
-		var drop = load(weapon.throw_path)
+		var drop = WeaponPickup.new()
+		drop.res = weapon.weapon
 		await get_tree().process_frame
 		if drop != null:
-			drop = drop.instantiate()
+			get_parent().add_child(drop)
 			drop.global_position = global_position
 			drop.apply_impulse(Vector2(0, -10))
 			drop.apply_torque(-direction * 10)
-			get_parent().add_child(drop)
 			has_weapon = false
 			weapon.call_deferred("queue_free")
 
@@ -284,43 +284,39 @@ func die() -> void:
 		dead = true
 		var drop
 		if weapon:
-			drop = load(weapon.throw_path)
+			drop = WeaponPickup.new()
 		if drop != null:
-			drop = drop.instantiate()
+			get_parent().add_child(drop)
 			drop.global_position = global_position
 			drop.apply_impulse(Vector2(0, -10))
 			drop.apply_torque(-direction * 10)
-			get_parent().add_child(drop)
 		if shadow: shadow.visible = false
 		state_machine.change_state("DieState")
 
-var pending_weapon_scene: PackedScene = null
+var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(weapon_scene: PackedScene, pickup_scene: RigidBody2D):
+func equip_weapon(res: Resource, pickup: RigidBody2D):
 	# Just store the latest request
-	pending_weapon_scene = weapon_scene
-	pending_pickup_scene = pickup_scene
+	pending_weapon_res = res
+	pending_pickup_scene = pickup
 	# Schedule the actual equip for the end of the frame
 	call_deferred("_do_equip")
 
-var weapon_hit_box_reach_offset: int
+var weapon_hit_box_reach_offset: Vector2
 
 func _do_equip():
-	if not pending_weapon_scene:
+	if not pending_weapon_res:
 		return
 		
-	weapon = pending_weapon_scene.instantiate()
-	pending_pickup_scene.queue_free()
-	# ... rest of your setup ...
-	
-	# Clear the pending status so it doesn't run again unless called
+	weapon = WeaponItem.new()
+	if pending_pickup_scene: pending_pickup_scene.queue_free()
 	has_weapon = true
-	hit_box.get_child(0).shape = weapon.get_child(0).shape
-	weapon_hit_box_reach_offset = weapon.get_child(0).position.x
-	weapon.set_meta("resource_path", pending_weapon_scene.resource_path)
-	pending_weapon_scene = null
+	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
+	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset
+	weapon.set_meta("resource_path", pending_weapon_res.resource_path)
 	pending_pickup_scene = null
 	weapon.owner_player = self
 	weapon_hand.add_child(weapon)
-	weapon.on_equip(self)
+	weapon.on_equip(self, pending_weapon_res)
+	pending_weapon_res = null

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dhiquygu02c6j"]
 
 [ext_resource type="Script" uid="uid://bccbxhdij6ryn" path="res://enemies/scenes/scripts/goblin.gd" id="1_s0lts"]
-[ext_resource type="PackedScene" uid="uid://bm2k44icb7wtw" path="res://knight/weapons/spear/equipped_spear.tscn" id="2_ruiqh"]
+[ext_resource type="Resource" uid="uid://bgws0teqy1t1b" path="res://weapons/spear/spear.tres" id="2_ruiqh"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_cak5h"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="4_w3bh5"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_s6as6"]
@@ -303,6 +303,7 @@ collision_layer = 2
 script = ExtResource("1_s0lts")
 will_throw = true
 item = ExtResource("2_ruiqh")
+knockback_factor = 1.8
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]

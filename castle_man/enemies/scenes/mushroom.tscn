@@ -360,6 +360,7 @@ target_position = Vector2(36, 0)
 collision_mask = 3
 
 [node name="SightBubble" type="Area2D" parent="." unique_id=630095415 groups=["enemies"]]
+visible = false
 position = Vector2(0, -4)
 collision_layer = 0
 collision_mask = 6

@@ -2,8 +2,8 @@ extends Area2D
 class_name WeaponItem
 
 @export var weapon_name: String
-@export var throw_path: String
-@export var projectile_path: String
+@export var throw_path: Resource
+@export var projectile_path: Resource
 @export var throwable: bool = false
 @export var ai_throw_range: int = 150
 @export var ranged: bool = false
@@ -15,31 +15,86 @@ class_name WeaponItem
 @export var combo_count := 4
 @export var combo_reset_time: float = 0.2
 @export var anim: Array[String]
+var animated: Dictionary = {
+	"true": false,
+	"h_frames": 1,
+	"v_frames": 1,
+}
+@export var offset: Vector2 = Vector2(5,0)
 @export var speed_scale: = 1.0
 @export var dash_attack = false
 
-@onready var sprite: Sprite2D = $Sprite
-@onready var hurtbox = $Hurtbox
+@onready var sprite: Sprite2D = Sprite2D.new()
 
 var owner_player: Node = null
 var animation_sync_data := {}
 var flip_h = false
 var can_damage = false
-var offset: Vector2 = Vector2(5,0)
+var played: bool = false
+var animation_timeout: float = 0.0
+
+var weapon: Resource
+
+func set_values():
+	while weapon == null:
+		await get_tree().process_frame
+	sprite.texture = weapon.image
+	anim = weapon.anim
+	speed_scale = weapon.speed_scale
+	dash_attack = weapon.dash_attack
+	combo_reset_time = weapon.combo_reset_time
+	combo_count = weapon.combo_count
+	thrust_speed_factor = weapon.thrust_speed_factor
+	knockback = weapon.knockback
+	stamina_cost = weapon.stamina_cost
+	range_diff = weapon.range_diff
+	damage = weapon.damage
+	ranged = weapon.ranged
+	ai_throw_range = weapon.ai_throw_range
+	throwable = weapon.throwable
+	weapon_name = weapon.weapon_name
+	animation_sync_data = weapon.sync_data
+	offset = weapon.offset
+	
+	animated = {
+		"true": weapon.animated["true"],
+		"h_frames": weapon.animated["h_frames"],
+		"v_frames": weapon.animated["v_frames"],
+		"range": weapon.animated["range"]
+	}
+	sprite.hframes = animated["h_frames"]
+	sprite.vframes = animated["v_frames"]
+	
 
 func _ready():
-	hurtbox.disabled = true
-	define_default_sync_data()
+	add_child(sprite)
+	
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if animation_timeout > 0:
+		animation_timeout -= delta
 	if owner_player:
 		sprite.offset = owner_player.animation.offset
-	monitorable = can_damage
-	hurtbox.disabled = !can_damage
+	if owner_player.state_machine.current_state.get_state_name() == "AttackState" or owner_player.state_machine.current_state.get_state_name() == "ThrowState":
+		animate()
 
-func on_equip(player: Node) -> void:
+func animate(rate: float = 0.2, _range: int = animated["range"]):
+	animation_timeout = 0.1
+	if !played:
+		played = true
+		sprite.frame = 0
+		for frame in range(_range - 1):
+			await Game.wait_for_seconds(rate)
+			sprite.frame += 1
+		while animation_timeout > 0:
+			await get_tree().process_frame
+		played = false
+		sprite.frame = 0
+
+func on_equip(player: Node, res: Resource) -> void:
+	weapon = res
+	set_values()
 	owner_player = player
-	owner_player.throw_path = throw_path
 	owner_player.combo_cooldown = combo_reset_time
 	flip_h = player.animation.flip_h
 	update_attack_pattern(combo_count, anim)
@@ -48,11 +103,8 @@ func throw() -> void:
 	Game.play_sfx(owner_player.hit_sfx, Game.sfx_volume, owner_player)
 	if owner_player.weapon.throwable: owner_player.has_weapon = false
 	var projectile
-	if owner_player.weapon.throwable:
-		projectile = load(owner_player.throw_path)
-	elif owner_player.weapon.ranged:
-		projectile = load(owner_player.weapon.projectile_path)
-	projectile = projectile.instantiate()
+	projectile = WeaponPickup.new()
+	projectile.res = weapon
 	projectile.from = owner_player
 	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
 	owner_player.get_parent().add_child(projectile)
@@ -103,70 +155,3 @@ func get_frame_data(anim_name: String, frame: int) -> Dictionary:
 		if frame in anim_data:
 			return anim_data[frame]
 	return {}
-
-func define_default_sync_data():
-	animation_sync_data = {
-		"idle": {
-			0: { "position": Vector2(0, 0), "rotation": 0 },
-			1: { "position": Vector2(3, 2), "rotation": deg_to_rad(5) },
-			2: { "position": Vector2(2, 2), "rotation": deg_to_rad(5) },
-			3: { "position": Vector2(1, 1), "rotation": deg_to_rad(3) },
-		},
-		"block": {
-			0: { "position": Vector2(0, 0), "rotation": 0 },
-			1: { "position": Vector2(-17, 8), "rotation": deg_to_rad(-95) },
-			2: { "position": Vector2(2, 2), "rotation": deg_to_rad(5) },
-		},
-		"run": {
-			0: { "position": Vector2(1, -1), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(2, -0.5), "rotation": deg_to_rad(-10) },
-			2: { "position": Vector2(0, 0), "rotation": deg_to_rad(-5) },
-			3: { "position": Vector2(-1, -1), "rotation": deg_to_rad(0) },
-			4: { "position": Vector2(-2, -0.5), "rotation": deg_to_rad(5) },
-			5: { "position": Vector2(0, 0), "rotation": deg_to_rad(5) },
-		},
-		"jump": {
-			0: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(10) },
-			1: { "position": Vector2(1, -5), "rotation": deg_to_rad(-45) },
-			2: { "position": Vector2(1, -5), "rotation": deg_to_rad(-70) },
-			3: { "position": Vector2(2, -4.5), "rotation": deg_to_rad(-90) },
-		},
-		"fall": {
-			0: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(0, -4.5), "rotation": deg_to_rad(-90) },
-			2: { "position": Vector2(0, -5.5), "rotation": deg_to_rad(-90) },
-		},
-		"throw": {
-			0: { "position": Vector2(-18, 22), "rotation": deg_to_rad(215) }
-		},
-		"attack 1": {
-			0: { "position": Vector2(-4, -6), "rotation":deg_to_rad(-50) },
-			1: { "position": Vector2(12, -4), "rotation": deg_to_rad(0) },
-		},
-		"attack 2": {
-			0: { "position": Vector2(7, -3), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(8, 3), "rotation": deg_to_rad(25) },
-		},
-		"attack 3": {
-			0: { "position": Vector2(-17, 0), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(6, -1), "rotation": deg_to_rad(-35) },
-		},
-		"attack up": {
-			0: { "position": Vector2(5, -6), "rotation": deg_to_rad(-155) },
-			1: { "position": Vector2(-20, -8), "rotation": deg_to_rad(-45) },
-		},
-		"attack down": {
-			0: { "position": Vector2(-17, 7), "rotation": deg_to_rad(-90) },
-			1: { "position": Vector2(6, -1), "rotation": deg_to_rad(-35) },
-		},
-		"roll": {
-			4: { "position": Vector2(-6, 4), "rotation": 5 },
-			5: { "position": Vector2(4, -6), "rotation": deg_to_rad(0) },
-			6: { "position": Vector2(3, -2), "rotation": deg_to_rad(0) },
-		},
-		"wind up": {
-			0: { "position": Vector2(3, 0), "rotation": deg_to_rad(-5) },
-			1: { "position": Vector2(4, 6), "rotation": deg_to_rad(25) },
-			2: { "position": Vector2(2, 7), "rotation": deg_to_rad(25) },
-		},
-	}

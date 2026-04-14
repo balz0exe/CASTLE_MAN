@@ -12,7 +12,7 @@ var broken : bool = false
 @export var pushable: bool = false
 @export var collide_with_objects: bool = true
 @export var pixel_break: bool = true
-@export var drop: PackedScene
+@export var drop: Resource
 
 signal _broken
 
