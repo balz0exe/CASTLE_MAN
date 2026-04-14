@@ -42,6 +42,7 @@ func _ready() -> void:
 	interaction.collision_mask = 2
 	interaction.body_entered.connect(_on_body_entered)
 	set_values()
+	hit_box_original_pos = hit_box.coll.position
 
 func set_values() -> void:
 	while res == null:
@@ -57,8 +58,6 @@ func set_values() -> void:
 	hit_box_coll.position = res.hit_box_pos
 	coll.shape = RectangleShape2D.new()
 	coll.shape.size = Vector2(5, 5)
-	hit_box_original_pos = hit_box.coll.position
-	
 	animated = {
 		"true": res.animated["true"],
 		"h_frames": res.animated["h_frames"],
@@ -88,7 +87,10 @@ func _physics_process(delta: float) -> void:
 	if equip_delay_timer > 0:
 		equip_delay_timer -= delta
 	var velocity = linear_velocity.length()
-
+	if sprite.flip_h:
+		hit_box_coll.position.x = hit_box_original_pos.x * -2
+	else:
+		hit_box_coll.position.x = hit_box_original_pos.x
 	if velocity > 10:
 		hit_box_coll.disabled = false
 	else:
