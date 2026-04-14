@@ -193,7 +193,7 @@ func update_ai_request() -> void:
 		if ai_state == Ai_State_Request.attack:
 			state_machine.change_state("AttackState")
 		if ai_state == Ai_State_Request.throw:
-			state_machine.change_state("ThrowState")
+			if weapon and weapon.throwable: state_machine.change_state("ThrowState")
 		if ai_state == Ai_State_Request.idle:
 			state_machine.change_state("IdleState")
 		if ai_state == Ai_State_Request.run:

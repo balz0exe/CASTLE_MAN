@@ -19,6 +19,7 @@ mass = 0.3
 max_contacts_reported = 3
 script = ExtResource("1_cx4lv")
 throw_speed = 200
+throw_damage = 10
 equip_path = "res://knight/weapons/spear/equipped_spear.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=690617699]
