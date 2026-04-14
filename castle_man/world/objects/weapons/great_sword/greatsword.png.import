@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btqx74e2esiwi"
-path="res://.godot/imported/bow.png-968b0a613a1cd138ef2e80832c3b16f9.ctex"
+uid="uid://c4iq1adp80m18"
+path="res://.godot/imported/greatsword.png-58d4cb5583bb07ae5c0c3268a157ca91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/bow/bow.png"
-dest_files=["res://.godot/imported/bow.png-968b0a613a1cd138ef2e80832c3b16f9.ctex"]
+source_file="res://world/objects/weapons/great_sword/greatsword.png"
+dest_files=["res://.godot/imported/greatsword.png-58d4cb5583bb07ae5c0c3268a157ca91.ctex"]
 
 [params]
 

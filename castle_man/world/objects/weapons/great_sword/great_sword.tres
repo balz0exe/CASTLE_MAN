@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://cs8rfomadsmxt"]
 
-[ext_resource type="Texture2D" uid="uid://c4iq1adp80m18" path="res://weapons/great_sword/greatsword.png" id="1_2cc2q"]
-[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://weapons/weapon_resource.gd" id="2_2cc2q"]
+[ext_resource type="Texture2D" uid="uid://c4iq1adp80m18" path="res://world/objects/weapons/great_sword/greatsword.png" id="1_2cc2q"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="2_2cc2q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q66nu"]
 size = Vector2(24, 17)

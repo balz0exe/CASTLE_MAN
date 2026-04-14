@@ -12,6 +12,8 @@ var weapon: WeaponPickup
 			return
 
 		res = value
+		if sprite == null: sprite = $Sprite2D
+		sprite.texture = res.image
 
 		# Remove old weapon if it exists
 		if is_instance_valid(weapon):
