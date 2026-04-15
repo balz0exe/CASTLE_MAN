@@ -10,6 +10,7 @@ size = Vector2(16, 10)
 script = ExtResource("2_gqeam")
 weapon_name = "sword"
 image = ExtResource("1_trl4a")
+damage = 7
 hurt_box_shape = SubResource("RectangleShape2D_q66nu")
 throwable = true
 range_diff = 10

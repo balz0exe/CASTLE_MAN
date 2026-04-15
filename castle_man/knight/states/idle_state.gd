@@ -3,6 +3,7 @@ extends PlayerState
 
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Idle State")
+	player.sprint = false
 
 func exit():
 	if state_machine.monitor:print("Exited Idle State")

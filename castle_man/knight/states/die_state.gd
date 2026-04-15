@@ -6,7 +6,6 @@ var played = false
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Die State")
 	player.animation.stop()
-	Game.play_sfx(player.hurt_sfx, Game.sfx_volume, player)
 
 func exit():
 	played = false

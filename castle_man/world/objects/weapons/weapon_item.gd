@@ -38,6 +38,8 @@ var weapon: Resource
 func set_values():
 	while weapon == null:
 		await get_tree().process_frame
+	if weapon.item_script != null:
+		set_script(weapon.item_script)
 	sprite.texture = weapon.image
 	anim = weapon.anim
 	speed_scale = weapon.speed_scale
@@ -55,6 +57,7 @@ func set_values():
 	weapon_name = weapon.weapon_name
 	animation_sync_data = weapon.sync_data
 	offset = weapon.offset
+	projectile_path = weapon.projectile_res
 	
 	animated = {
 		"true": weapon.animated["true"],
@@ -104,15 +107,16 @@ func throw() -> void:
 	if owner_player.weapon.throwable: owner_player.has_weapon = false
 	var projectile
 	projectile = WeaponPickup.new()
-	projectile.res = weapon
+	projectile.res = weapon if !ranged else projectile_path
 	projectile.from = owner_player
 	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
 	owner_player.get_parent().add_child(projectile)
 	projectile.sprite.flip_h = owner_player.flip_h
-	projectile.global_position = Vector2(owner_player.global_position.x + owner_player.direction * 15, owner_player.global_position.y - 5)
+	projectile.global_position = Vector2(owner_player.global_position.x + (owner_player.direction * 35), owner_player.global_position.y - 5)
 	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -150))
 	projectile.thrown = true
 	owner_player.state_machine.change_state("IdleState")
+	projectile.throw.emit()
 
 func update_attack_pattern(combo: int, animations: Array[String]) -> void:
 	if owner_player and owner_player.has_method("set_attack_pattern"):

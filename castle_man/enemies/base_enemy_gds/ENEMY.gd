@@ -211,6 +211,7 @@ func update_animations() -> void:
 	else:
 		max_speed = prev_speed
 	
+var knock_back_direction
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !dead:
 		if parry:
@@ -218,32 +219,27 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			return
 		health = health - damage
 		damage_particles()
-		var knock_back_direction = -sign(from.global_position.x - global_position.x)
-		knockback_force = 15 * knockback * knock_back_direction * knockback_factor
+		await get_knockback_direction(from)
+		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
 		if state_machine.current_state.get_state_name() == "HurtState":
 			state_machine.current_state.retrigger()
 		else:
 			state_machine.change_state("HurtState")
-
-func parried(from: Node2D, knockback: float = 3):
-	velocity.y -= 30
-	velocity.x = 0
-	knockback_recovery = 0.8
-	var knock_back_direction = -sign(from.global_position.x - global_position.x)
-	knockback_force = 10 * knockback * knock_back_direction
-	state_machine.change_state("HurtState")
+			
+func get_knockback_direction(from):
+	var pos1: Vector2
+	var pos2: Vector2
+	pos1 = from.global_position
+	await get_tree().process_frame
+	pos2 = from.global_position
+	knock_back_direction = -sign(pos1 - pos2)
+	await get_tree().process_frame
 
 func die() -> void:
 	dead = true
 	dumb = true
-	var drop
 	if weapon:
-		drop = WeaponPickup.new()
-	if drop != null:
-		get_parent().add_child(drop)
-		drop.global_position = global_position
-		drop.apply_impulse(Vector2(0, -10))
-		drop.apply_torque(-direction * 10)
+		disarm()
 	shadow.queue_free()
 	state_machine.change_state("DieState")
 

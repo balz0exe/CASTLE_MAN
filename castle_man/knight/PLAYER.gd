@@ -113,7 +113,7 @@ func _physics_process(delta: float) -> void:
 
 	if health <= 0:
 		die()
-		health = 1
+		state_machine.change_state("DieState")
 
 	#update animations and sound
 
@@ -237,21 +237,30 @@ func update_animations() -> void:
 
 var blood_path = "res://fx/particle_fx/blood_particles.tscn"
 
+var knock_back_direction
 func take_damage(damage, from: Node2D, knockback: float = 10):
-	if !dead and !invincible:
-		if parry:
-			from.parried(self)
-			return
+	if !dead:
 		health = health - damage
 		Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
-		var knock_back_direction = -sign(from.global_position.x - global_position.x)
-		knockback_force = 15 * knockback * knock_back_direction
+		await get_knockback_direction(from)
+		knockback_force = 15 * knockback * knock_back_direction.x
 		if state_machine.current_state.get_state_name() == "HurtState":
 			hits_taken += 1
 			state_machine.current_state.retrigger()
 		else:
 			hits_taken += 1
 			state_machine.change_state("HurtState")
+			
+func get_knockback_direction(from):
+	var pos1: Vector2
+	var pos2: Vector2
+	pos1 = from.global_position
+	await get_tree().process_frame
+	if from == null:
+		return
+	pos2 = from.global_position
+	knock_back_direction = -sign(pos1 - pos2)
+	await get_tree().process_frame
 
 signal player_respawned
 func respawn() -> void:
@@ -291,7 +300,6 @@ func die() -> void:
 			drop.apply_impulse(Vector2(0, -10))
 			drop.apply_torque(-direction * 10)
 		if shadow: shadow.visible = false
-		state_machine.change_state("DieState")
 
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null

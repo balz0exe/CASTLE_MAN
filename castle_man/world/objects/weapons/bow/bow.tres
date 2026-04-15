@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://c6evbrlhet7ys"]
 
-[ext_resource type="Texture2D" uid="uid://btqx74e2esiwi" path="res://world/objects/weapons/bow/bow.png" id="1_1178n"]
-[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="2_1178n"]
+[ext_resource type="Texture2D" uid="uid://btqx74e2esiwi" path="res://world/objects/weapons/bow/bow.png" id="1_62sea"]
+[ext_resource type="Resource" uid="uid://npkceyaot18u" path="res://world/objects/weapons/bow/arrow.tres" id="2_62sea"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="3_eaoyi"]
 
 [resource]
-script = ExtResource("2_1178n")
-image = ExtResource("1_1178n")
+script = ExtResource("3_eaoyi")
+image = ExtResource("1_62sea")
 animated = {
 "h_frames": 4,
 "range": 3,
@@ -13,6 +14,7 @@ animated = {
 "v_frames": 1
 }
 ranged = true
+projectile_res = ExtResource("2_62sea")
 offset = Vector2(10, 0)
 sync_data = {
 "attack 1": {

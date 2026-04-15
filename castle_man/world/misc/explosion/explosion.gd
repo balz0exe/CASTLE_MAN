@@ -22,10 +22,16 @@ func explode(radius: int = 30, damage: int = 10, knockback: float = 50):
 	
 	Game.hit_pause(0.1, 0.1, true)
 	
+	async_deactivate()
+	
 	while fire.emitting:
 		await get_tree().process_frame
 	
 	queue_free()
+
+func async_deactivate():
+	await Game.wait_for_seconds(0.1)
+	coll.disabled = true
 
 var hit_bodies : Array[Node2D] = []
 

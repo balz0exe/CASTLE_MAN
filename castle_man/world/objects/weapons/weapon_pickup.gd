@@ -25,6 +25,13 @@ var animated: Dictionary = {
 	"v_frames": 1,
 }
 var played: bool = false
+var projectile: bool = false
+
+var behavior: Script
+var behavior_node: Node
+
+signal hit(target)
+signal throw
 
 func _ready() -> void:
 	contact_monitor = true
@@ -43,10 +50,18 @@ func _ready() -> void:
 	interaction.body_entered.connect(_on_body_entered)
 	set_values()
 	hit_box_original_pos = hit_box.coll.position
+	
+	connect("hit", on_hit)
+	connect("throw", on_thrown)
 
 func set_values() -> void:
 	while res == null:
 		await get_tree().process_frame
+	behavior = res.pickup_script
+	if behavior != null:
+		behavior_node = Node.new()
+		behavior_node.set_script(behavior)
+		add_child(behavior_node)
 	sprite.texture = res.image
 	throw_damage = res.throw_damage
 	throw_speed = res.throw_speed
@@ -54,7 +69,7 @@ func set_values() -> void:
 	interaction_coll.shape = RectangleShape2D.new()
 	interaction_coll.shape.size = Vector2(10, 10)
 	hit_box_coll.shape = CircleShape2D.new()
-	hit_box_coll.shape.radius = 5
+	hit_box_coll.shape.radius = res.hit_box_radius
 	hit_box_coll.position = res.hit_box_pos
 	coll.shape = RectangleShape2D.new()
 	coll.shape.size = Vector2(5, 5)
@@ -66,6 +81,7 @@ func set_values() -> void:
 	}
 	sprite.hframes = animated["h_frames"]
 	sprite.vframes = animated["v_frames"]
+	projectile = res.projectile
 
 var animation_timeout: float = 0.0
 func animate(rate: float = 0.2, _range: int = animated["range"]):
@@ -96,6 +112,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		thrown = false
 		hit_box_coll.disabled = true
+		if projectile: queue_free()
 	check_contacts(delta)
 
 func check_contacts(delta) -> void:
@@ -107,6 +124,8 @@ func check_contacts(delta) -> void:
 	interaction.monitoring = false
 
 func _on_body_entered(body: Node2D) -> void:
+	if projectile:
+		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
 		if body.is_in_group("enemies") and ranged:
 			return
@@ -120,3 +139,13 @@ func _on_body_entered(body: Node2D) -> void:
 func connect_interaction() -> void:
 	if interaction != null:
 		interaction.connect("body_entered", Callable(self, "_on_body_entered"))
+
+#Empty Functions
+
+func on_hit(target):
+	if behavior != null and behavior_node.has_method("on_hit"):
+		behavior_node.on_hit(target)
+		
+func on_thrown():
+	if behavior != null and behavior_node.has_method("on_thrown"):
+		behavior_node.on_thrown()

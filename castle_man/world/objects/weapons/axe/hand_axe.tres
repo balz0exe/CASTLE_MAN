@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://d0h353bfqclyh"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_4utpr"]
+[ext_resource type="Texture2D" uid="uid://c3ojkgwk343ga" path="res://world/objects/weapons/axe/hand_axe.png" id="1_7fkcv"]
+[ext_resource type="Script" uid="uid://rnp8ipr50fj4" path="res://world/objects/weapons/axe/hand_axe.gd" id="2_s8gaa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8gaa"]
+size = Vector2(10, 10)
+
+[resource]
+script = ExtResource("1_4utpr")
+weapon_name = "hand axe"
+image = ExtResource("1_7fkcv")
+damage = 6
+hurt_box_shape = SubResource("RectangleShape2D_s8gaa")
+throwable = true
+combo_count = 5
+anim = Array[String](["1", "3", "1", "3", "1"])
+speed_scale = 1.2
+throw_damage = 8
+pickup_script = ExtResource("2_s8gaa")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

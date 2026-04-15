@@ -64,7 +64,8 @@ func _break():
 	_broken.emit()
 	set_collision_layer_value(6, false)
 	if pixel_break: Game.spawn_particle_oneshot("res://fx/particle_fx/object_break_particles.tscn", self)
-	Game.fade_out_sprite(anim, 0.05)
+	await Game.fade_out_sprite(anim, 0.05)
+	if !pixel_break: queue_free()
 
 func _physics_process(_delta: float) -> void:
 	pass

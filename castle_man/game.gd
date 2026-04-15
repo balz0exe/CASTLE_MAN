@@ -109,6 +109,8 @@ func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback
 	var explosion = load("res://world/misc/explosion/explosion.tscn")
 	explosion = explosion.instantiate()
 	call_deferred("explode", from, radius, damage, knockback, explosion)
+	play_sfx(load("res://fx/audio_fx/fireball_shoot.wav"), sfx_volume + 8, from)
+	
 func explode(from, radius, damage, knockback, explosion):
 	add_child(explosion)
 	explosion.global_position = from.global_position
@@ -141,10 +143,12 @@ func animate_bouncing(sprite: Node2D, strength: float = 10):
 func fade_out_sprite(sprite: Node2D, duration: float = 0.5):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, duration)
+	await tween.finished
 	
 func fade_in_sprite(sprite: Node2D, duration: float = 0.5):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 100, duration)
+	await tween.finished
 
 func get_available_sfx_player() -> AudioStreamPlayer2D:
 	for sfx_player in sfx_pool:

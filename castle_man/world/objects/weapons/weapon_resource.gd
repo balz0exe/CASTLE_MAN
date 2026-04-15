@@ -11,6 +11,7 @@ class_name WeaponResource
 	"range": 1
 	}
 @export var ranged: bool = false
+@export var projectile: bool = false
 @export var knockback = 5
 @export var damage = 2
 @export_group("EQUIP")
@@ -97,3 +98,7 @@ class_name WeaponResource
 @export var throw_speed = 100
 @export var throw_damage = 5
 @export var hit_box_pos: Vector2
+@export var hit_box_radius = 5
+@export_group("SCRIPTS")
+@export var pickup_script: Script
+@export var item_script: Script

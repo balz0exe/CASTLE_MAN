@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://npkceyaot18u"]
+
+[ext_resource type="Texture2D" uid="uid://bypk1ddo4ceuh" path="res://world/objects/weapons/spear/spear.png" id="1_frkhj"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="2_84pwl"]
+[ext_resource type="Script" uid="uid://cjep343ntuu35" path="res://world/objects/weapons/bow/arrow.gd" id="3_ljvy2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m1h02"]
+size = Vector2(20, 7.5)
+
+[resource]
+script = ExtResource("2_84pwl")
+weapon_name = "spear"
+image = ExtResource("1_frkhj")
+projectile = true
+hurt_box_shape = SubResource("RectangleShape2D_m1h02")
+hurt_box_offset = Vector2(3, 0)
+throwable = true
+throw_speed = 400
+hit_box_pos = Vector2(18, 0)
+pickup_script = ExtResource("3_ljvy2")

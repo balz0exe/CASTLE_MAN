@@ -455,6 +455,7 @@ collision_layer = 2
 script = ExtResource("1_f8xjr")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1648207416]
+top_level = true
 position = Vector2(2, -5)
 script = ExtResource("2_f5jhb")
 
