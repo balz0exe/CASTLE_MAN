@@ -9,7 +9,7 @@ size = Vector2(20, 7.5)
 
 [resource]
 script = ExtResource("2_84pwl")
-weapon_name = "spear"
+weapon_name = "arrow"
 image = ExtResource("1_frkhj")
 projectile = true
 hurt_box_shape = SubResource("RectangleShape2D_m1h02")

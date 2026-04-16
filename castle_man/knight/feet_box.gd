@@ -15,12 +15,13 @@ func _on_area_entered(area: Node2D) -> void:
 					area.get_parent().take_damage(player.bounce_damage, player)
 			else:
 				var enemy = area.get_parent()
-				if enemy.dead:
+				if enemy.dead or player.invincible:
 					return
 				player.take_damage(enemy.damage_factor * 4, enemy)
 				player.velocity.y = player.jump_strength/ 4
 
 func bounce():
+	player.ground_pound.emit()
 	Game.play_sfx(player.bounce_sfx, Game.sfx_volume, player)
 	Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume + 3, player)
 	player.velocity.y = player.jump_strength

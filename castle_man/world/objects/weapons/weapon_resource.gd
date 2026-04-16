@@ -12,6 +12,8 @@ class_name WeaponResource
 	}
 @export var ranged: bool = false
 @export var projectile: bool = false
+@export var powerup: bool = false
+@export var powerup_gd: Script
 @export var knockback = 5
 @export var damage = 2
 @export_group("EQUIP")

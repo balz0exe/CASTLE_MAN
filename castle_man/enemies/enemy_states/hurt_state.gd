@@ -3,6 +3,9 @@ extends EnemyState
 
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Hurt State")
+	if player.health <= 0:
+		player.die()
+		return
 	player.ai_state = player.Ai_State_Request.idle  # clear intent
 	Game.play_sfx(player.hurt_sfx, Game.sfx_volume, player)
 	player.knocked_back = true

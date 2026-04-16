@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://ddvxno3jr7cbe"]
+
+[ext_resource type="Texture2D" uid="uid://kjc4hnycs1is" path="res://knight/powerups/exploding boots/exploding_boots.png" id="1_in5uc"]
+[ext_resource type="Script" uid="uid://8xxqk7gv2g7w" path="res://knight/powerups/exploding boots/exploding_boots.gd" id="2_u7f8x"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="3_rsxht"]
+
+[resource]
+script = ExtResource("3_rsxht")
+image = ExtResource("1_in5uc")
+animated = {
+"h_frames": 4,
+"range": 4,
+"true": true,
+"v_frames": 1
+}
+powerup = true
+powerup_gd = ExtResource("2_u7f8x")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"
