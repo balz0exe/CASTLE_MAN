@@ -26,7 +26,9 @@ func physics_update(delta):
 	else:
 		player.velocity.x = move_toward(player.velocity.x, 0, 150 * delta)
 	if player.animation.animation == "duck":
+		var y_vel = player.velocity.y
 		player.velocity *= pow(1.02, delta * 60.0)
+		player.velocity.y = y_vel
 
 func update_animation():
 	if player.animation.animation == "duck" and player.animation.frame == 1:

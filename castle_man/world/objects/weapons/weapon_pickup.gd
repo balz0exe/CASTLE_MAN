@@ -32,6 +32,8 @@ var powerup_gd: Script
 var behavior: Script
 var behavior_node: Node
 
+var pickup_timer: float = 0.0
+
 signal hit(target)
 signal throw
 
@@ -60,6 +62,8 @@ func _ready() -> void:
 	hit_box_original_pos = hit_box.coll.position
 	
 	set_values()
+	
+	pickup_timer = 2
 	
 	connect("hit", on_hit)
 	connect("throw", on_thrown)
@@ -111,6 +115,8 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 func _physics_process(delta: float) -> void:
 	if powerup and animated:
 		animate()
+	if pickup_timer > 0:
+		pickup_timer -= delta
 	if animation_timeout > 0:
 		animation_timeout -= delta
 	if equip_delay_timer > 0:
@@ -120,7 +126,7 @@ func _physics_process(delta: float) -> void:
 		hit_box_coll.position.x = hit_box_original_pos.x * -2
 	else:
 		hit_box_coll.position.x = hit_box_original_pos.x
-	if velocity > 10 and thrown:
+	if velocity > 10:
 		if powerup: hit_box_coll.disabled = true
 		else: hit_box_coll.disabled = false
 	else:
@@ -139,7 +145,7 @@ func check_contacts(delta) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
-		if body.is_in_group("enemies") and (ranged or powerup):
+		if body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0):
 			return
 		if body.is_in_group("player") or (body.is_in_group("enemies") and body.weapon_user):
 				if powerup:

@@ -234,7 +234,6 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		if from == null:
 			return
 		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
-		print(str(knockback_force))
 			
 func get_knockback_direction(from):
 	if from.name == "Explosion":
@@ -251,18 +250,21 @@ func get_knockback_direction(from):
 	await get_tree().process_frame
 
 func die() -> void:
-	print("die called")
-	dead = true
-	dumb = true
-	if weapon:
-		disarm()
-	if shadow: shadow.queue_free()
-	state_machine.change_state("DieState")
+	if !dead:
+		died.emit()
+		dead = true
+		dumb = true
+		if weapon:
+			disarm()
+		if shadow: shadow.queue_free()
+		state_machine.change_state("DieState")
 
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
 func equip_weapon(res: Resource, pickup: RigidBody2D):
+	if pickup_reset_timer > 0:
+		return
 	# Just store the latest request
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
@@ -292,6 +294,7 @@ func _do_equip():
 
 func disarm():
 	if weapon:
+		pickup_reset_timer = 2
 		var drop = WeaponPickup.new()
 		drop.res = weapon.weapon
 		if drop != null:

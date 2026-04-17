@@ -25,7 +25,7 @@ func _ready():
 		add_child(l_wb)
 		l_wb.add_child(l_wb_coll)
 		l_wb_coll.shape = WorldBoundaryShape2D.new()
-		l_wb.global_position.x = boundaries["x_boundaries"].x
+		l_wb.global_position.x = boundaries["x_boundaries"].x - 100
 		l_wb_coll.shape.normal = Vector2(1, 0)
 		
 		player.camera.limit_right = boundaries["x_boundaries"].y
@@ -34,7 +34,7 @@ func _ready():
 		add_child(r_wb)
 		r_wb.add_child(r_wb_coll)
 		r_wb_coll.shape = WorldBoundaryShape2D.new()
-		r_wb.global_position.x = boundaries["x_boundaries"].y
+		r_wb.global_position.x = boundaries["x_boundaries"].y + 100
 		r_wb_coll.shape.normal = Vector2(-1, 0)
 		
 	if boundaries["y_boundaries"] != Vector2.ZERO:

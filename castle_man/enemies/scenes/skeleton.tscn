@@ -373,7 +373,7 @@ size = Vector2(18, 11)
 collision_layer = 2
 script = ExtResource("1_40x2p")
 hurt_sfx = ExtResource("2_bgjev")
-max_health = 50.0
+max_health = 30.0
 damage_factor = 0.8
 lose_time = 5.0
 follow_up = true
@@ -484,9 +484,6 @@ collision_layer = 2
 position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_jtyv1")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
-
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1438646742]
-position = Vector2(0, -10)
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=24083146]
 script = ExtResource("12_dh2e2")

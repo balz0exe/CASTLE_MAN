@@ -46,7 +46,7 @@ func update_animation():
 
 func change_state(new_state_name: String):
 	var new_state = states.get(new_state_name)
-	if not (new_state == null or new_state == current_state):
+	if not (new_state == null or new_state == current_state or current_state == states["DieState"]):
 		current_state.exit()
 		current_state = new_state
 		player.state_version += 1

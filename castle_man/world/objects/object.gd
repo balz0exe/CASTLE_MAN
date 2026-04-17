@@ -53,7 +53,7 @@ func _drop_item():
 	if drop:
 		await get_tree().process_frame
 		if drop != null:
-			if drop.is_class("Resource"):
+			if !drop.is_class("PackedScene"):
 				var weapon = WeaponPickup.new()
 				weapon.res = drop
 				get_parent().add_child(weapon)

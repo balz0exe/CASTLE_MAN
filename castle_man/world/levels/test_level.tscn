@@ -38,6 +38,7 @@ position = Vector2(346, 125)
 color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("1_scip0")]
+position = Vector2(47, 16)
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("11_ciqro")]
 position = Vector2(383, 121)
@@ -243,10 +244,6 @@ position = Vector2(929, -141)
 [node name="skeleton5" parent="." unique_id=44906602 instance=ExtResource("19_xv0ej")]
 position = Vector2(1150, -50)
 
-[node name="mushroom_man5" parent="." unique_id=1913403998 instance=ExtResource("20_xv0ej")]
-position = Vector2(-154, 118)
-dumb = true
-
 [node name="WeaponObject14" parent="." unique_id=1009033212 instance=ExtResource("11_p75f5")]
 position = Vector2(57, 54)
 res = ExtResource("21_8dpye")
@@ -261,3 +258,6 @@ res = ExtResource("22_u6bnq")
 
 [node name="goblin5" parent="." unique_id=1592355178 instance=ExtResource("24_r07hd")]
 position = Vector2(887, 182)
+
+[node name="goblin6" parent="." unique_id=1435472188 instance=ExtResource("16_yxjfw")]
+position = Vector2(-150, 118)

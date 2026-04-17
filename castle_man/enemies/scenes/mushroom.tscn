@@ -399,10 +399,6 @@ position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_jtyv1")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=776813842]
-position = Vector2(0, -3)
-rect = Rect2(-8, -10, 15, 13)
-
 [node name="HurtBox" type="Area2D" parent="." unique_id=473091513]
 script = ExtResource("10_govpf")
 metadata/_custom_type_script = "uid://cuj0n4aiu13pb"

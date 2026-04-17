@@ -97,6 +97,21 @@ func hit_pause(duration: float = 0.1, pause_scale: float = 0.6, ignore_timer: bo
 		pause_timer = pause_cooldown
 		Engine.time_scale = 1.0
 
+func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
+	if !object.is_class("PackedScene"):
+		var weapon = WeaponPickup.new()
+		weapon.res = object
+		add_child(weapon)
+		weapon.global_position = global_position
+		weapon.apply_impulse(Vector2(0, -10))
+		weapon.apply_torque(10)
+		return weapon
+	else:
+		var _drop = object.instantiate()
+		_drop.global_position = global_position
+		add_child(_drop)
+		return _drop
+
 func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO, color = null, behind_parent: bool = true) -> void:
 	var particles = load(fx)
 	particles = particles.instantiate()

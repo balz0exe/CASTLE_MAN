@@ -109,14 +109,14 @@ func throw() -> void:
 	projectile = WeaponPickup.new()
 	projectile.res = weapon if !ranged else projectile_path
 	projectile.from = owner_player
-	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
+	projectile.thrown = true
 	owner_player.get_parent().add_child(projectile)
 	projectile.sprite.flip_h = owner_player.flip_h
 	projectile.global_position = Vector2(owner_player.global_position.x + (owner_player.direction * 35), owner_player.global_position.y - 5)
 	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -150))
-	projectile.thrown = true
 	owner_player.state_machine.change_state("IdleState")
 	projectile.throw.emit()
+	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
 
 func update_attack_pattern(combo: int, animations: Array[String]) -> void:
 	if owner_player and owner_player.has_method("set_attack_pattern"):

@@ -75,7 +75,7 @@ var coyote_time = 0.2
 var coyote_timer = 0.0
 var in_air = false
 var flip_h = false
-var can_bounce = false
+var can_bounce = true
 var can_air_roll = false
 var has_air_rolled = false
 var can_double_jump = false
@@ -95,6 +95,8 @@ func _ready() -> void:
 	
 	connect("ground_pound", on_ground_pound)
 	connect("hit", on_hit)
+	
+	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"))
 
 
 func _physics_process(delta: float) -> void:
@@ -300,7 +302,7 @@ func die() -> void:
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(res: Resource, pickup: RigidBody2D):
+func equip_weapon(res: Resource, pickup: RigidBody2D = null):
 	# Just store the latest request
 	pending_weapon_res = res
 	pending_pickup_scene = pickup

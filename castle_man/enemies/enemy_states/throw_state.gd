@@ -18,8 +18,9 @@ func update_animation():
 	await player.animation.animation_finished
 	if version != player.state_version:
 		return
-	state_machine.change_state("IdleState")
 	if player.weapon: player.weapon.throw()
+	state_machine.change_state("IdleState")
+
 
 func update_input():
 	pass

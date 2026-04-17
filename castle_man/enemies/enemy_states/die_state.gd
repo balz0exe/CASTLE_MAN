@@ -3,14 +3,13 @@ extends EnemyState
 
 func enter(_prev_state):
 	if state_machine.monitor:print("Entered Die State")
-	player.died.emit()
 	Game.play_sfx(player.hurt_sfx, Game.sfx_volume, player)
 
 func exit():
 	if state_machine.monitor:print("Exited Die State")
 
 func physics_update(delta):
-	player.velocity.x = move_toward(player.velocity.x, 0, delta * 10)
+	player.velocity.x = move_toward(player.velocity.x, 0, delta * 100)
 
 var played = false
 
