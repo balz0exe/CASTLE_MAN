@@ -376,6 +376,7 @@ hurt_sfx = ExtResource("2_bgjev")
 max_health = 30.0
 damage_factor = 0.8
 lose_time = 5.0
+original_attack_range = 80
 follow_up = true
 max_speed = 40
 can_double_jump = false

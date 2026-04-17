@@ -281,7 +281,7 @@ max_speed = 30
 jump_strength = -300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
-position = Vector2(0, -4)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_kdubu")
 
 [node name="EnemyAi" type="Node" parent="." unique_id=2028536122]
@@ -299,10 +299,10 @@ offset_right = 20.0
 offset_bottom = -23.0
 
 [node name="weapon_hand" type="Node2D" parent="." unique_id=2001023644]
-position = Vector2(11, -16)
+position = Vector2(11, -18)
 
 [node name="Shadow" type="Node2D" parent="." unique_id=173886855]
-position = Vector2(1, -2)
+position = Vector2(1, -4)
 script = ExtResource("6_tlbgi")
 
 [node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1503899222]
@@ -318,28 +318,28 @@ target_position = Vector2(0, 106)
 hit_from_inside = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
-position = Vector2(2, -2)
+position = Vector2(2, -4)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
 animation = &"die"
 autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
-position = Vector2(1, -4)
+position = Vector2(1, -6)
 target_position = Vector2(38, -22)
 collision_mask = 3
 
 [node name="FeetCast" type="RayCast2D" parent="." unique_id=566618058]
-position = Vector2(2, -4)
+position = Vector2(2, -6)
 target_position = Vector2(38, 18)
 collision_mask = 3
 
 [node name="SightCast" type="RayCast2D" parent="." unique_id=684348816]
-position = Vector2(1, -4)
+position = Vector2(1, -6)
 target_position = Vector2(36, 0)
 collision_mask = 3
 
 [node name="WallCast" type="RayCast2D" parent="." unique_id=909522511]
-position = Vector2(1, -4)
+position = Vector2(1, -6)
 target_position = Vector2(36, 0)
 collision_mask = 3
 
@@ -353,7 +353,7 @@ collision_mask = 6
 shape = SubResource("CircleShape2D_xens1")
 
 [node name="HitBox" type="Area2D" parent="." unique_id=649392954]
-position = Vector2(2, -5)
+position = Vector2(2, -7)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("11_j8ckl")
@@ -364,7 +364,7 @@ shape = SubResource("RectangleShape2D_lldys")
 debug_color = Color(0.980167, 0, 0.38590178, 0.41960785)
 
 [node name="SoftCollisionBubble" type="Area2D" parent="." unique_id=1472333135 groups=["soft collisions"]]
-position = Vector2(0, -4)
+position = Vector2(0, -6)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("12_fkd87")
@@ -375,7 +375,7 @@ shape = SubResource("CircleShape2D_w6d8g")
 debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
 
 [node name="HeadBox" type="Area2D" parent="." unique_id=1287200421]
-position = Vector2(0, -4)
+position = Vector2(0, -6)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeadBox" unique_id=1859171609]
@@ -384,6 +384,7 @@ shape = SubResource("RectangleShape2D_y7mmp")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=751068651]
+position = Vector2(0, -2)
 script = ExtResource("9_ev7j4")
 metadata/_custom_type_script = "uid://cuj0n4aiu13pb"
 

@@ -50,6 +50,14 @@ region = Rect2(320, 0, 64, 32)
 atlas = ExtResource("7_stbww")
 region = Rect2(384, 0, 64, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gatgv"]
+atlas = ExtResource("7_stbww")
+region = Rect2(832, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_co7h8"]
+atlas = ExtResource("7_stbww")
+region = Rect2(320, 0, 64, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_taouf"]
 atlas = ExtResource("7_stbww")
 region = Rect2(128, 0, 64, 32)
@@ -190,6 +198,12 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0v70t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gatgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_co7h8")
 }],
 "loop": false,
 "name": &"die",
@@ -358,7 +372,7 @@ hit_from_inside = true
 position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
-animation = &"idle"
+animation = &"die"
 autoplay = "idle"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]

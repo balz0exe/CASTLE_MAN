@@ -236,8 +236,11 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
 			
 func get_knockback_direction(from):
-	if from.name == "Explosion":
-		knock_back_direction.x = sign(global_position.x - from.global_position.x)
+	if from != null:
+		if from.name == "Explosion":
+			knock_back_direction.x = sign(global_position.x - from.global_position.x)
+			return
+	else:
 		return
 	var pos1: Vector2
 	var pos2: Vector2

@@ -42,6 +42,7 @@ var bounce_damage: float = 2
 var throw_path: String
 var animations: Array[String]
 var has_weapon: bool = false
+var has_boots: bool = false
 var parry: bool = false
 var combo_count: = 4
 var combo_counter: int = 0
@@ -67,6 +68,7 @@ var sprint = false
 var friction = 20
 var max_speed = 75
 var sprint_factor = 1.8
+var speed_potion = 1.0
 var prev_speed = max_speed
 var jump_strength = -300
 var roll_distance = 20
@@ -118,9 +120,9 @@ func _physics_process(delta: float) -> void:
 	#sprint
 
 	if sprint and stamina > 0:
-		max_speed = prev_speed * sprint_factor
+		max_speed = prev_speed * sprint_factor * speed_potion
 	else:
-		max_speed = prev_speed
+		max_speed = prev_speed * speed_potion
 	
 	#stamina
 	
@@ -238,7 +240,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		health = health - damage
 		Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
 		await get_knockback_direction(from)
-		knockback_force = 15 * knockback * knock_back_direction.x
+		if knock_back_direction: knockback_force = 15 * knockback * knock_back_direction.x
 		if state_machine.current_state.get_state_name() == "HurtState":
 			hits_taken += 1
 			state_machine.current_state.retrigger()
@@ -249,6 +251,8 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 func get_knockback_direction(from):
 	var pos1: Vector2
 	var pos2: Vector2
+	if from == null:
+		return
 	pos1 = from.global_position
 	await get_tree().process_frame
 	if from == null:

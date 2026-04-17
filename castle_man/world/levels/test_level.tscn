@@ -21,8 +21,6 @@
 [ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="19_xv0ej"]
 [ext_resource type="PackedScene" uid="uid://b6lhxu4r6vwn8" path="res://enemies/scenes/mushroom.tscn" id="20_xv0ej"]
 [ext_resource type="Resource" uid="uid://b5tuta8sk7jei" path="res://knight/powerups/speed potion/speed_potion.tres" id="21_8dpye"]
-[ext_resource type="Resource" uid="uid://ctgpdr8tkcuia" path="res://knight/powerups/health potion/health_potion.tres" id="21_k6uqf"]
-[ext_resource type="Resource" uid="uid://cxfwsrna7da7x" path="res://knight/powerups/stamina potion/stamina_potion.tres" id="22_u6bnq"]
 [ext_resource type="PackedScene" uid="uid://bf0wawlgc7624" path="res://enemies/scenes/goblin_captain.tscn" id="24_r07hd"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776]
@@ -248,13 +246,17 @@ position = Vector2(1150, -50)
 position = Vector2(57, 54)
 res = ExtResource("21_8dpye")
 
+[node name="WeaponObject15" parent="." unique_id=109008966 instance=ExtResource("11_p75f5")]
+position = Vector2(6, 55)
+res = ExtResource("21_8dpye")
+
 [node name="WeaponObject13" parent="." unique_id=74625326 instance=ExtResource("11_p75f5")]
-position = Vector2(21, 55)
-res = ExtResource("21_k6uqf")
+position = Vector2(17, 16)
+res = ExtResource("18_i5w6p")
 
 [node name="WeaponObject12" parent="." unique_id=701642724 instance=ExtResource("11_p75f5")]
-position = Vector2(-12, 55)
-res = ExtResource("22_u6bnq")
+position = Vector2(-22, 15)
+res = ExtResource("18_i5w6p")
 
 [node name="goblin5" parent="." unique_id=1592355178 instance=ExtResource("24_r07hd")]
 position = Vector2(887, 182)

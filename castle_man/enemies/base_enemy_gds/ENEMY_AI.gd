@@ -257,6 +257,8 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 			return
 
 func lose_enemy(time: float):
+	#NEVER LOSING ENEMY
+	return
 	if time > 0:
 		await Game.wait_for_seconds(time)
 	if enemy == null:

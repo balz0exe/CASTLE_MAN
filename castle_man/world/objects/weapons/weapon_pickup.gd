@@ -38,6 +38,9 @@ signal hit(target)
 signal throw
 
 func _ready() -> void:
+	add_to_group("objects")
+	add_to_group("weapons")
+	
 	sprite = Sprite2D.new()
 	coll = CollisionShape2D.new()
 	hit_box = HitBox.new()
@@ -80,13 +83,16 @@ func set_values() -> void:
 	throw_damage = res.throw_damage
 	throw_speed = res.throw_speed
 	ranged = res.ranged
-	interaction_coll.shape = RectangleShape2D.new()
-	interaction_coll.shape.size = Vector2(10, 10)
-	hit_box_coll.shape = CircleShape2D.new()
-	hit_box_coll.shape.radius = res.hit_box_radius
-	hit_box_coll.position = res.hit_box_pos
-	coll.shape = RectangleShape2D.new()
-	coll.shape.size = Vector2(5, 5)
+	var interaction_shape = RectangleShape2D.new()
+	interaction_shape.size = Vector2(10, 10)
+	interaction_coll.set_deferred("shape", interaction_shape)
+	var hit_shape = CircleShape2D.new()
+	hit_shape.radius = res.hit_box_radius
+	hit_box_coll.set_deferred("shape", hit_shape)
+	hit_box_coll.set_deferred("position", res.hit_box_pos)
+	var body_shape = RectangleShape2D.new()
+	body_shape.size = Vector2(5, 5)
+	coll.set_deferred("shape", body_shape)
 	animated = {
 		"true": res.animated["true"],
 		"h_frames": res.animated["h_frames"],
@@ -131,7 +137,7 @@ func _physics_process(delta: float) -> void:
 		else: hit_box_coll.disabled = false
 	else:
 		thrown = false
-		hit_box_coll.disabled = true
+		hit_box_coll.set_deferred("disabled", true)
 		if projectile: hit.emit(self)
 	check_contacts(delta)
 

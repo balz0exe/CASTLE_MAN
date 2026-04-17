@@ -1,7 +1,7 @@
 extends Node
 class_name RoundEvent
 
-@onready var manager = get_parent()
+@onready var manager: RoundHandler = get_parent()
 var round_id
 
 func _physics_process(_delta: float) -> void:

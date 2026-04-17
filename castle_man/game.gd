@@ -50,6 +50,43 @@ func get_player() -> Node2D:
 		return players[0]
 	return null
 
+func get_characters() -> Array[Node2D]:
+	var result: Array[Node2D] = []
+
+	for n in get_tree().get_nodes_in_group("player"):
+		if n is Node2D:
+			result.append(n)
+
+	for n in get_tree().get_nodes_in_group("enemies"):
+		if n is Node2D:
+			result.append(n)
+
+	return result
+	
+func get_objects() -> Array[Node2D]:
+	var result: Array[Node2D] = []
+
+	for n in get_tree().get_nodes_in_group("objects"):
+		if n is Node2D:
+			result.append(n)
+
+	return result
+
+func camera_shake(duration: float, intensity: float) -> void:
+	if not is_instance_valid(camera):
+		return
+	var original_offset: Vector2 = camera.offset
+	var elapsed: float = 0.0
+	while elapsed < duration:
+		var delta = get_process_delta_time()
+		camera.offset = original_offset + Vector2(
+			randf_range(-intensity, intensity),
+			randf_range(-intensity, intensity)
+		)
+		elapsed += delta
+		await get_tree().process_frame
+	camera.offset = original_offset
+
 func play_level_music():
 	var current_scene = get_tree().current_scene
 	if current_scene and current_scene.has_method("get_music_path") and music:

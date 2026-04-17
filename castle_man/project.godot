@@ -38,6 +38,7 @@ enemies=""
 enviroment=""
 "soft collisions"=""
 weapons=""
+objects=""
 
 [input]
 

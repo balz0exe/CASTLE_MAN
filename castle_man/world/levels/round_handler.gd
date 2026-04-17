@@ -1,4 +1,5 @@
 extends Node
+class_name RoundHandler
 
 var spawn_timer: float = 0
 var spawn_time: float = 1
@@ -9,17 +10,19 @@ var current_round_id: int = 0
 
 var round_in_progress: bool = false
 
+var lava_floor: bool = false
+
 var active_events: Array = []
 var round_events = [
 	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 10, min_round = 2 },
-	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava.gd"), weight = 8, min_round = 5 },
-	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 4, min_round = 3 },
-	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 6, min_round = 6 },
+	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
+	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 8, min_round = 3 },
+	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 3 }
 ]
 
 var enemies = [
-	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 10, min_round = 5 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 6, min_round = 5 },
 	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 1 },
 	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 8 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 6, min_round = 1 },
@@ -133,7 +136,8 @@ func spawn_enemy(_round_num: int, fall: bool = false):
 	var scene = pick_enemy(_round_num)
 	if !fall:
 		var dir = [1, -1].pick_random()
-		var enemy: Enemy = Game.spawn_object(scene, Vector2(900 * dir, 100))
+		var pos = Vector2(900 * dir, 100) if !lava_floor else Vector2(randi_range(-475, 475), -get_viewport().size.y)
+		var enemy: Enemy = Game.spawn_object(scene, pos)
 		var ai = enemy.ENEMY_AI
 		var round_id = current_round_id
 		ai.enemy = Game.get_player()
@@ -150,8 +154,8 @@ func on_enemy_died(round_id):
 
 func enemies_for_round(r: int) -> int:
 	var A = 3    # starting enemies
-	var B = 1.5  # scaling
-	var k = 1.3  # curve strength
+	var B = 1  # scaling
+	var k = 1.2  # curve strength
 	
 	return int(A + B * pow(r, k))
 

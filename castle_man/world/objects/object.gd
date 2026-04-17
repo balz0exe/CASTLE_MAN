@@ -17,6 +17,7 @@ var broken : bool = false
 signal _broken
 
 func _ready() -> void:
+	add_to_group("objects")
 	connect("_broken", on_broken)
 	if collide_with_objects:
 		set_collision_mask_value(6, true)
@@ -33,9 +34,10 @@ func _ready() -> void:
 		
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !broken:
-		var knock_back_direction = -sign(from.global_position - global_position)
-		var knockback_force: Vector2 = 15 * knockback * knock_back_direction
-		apply_impulse(knockback_force)
+		if from != null:
+			var knock_back_direction = -sign(from.global_position - global_position)
+			var knockback_force: Vector2 = 15 * knockback * knock_back_direction
+			apply_impulse(knockback_force)
 		if breakable:
 			health -= damage
 			if health < 0:

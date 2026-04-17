@@ -4,12 +4,12 @@ var timer: float
 
 func _ready() -> void:
 	super()
-	timer = 10
+	timer = 5
 	var original_maxspeed = player.prev_speed
-	player.prev_speed = player.prev_speed * 2.5
 	while timer > 0:
+		player.speed_potion = 2.5
 		await get_tree().process_frame
-	player.prev_speed = original_maxspeed
+	player.speed_potion = 1
 	queue_free()
 
 func _physics_process(delta: float) -> void:
