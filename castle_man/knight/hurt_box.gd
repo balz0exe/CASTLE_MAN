@@ -9,7 +9,8 @@ func _ready() -> void:
 	connect("area_entered", on_area_entered)
 	
 func on_area_entered(hit_box: HitBox):
-	
+	if get_parent().is_in_group("player") and get_parent().invincible:
+		return
 	if hit_box == null or (get_parent().is_in_group("enemies") and hit_box.get_parent().is_in_group("enemies")) or (hit_box.get_parent().is_in_group("enemies") and hit_box.get_parent().dead):
 		return
 	if get_parent().has_method("take_damage"):

@@ -51,7 +51,7 @@ var held_frame_counter: float = 0.0
 var held_frames: float = 0.35
 var is_throw: bool = false
 var invincible: bool = false
-var invincible_time: float = 0.5
+var invincible_time: float = 0.8
 var invincible_timer: float = 0.0
 
 #MOVEMENT VARIABLES
@@ -68,7 +68,7 @@ var max_speed = 125
 var sprint_factor = 1.8
 var prev_speed = max_speed
 var jump_strength = -300
-var roll_distance = 30
+var roll_distance = 20
 var roll_stam_cost = 10
 var coyote_time = 0.2
 var coyote_timer = 0.0
@@ -81,6 +81,8 @@ var has_double_jumped = false
 var jumps : int = 0
 var can_air_throw = false
 
+signal ground_pound
+
 func _ready() -> void:
 	state_machine = $StateMachine
 	state_machine.init(player_ref)
@@ -91,6 +93,10 @@ func _ready() -> void:
 	damage_on_bounce = true
 	
 	Game.camera = camera
+	
+	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"))
+	
+	connect("ground_pound", on_ground_pound)
 
 
 func _physics_process(delta: float) -> void:
@@ -190,6 +196,7 @@ func _physics_process(delta: float) -> void:
 			held_frame_counter = 0
 
 	if invincible:
+		if state_machine.current_state.get_state_name() != "RollState": blink()
 		hurt_box.coll.disabled = true
 	else:
 		hurt_box.coll.disabled = false
@@ -257,6 +264,7 @@ func get_knockback_direction(from):
 	pos1 = from.global_position
 	await get_tree().process_frame
 	if from == null:
+		print("knockback failed")
 		return
 	pos2 = from.global_position
 	knock_back_direction = -sign(pos1 - pos2)
@@ -264,6 +272,8 @@ func get_knockback_direction(from):
 
 signal player_respawned
 func respawn() -> void:
+	invincible_timer = 3
+	invincible = true
 	player_respawned.emit()
 	animation.modulate.a = 100
 	health = max_health
@@ -304,7 +314,7 @@ func die() -> void:
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(res: Resource, pickup: RigidBody2D):
+func equip_weapon(res: Resource, pickup: RigidBody2D = null):
 	# Just store the latest request
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
@@ -328,3 +338,19 @@ func _do_equip():
 	weapon_hand.add_child(weapon)
 	weapon.on_equip(self, pending_weapon_res)
 	pending_weapon_res = null
+	
+#VFX
+
+var blinking := false
+func blink() -> void:
+	if blinking:
+		return
+	blinking = true
+	await Game.fade_out_sprite(animation, 0.2, 0.5)
+	await Game.fade_in_sprite(animation, 0.2)
+	blinking = false
+
+#SIGNAL FUNCTIONS
+
+func on_ground_pound():
+	pass

@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://bcscbtqfsyrdv"]
 
 [ext_resource type="Texture2D" uid="uid://bsq8wxa7ij5cj" path="res://world/objects/weapons/knife/knife.png" id="1_rk7q8"]
+[ext_resource type="Script" uid="uid://rnp8ipr50fj4" path="res://world/objects/weapons/axe/hand_axe.gd" id="2_7ygvl"]
 [ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="2_rk7q8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4cbkp"]
@@ -22,3 +23,4 @@ speed_scale = 1.4
 throw_speed = 200
 throw_damage = 4
 hit_box_pos = Vector2(8, 0)
+pickup_script = ExtResource("2_7ygvl")
