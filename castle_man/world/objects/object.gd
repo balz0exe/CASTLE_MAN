@@ -53,9 +53,17 @@ func _drop_item():
 	if drop:
 		await get_tree().process_frame
 		if drop != null:
-			var _drop = drop.instantiate()
-			_drop.global_position = global_position
-			get_parent().add_child(_drop)
+			if drop.is_class("Resource"):
+				var weapon = WeaponPickup.new()
+				weapon.res = drop
+				get_parent().add_child(weapon)
+				weapon.global_position = global_position
+				weapon.apply_impulse(Vector2(0, -10))
+				weapon.apply_torque(10)
+			else:
+				var _drop = drop.instantiate()
+				_drop.global_position = global_position
+				get_parent().add_child(_drop)
 
 func _break():
 	if drop != null:

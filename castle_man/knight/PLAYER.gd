@@ -65,7 +65,7 @@ var knocked_back: bool = false
 var recovery_timer = 0.0
 var sprint = false
 var friction = 20
-var max_speed = 125
+var max_speed = 75
 var sprint_factor = 1.8
 var prev_speed = max_speed
 var jump_strength = -300
@@ -89,11 +89,6 @@ signal hit(target)
 func _ready() -> void:
 	state_machine = $StateMachine
 	state_machine.init(player_ref)
-	shadow.visible = true
-	can_air_roll = true
-	can_double_jump = true
-	can_air_throw = true
-	damage_on_bounce = true
 	
 	Game.camera = camera
 	
@@ -104,17 +99,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	#debug
-
-	if Input.is_action_just_pressed("ui_1"):
-		can_air_roll = true
-		can_double_jump = true
-		can_air_throw = true
-		damage_on_bounce = true
-	elif Input.is_action_just_pressed("ui_2"):
-		can_air_roll = false
-		can_double_jump = false
-		can_air_throw = false
-		damage_on_bounce = false
 
 	debug.text = str(collision_layer)
 

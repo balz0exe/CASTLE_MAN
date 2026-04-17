@@ -23,6 +23,7 @@
 [ext_resource type="Resource" uid="uid://b5tuta8sk7jei" path="res://knight/powerups/speed potion/speed_potion.tres" id="21_8dpye"]
 [ext_resource type="Resource" uid="uid://ctgpdr8tkcuia" path="res://knight/powerups/health potion/health_potion.tres" id="21_k6uqf"]
 [ext_resource type="Resource" uid="uid://cxfwsrna7da7x" path="res://knight/powerups/stamina potion/stamina_potion.tres" id="22_u6bnq"]
+[ext_resource type="PackedScene" uid="uid://bf0wawlgc7624" path="res://enemies/scenes/goblin_captain.tscn" id="24_r07hd"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776]
 script = ExtResource("1_yxjfw")
@@ -84,9 +85,6 @@ position = Vector2(252, 76)
 [node name="WorldObject5" parent="." unique_id=160059812 instance=ExtResource("12_p75f5")]
 position = Vector2(251, 107)
 
-[node name="slime" parent="." unique_id=1156871339 instance=ExtResource("13_qh6br")]
-position = Vector2(468, 118)
-
 [node name="Barrel3" parent="." unique_id=880333515 instance=ExtResource("14_ev2xu")]
 position = Vector2(150, 83)
 
@@ -124,6 +122,7 @@ position = Vector2(-48, 44)
 
 [node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
 position = Vector2(-80, 78)
+drop = ExtResource("11_k8ngv")
 
 [node name="ExplodingBarrel" parent="." unique_id=1915653960 instance=ExtResource("16_k8ngv")]
 position = Vector2(116, 47)
@@ -200,25 +199,16 @@ res = ExtResource("17_yxjfw")
 position = Vector2(369, -21)
 res = ExtResource("18_i5w6p")
 
-[node name="skeleton" parent="." unique_id=1435472188 instance=ExtResource("19_xv0ej")]
-position = Vector2(302, 121)
-
 [node name="WeaponObject10" parent="." unique_id=187613354 instance=ExtResource("11_p75f5")]
 position = Vector2(433, 114)
 res = ExtResource("15_5015f")
-
-[node name="slime2" parent="." unique_id=849579429 instance=ExtResource("13_qh6br")]
-position = Vector2(540, 118)
-
-[node name="slime3" parent="." unique_id=949688140 instance=ExtResource("13_qh6br")]
-position = Vector2(397, 121)
 
 [node name="WeaponObject11" parent="." unique_id=1817286101 instance=ExtResource("11_p75f5")]
 position = Vector2(77, 15)
 res = ExtResource("11_k8ngv")
 
 [node name="goblin" parent="." unique_id=1351697482 instance=ExtResource("16_yxjfw")]
-position = Vector2(932, 177)
+position = Vector2(644, 111)
 
 [node name="goblin2" parent="." unique_id=1537283738 instance=ExtResource("16_yxjfw")]
 position = Vector2(1017, 175)
@@ -268,3 +258,6 @@ res = ExtResource("21_k6uqf")
 [node name="WeaponObject12" parent="." unique_id=701642724 instance=ExtResource("11_p75f5")]
 position = Vector2(-12, 55)
 res = ExtResource("22_u6bnq")
+
+[node name="goblin5" parent="." unique_id=1592355178 instance=ExtResource("24_r07hd")]
+position = Vector2(887, 182)

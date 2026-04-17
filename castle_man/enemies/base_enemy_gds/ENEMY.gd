@@ -54,7 +54,7 @@ var found_weapon
 @export var attack_thrust_factor : float = 1.0
 @export var knockback_factor: float = 1.0
 var knocked_back: bool
-var knockback_force: int
+var knockback_force: float
 @export var knockback_recovery: float = 0.35
 var recovery_timer: float = 0.0
 var weapon: WeaponItem = null
@@ -218,7 +218,7 @@ func update_animations() -> void:
 	else:
 		max_speed = prev_speed
 	
-var knock_back_direction
+var knock_back_direction: Vector2
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !dead:
 		if parry:
@@ -237,6 +237,9 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		print(str(knockback_force))
 			
 func get_knockback_direction(from):
+	if from.name == "Explosion":
+		knock_back_direction.x = sign(global_position.x - from.global_position.x)
+		return
 	var pos1: Vector2
 	var pos2: Vector2
 	pos1 = from.global_position
@@ -245,8 +248,6 @@ func get_knockback_direction(from):
 		return
 	pos2 = from.global_position
 	knock_back_direction = -sign(pos1 - pos2)
-	if knock_back_direction == Vector2.ZERO:
-		knock_back_direction.x = sign(global_position.x - from.global_position.x)
 	await get_tree().process_frame
 
 func die() -> void:
