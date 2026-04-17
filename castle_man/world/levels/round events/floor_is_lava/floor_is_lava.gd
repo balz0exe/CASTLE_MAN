@@ -4,6 +4,7 @@ class_name FloorIsLava
 var final_lava_height: float = 165
 var lava_height: float = 500
 var damage_per_hit: float = 10
+var original_height
 var map
 
 func start(value):
@@ -16,24 +17,34 @@ func start(value):
 	raise_lava()
 
 func raise_lava():
-	var original_height = lava_height
+	original_height = lava_height
 	for i in range((original_height - final_lava_height) / 5):
 		lava_height -= 5
 		await Game.wait_for_seconds(0.05)
 		Game.camera_shake(0.1, 1)
 
 func lower_lava():
-	var original_height = lava_height
 	for i in range((original_height - final_lava_height) / 5):
 		lava_height += 5
 		await Game.wait_for_seconds(0.05)
 		Game.camera_shake(0.1, 1)
-
-func clean_up():
-	manager.lava_floor = false
 	if map != null:
 		map.queue_free()
 		map = null
+		var objects = Game.get_objects()
+		var weapons = []
+		for o in objects:
+			if o.is_in_group("weapons"):
+				weapons.append(o)
+		for w in weapons:
+			w.apply_impulse(Vector2(0, -10))
+	manager.lava_floor = false
+	await Game.wait_for_seconds(0.05)
+
+func clean_up():
+	await lower_lava()
+	print("free map")
+	queue_free()
 
 func _physics_process(delta: float) -> void:
 	super(delta)

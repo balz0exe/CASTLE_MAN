@@ -8,6 +8,7 @@
 
 [node name="MainLevel" type="Node2D" unique_id=1153981264 groups=["objects"]]
 script = ExtResource("1_4pifd")
+music = "res://fx/audio_fx/necro_theme_1.wav"
 boundaries = {
 &"x_boundaries": Vector2(-775, 800),
 &"y_boundaries": Vector2(-1000, 575)
