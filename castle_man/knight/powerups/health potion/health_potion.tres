@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://ctgpdr8tkcuia"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_5x6a0"]
+[ext_resource type="Texture2D" uid="uid://bafu7js70okt1" path="res://knight/powerups/health potion/potion.png" id="1_bfjq3"]
+[ext_resource type="Script" uid="uid://drjv0hgns87tf" path="res://knight/powerups/health potion/health_potion.gd" id="2_3a7ss"]
+[ext_resource type="Script" uid="uid://cddyb6nnx2kjd" path="res://knight/powerups/health potion/health_potion_pickup.gd" id="2_eumly"]
+
+[resource]
+script = ExtResource("1_5x6a0")
+image = ExtResource("1_bfjq3")
+powerup = true
+powerup_gd = ExtResource("2_3a7ss")
+pickup_script = ExtResource("2_eumly")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

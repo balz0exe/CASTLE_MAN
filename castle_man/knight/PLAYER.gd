@@ -37,6 +37,7 @@ var stamina_regen: float = 10
 var weapon: WeaponItem = null
 var hits_taken: int = 0
 var damage_on_bounce: bool = false
+var groundpound_knockback: float = 10
 var bounce_damage: float = 2
 var throw_path: String
 var animations: Array[String]
@@ -74,6 +75,7 @@ var coyote_time = 0.2
 var coyote_timer = 0.0
 var in_air = false
 var flip_h = false
+var can_bounce = false
 var can_air_roll = false
 var has_air_rolled = false
 var can_double_jump = false
@@ -82,6 +84,7 @@ var jumps : int = 0
 var can_air_throw = false
 
 signal ground_pound
+signal hit(target)
 
 func _ready() -> void:
 	state_machine = $StateMachine
@@ -94,9 +97,9 @@ func _ready() -> void:
 	
 	Game.camera = camera
 	
-	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"))
 	
 	connect("ground_pound", on_ground_pound)
+	connect("hit", on_hit)
 
 
 func _physics_process(delta: float) -> void:
@@ -314,7 +317,7 @@ func die() -> void:
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(res: Resource, pickup: RigidBody2D = null):
+func equip_weapon(res: Resource, pickup: RigidBody2D):
 	# Just store the latest request
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
@@ -351,6 +354,9 @@ func blink() -> void:
 	blinking = false
 
 #SIGNAL FUNCTIONS
+
+func on_hit(_target):
+	pass
 
 func on_ground_pound():
 	pass

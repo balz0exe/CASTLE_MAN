@@ -64,10 +64,17 @@ func physics_update(delta):
 			else:
 				if up_down == -1:
 					player.velocity.x = move_toward(player.velocity.x, 0, delta * 500)
+				if up_down == 1:
+					check_pogo(delta)
 		if (player.combo_reset_timer <= 0 and !attacking):
 			start_exit()
 	elif !player.weapon:
 		state_machine.change_state("IdleState")
+
+func check_pogo(delta):
+	await player.hit
+	player.velocity.y -= delta * 100
+	player.velocity.x -= delta * 100 * player.direction
 
 func update_animation():
 	if clear:
