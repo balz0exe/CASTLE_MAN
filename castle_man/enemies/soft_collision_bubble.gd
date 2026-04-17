@@ -11,11 +11,11 @@ func _physics_process(_delta):
 		var current = player.state_machine.current_state.get_state_name()
 		if !current == "HurtState":
 			if current == "AttackState":
-				player.velocity += (player.global_position - area.global_position).normalized() * 5
+				player.global_position += (player.global_position - area.global_position).normalized() * 0.5
 			elif current == "RunState":
-				player.velocity += (player.global_position - area.global_position).normalized() * 1
+				player.global_position += (player.global_position - area.global_position).normalized() * 0.1
 			else:
-				player.velocity += (player.global_position - area.global_position).normalized() * 20
+				player.global_position += (player.global_position - area.global_position).normalized() * 2.0
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("soft collisions"):

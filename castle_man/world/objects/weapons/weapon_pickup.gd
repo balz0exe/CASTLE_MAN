@@ -57,13 +57,16 @@ func _ready() -> void:
 	interaction.collision_layer = 0
 	interaction.collision_mask = 2
 	interaction.body_entered.connect(_on_body_entered)
-	call_deferred("set_values")
 	hit_box_original_pos = hit_box.coll.position
+	
+	set_values()
 	
 	connect("hit", on_hit)
 	connect("throw", on_thrown)
 
 func set_values() -> void:
+	while res == null:
+		await get_tree().process_frame
 	behavior = res.pickup_script
 	if behavior != null:
 		behavior_node = Node.new()

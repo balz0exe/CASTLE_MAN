@@ -152,11 +152,10 @@ func _physics_process(delta: float) -> void:
 		flip_h = false
 	elif velocity.x < 0:
 		flip_h = true
-	if soft_coll.get_overlapping_areas() != null:
-		if flip_h:
-			direction = -1
-		else:
-			direction = 1
+	if flip_h:
+		direction = -1
+	else:
+		direction = 1
 
 	#hurt box collisions
 

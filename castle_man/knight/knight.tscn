@@ -13,7 +13,6 @@
 [ext_resource type="Script" uid="uid://boaqcia5nrn71" path="res://knight/feet_box.gd" id="7_okdvf"]
 [ext_resource type="Script" uid="uid://1wj6olrya5b6" path="res://knight/ground_pound.gd" id="8_n7cfa"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="9_phnst"]
-[ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="11_vt0gp"]
 [ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://fx/particle_fx/particle_images/light_03.png" id="14_vt0gp"]
 [ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://fx/particle_fx/particle_images/star_09.png" id="15_4yak4"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="15_8ya1n"]
@@ -30,15 +29,7 @@ size = Vector2(16, 6.15625)
 radius = 15.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ya1n"]
-radius = 31.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vt0gp"]
-shader = ExtResource("11_vt0gp")
-shader_parameter/glow_color = Color(1, 0.5019608, 0.101960786, 0)
-shader_parameter/glow_strength = 1.0000000149012
-shader_parameter/glow_radius = 8
-shader_parameter/alpha_threshold = 0.1
-shader_parameter/glow_over_sprite = false
+radius = 52.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_whyep"]
 atlas = ExtResource("2_0qi7p")
@@ -564,7 +555,6 @@ target_position = Vector2(0, 106)
 hit_from_inside = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
-material = SubResource("ShaderMaterial_vt0gp")
 position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_ei405")
