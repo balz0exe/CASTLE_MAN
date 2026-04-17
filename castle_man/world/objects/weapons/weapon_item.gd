@@ -107,7 +107,7 @@ func throw() -> void:
 	if owner_player.weapon.throwable: owner_player.has_weapon = false
 	var projectile
 	projectile = WeaponPickup.new()
-	projectile.res = weapon if !ranged else projectile_path
+	projectile.res = weapon
 	projectile.from = owner_player
 	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
 	owner_player.get_parent().add_child(projectile)

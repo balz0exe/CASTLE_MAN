@@ -12,6 +12,7 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		apply_impulse(knockback_force)
 		if from.name == "Explosion":
 			await Game.wait_for_seconds(0.5)
+			health = 0
 		if breakable:
 			health -= damage
 			if health < 0 or from.get_script().get_global_name():
