@@ -26,8 +26,6 @@ var animated: Dictionary = {
 }
 var played: bool = false
 var projectile: bool = false
-var powerup: bool = false
-var powerup_gd: Script
 
 var behavior: Script
 var behavior_node: Node
@@ -50,7 +48,7 @@ func _ready() -> void:
 	interaction.collision_layer = 0
 	interaction.collision_mask = 2
 	interaction.body_entered.connect(_on_body_entered)
-	call_deferred("set_values")
+	set_values()
 	hit_box_original_pos = hit_box.coll.position
 	
 	connect("hit", on_hit)
@@ -84,9 +82,6 @@ func set_values() -> void:
 	sprite.hframes = animated["h_frames"]
 	sprite.vframes = animated["v_frames"]
 	projectile = res.projectile
-	powerup = res.powerup
-	if powerup:
-		powerup_gd = res.powerup_gd
 
 var animation_timeout: float = 0.0
 func animate(rate: float = 0.2, _range: int = animated["range"]):
@@ -97,12 +92,12 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 		for frame in range(_range - 1):
 			await Game.wait_for_seconds(rate)
 			sprite.frame += 1
+		while animation_timeout > 0:
+			await get_tree().process_frame
 		played = false
 		sprite.frame = 0
 
 func _physics_process(delta: float) -> void:
-	if powerup and animated:
-		animate()
 	if animation_timeout > 0:
 		animation_timeout -= delta
 	if equip_delay_timer > 0:
@@ -113,12 +108,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		hit_box_coll.position.x = hit_box_original_pos.x
 	if velocity > 10:
-		if powerup: hit_box_coll.disabled = true
-		else: hit_box_coll.disabled = false
+		hit_box_coll.disabled = false
 	else:
 		thrown = false
 		hit_box_coll.disabled = true
-		if projectile: hit.emit(self)
+		if projectile: queue_free()
 	check_contacts(delta)
 
 func check_contacts(delta) -> void:
@@ -130,22 +124,17 @@ func check_contacts(delta) -> void:
 	interaction.monitoring = false
 
 func _on_body_entered(body: Node2D) -> void:
+	if projectile:
+		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
-		if body.is_in_group("enemies") and (ranged or powerup):
+		if body.is_in_group("enemies") and ranged:
 			return
 		if body.is_in_group("player") or (body.is_in_group("enemies") and body.weapon_user):
-				if powerup:
-					if body.is_in_group("enemies"):
-						return
-					var _powerup = Powerup.new()
-					_powerup.set_script(powerup_gd)
-					Game.get_player().add_child(_powerup)
-					queue_free()
-				elif not body.has_weapon:
-					var weapon = res
-					if body.is_in_group("enemies"):
-						body.found_weapon = null
-					body.call_deferred("equip_weapon", weapon, self)
+			if not body.has_weapon:
+				var weapon = res
+				if body.is_in_group("enemies"):
+					body.found_weapon = null
+				body.call_deferred("equip_weapon", weapon, self)
 
 func connect_interaction() -> void:
 	if interaction != null:

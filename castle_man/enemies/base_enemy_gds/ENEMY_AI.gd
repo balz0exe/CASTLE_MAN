@@ -176,6 +176,7 @@ func control_process(delta) -> void:
 			elif abs(distance.x) < player.attack_range + 20 and not state == State.WAIT:
 				set_state(State.FIGHT)
 		else:
+			lose_enemy(player.lose_time)
 			if state != State.WAIT: set_state(State.PATROL)
 	else:
 		if state != State.WAIT: set_state(State.PATROL)
@@ -194,8 +195,10 @@ func navigate() -> void:
 	#navigating
 
 	var colliders = player.sight_bubble.get_overlapping_bodies()
+	var is_player = false
 	for body in colliders:
 		if body.is_in_group("player"):
+			is_player = true
 			player.sight_cast.target_position = body.global_position - player.global_position
 			player.sight_cast.force_raycast_update()
 
@@ -203,10 +206,12 @@ func navigate() -> void:
 				var collider = player.sight_cast.get_collider()
 				if collider and not collider.is_in_group("enviroment") and enemy == null:
 					enemy = body
-				elif collider and collider.is_in_group("enviroment") and enemy != null:
+				elif collider.is_in_group("enviroment"):
 					lose_enemy(player.lose_time)
 		if enemy == null and state != State.WAIT:
 			set_state(State.PATROL)
+	if !is_player:
+		lose_enemy(player.lose_time)
 
 	var line_of_sight = player.wall_cast.get_collider()
 	if line_of_sight != null and enemy == null:
@@ -216,8 +221,16 @@ func navigate() -> void:
 		if player.follow_up:
 			if (state == State.CHASE or state == State.SEARCH_WEAPON) and player.platform_cast.is_colliding():
 					if player.platform_cast.get_collider().is_in_group("enviroment"):
+						var x = player.global_position.x
 						player.ai_state = player.Ai_State_Request.jump
 						player.update_ai_request()
+						while player.is_on_floor():
+							await get_tree().process_frame
+						while !player.is_on_floor():
+							await get_tree().process_frame
+						var y = player.global_position.x
+						if x == y:
+							lose_enemy(player.lose_time)
 
 	if player.is_on_floor():
 		if player.feet_cast.get_collider() == null:
@@ -257,10 +270,7 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 			return
 
 func lose_enemy(time: float):
-	if time > 0:
-		await Game.wait_for_seconds(time)
-	if enemy == null:
-		return
+	if time > 0: await Game.wait_for_seconds(time)
 	patrol_origin = player.global_position.x
 	enemy = null
 

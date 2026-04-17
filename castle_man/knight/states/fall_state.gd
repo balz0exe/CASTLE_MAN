@@ -14,7 +14,6 @@ func physics_update(delta):
 		if Input.is_action_pressed("ui_down"):
 			Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume + 3, player)
 			Game.spawn_particle_oneshot("res://fx/particle_fx/ground_pound_particles.tscn", player, Vector2(0, 5), Color.WHITE, false)
-			player.emit_signal("ground_pound")
 		if Input.get_axis("ui_left", "ui_right") != 0:
 			state_machine.change_state("RunState")
 		else:

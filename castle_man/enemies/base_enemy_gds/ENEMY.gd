@@ -18,28 +18,24 @@ var state_machine = Node
 var state_version : int = 0
 var ENEMY_AI = Node
 
-@export_group("sfx")
-
 @export var hurt_sfx: Resource
 @export var hit_sfx: Resource
-
-@export_group("basic")
 
 @export var dumb: bool = false
 @export var weapon_user = true
 @export var will_throw = false
+
 @export var max_health: float = 100
 @export var basic_damage: float = 5
 @export var damage_factor: float = 1.0
-@export var sight_radius: float = 216
 
-@export_group("combat")
+#ENEMY.AI
 
 @export var lose_time: float = 1
 @export var original_attack_range: int = 50
 var attack_range: int = original_attack_range
 @export var attack_hits: int = 2
-
+@export var sight_radius: float = 216
 
 enum Ai_State_Request {attack, block, idle, jump, roll, run, throw, empty}
 var ai_state : Ai_State_Request = Ai_State_Request.idle
@@ -76,9 +72,6 @@ var is_throw: bool = false
 
 @onready var original_feet_target_position = feet_cast.target_position
 @onready var original_plat_target_position = platform_cast.target_position
-
-@export_group("movement")
-
 @export var acceleration = 100
 var direction: int = 1
 var direction_y: int = 0
@@ -131,7 +124,7 @@ func _physics_process(delta: float) -> void:
 		basic_attack = false
 		combo_reset_time = original_combo_reset
 
-	debug.text = (str(health) + " " + str(dead) + " " + state_machine.current_state.get_state_name())
+	debug.text = (str(health))
 
 	if health <= 0 and !dead:
 		die()
@@ -227,8 +220,6 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		health = health - damage
 		damage_particles()
 		await get_knockback_direction(from)
-		if from == null:
-			return
 		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
 		if state_machine.current_state.get_state_name() == "HurtState":
 			state_machine.current_state.retrigger()
@@ -240,19 +231,16 @@ func get_knockback_direction(from):
 	var pos2: Vector2
 	pos1 = from.global_position
 	await get_tree().process_frame
-	if from == null:
-		return
 	pos2 = from.global_position
 	knock_back_direction = -sign(pos1 - pos2)
 	await get_tree().process_frame
 
 func die() -> void:
-	print("die called")
 	dead = true
 	dumb = true
 	if weapon:
 		disarm()
-	if shadow: shadow.queue_free()
+	shadow.queue_free()
 	state_machine.change_state("DieState")
 
 var pending_weapon_res: Resource = null
@@ -289,7 +277,7 @@ func _do_equip():
 func disarm():
 	if weapon:
 		var drop = WeaponPickup.new()
-		drop.res = weapon.weapon
+		await get_tree().process_frame
 		if drop != null:
 			get_parent().add_child(drop)
 			drop.global_position = global_position
