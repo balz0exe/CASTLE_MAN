@@ -227,14 +227,13 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		health = health - damage
 		damage_particles()
 		await get_knockback_direction(from)
+		if from == null:
+			return
+		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
 		if state_machine.current_state.get_state_name() == "HurtState":
 			state_machine.current_state.retrigger()
 		else:
 			state_machine.change_state("HurtState")
-		if from == null:
-			return
-		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
-		print(str(knockback_force))
 			
 func get_knockback_direction(from):
 	var pos1: Vector2
@@ -245,8 +244,6 @@ func get_knockback_direction(from):
 		return
 	pos2 = from.global_position
 	knock_back_direction = -sign(pos1 - pos2)
-	if knock_back_direction == Vector2.ZERO:
-		knock_back_direction.x = sign(global_position.x - from.global_position.x)
 	await get_tree().process_frame
 
 func die() -> void:

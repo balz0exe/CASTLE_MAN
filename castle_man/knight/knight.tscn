@@ -11,9 +11,7 @@
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_8vp70"]
 [ext_resource type="Texture2D" uid="uid://u0tkfqjwkdwn" path="res://knight/knight_dead.png" id="5_ew415"]
 [ext_resource type="Script" uid="uid://boaqcia5nrn71" path="res://knight/feet_box.gd" id="7_okdvf"]
-[ext_resource type="Script" uid="uid://1wj6olrya5b6" path="res://knight/ground_pound.gd" id="8_n7cfa"]
 [ext_resource type="Script" uid="uid://dqgxdqbw2jcnc" path="res://enemies/soft_collision_bubble.gd" id="9_phnst"]
-[ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="11_vt0gp"]
 [ext_resource type="Texture2D" uid="uid://dwc6l5qmy6mt7" path="res://fx/particle_fx/particle_images/light_03.png" id="14_vt0gp"]
 [ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://fx/particle_fx/particle_images/star_09.png" id="15_4yak4"]
 [ext_resource type="Script" uid="uid://cuj0n4aiu13pb" path="res://knight/hurt_box.gd" id="15_8ya1n"]
@@ -28,17 +26,6 @@ size = Vector2(16, 6.15625)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_whyep"]
 radius = 15.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8ya1n"]
-radius = 31.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vt0gp"]
-shader = ExtResource("11_vt0gp")
-shader_parameter/glow_color = Color(1, 0.5019608, 0.101960786, 0)
-shader_parameter/glow_strength = 1.0000000149012
-shader_parameter/glow_radius = 8
-shader_parameter/alpha_threshold = 0.1
-shader_parameter/glow_over_sprite = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_whyep"]
 atlas = ExtResource("2_0qi7p")
@@ -536,18 +523,6 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_whyep")
 debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
 
-[node name="GroundPound" type="Area2D" parent="." unique_id=823777455 groups=["soft collisions"]]
-position = Vector2(0, -5)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("8_n7cfa")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundPound" unique_id=1247552401]
-position = Vector2(0, -6)
-shape = SubResource("CircleShape2D_8ya1n")
-disabled = true
-debug_color = Color(0.79558647, 0.06574205, 0.9999998, 0.41960785)
-
 [node name="Shadow" type="Node2D" parent="." unique_id=1031398540]
 script = ExtResource("5_8vp70")
 
@@ -564,7 +539,6 @@ target_position = Vector2(0, 106)
 hit_from_inside = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1077103348]
-material = SubResource("ShaderMaterial_vt0gp")
 position = Vector2(0, -10)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_ei405")

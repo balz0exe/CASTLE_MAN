@@ -8,7 +8,7 @@ func _ready() -> void:
 func _on_area_entered(area: Node2D) -> void:
 	if !player.dead:
 		if area.get_parent().is_in_group("enemies") and player.velocity.y > 0:
-			if Input.is_action_pressed("ui_down") and player.can_bounce:
+			if Input.is_action_pressed("ui_down"):
 				bounce()
 				area.get_parent().disarm()
 				if player.damage_on_bounce:

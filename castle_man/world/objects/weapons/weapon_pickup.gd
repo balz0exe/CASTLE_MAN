@@ -1,12 +1,12 @@
 extends RigidBody2D
 class_name WeaponPickup
 
-var sprite = Sprite2D
-var coll = CollisionShape2D
-var hit_box = HitBox
-var hit_box_coll = CollisionShape2D
-var interaction = Area2D
-var interaction_coll = CollisionShape2D
+var sprite = Sprite2D.new()
+var coll = CollisionShape2D.new()
+var hit_box = HitBox.new()
+var hit_box_coll = CollisionShape2D.new()
+var interaction = Area2D.new()
+var interaction_coll = CollisionShape2D.new()
 
 @export var ranged: bool = false
 @export var throw_speed = 100
@@ -36,13 +36,6 @@ signal hit(target)
 signal throw
 
 func _ready() -> void:
-	sprite = Sprite2D.new()
-	coll = CollisionShape2D.new()
-	hit_box = HitBox.new()
-	hit_box_coll = CollisionShape2D.new()
-	interaction = Area2D.new()
-	interaction_coll = CollisionShape2D.new()
-	
 	contact_monitor = true
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	equip_delay_timer = equip_delay
@@ -64,6 +57,8 @@ func _ready() -> void:
 	connect("throw", on_thrown)
 
 func set_values() -> void:
+	while res == null:
+		await get_tree().process_frame
 	behavior = res.pickup_script
 	if behavior != null:
 		behavior_node = Node.new()
@@ -117,7 +112,7 @@ func _physics_process(delta: float) -> void:
 		hit_box_coll.position.x = hit_box_original_pos.x * -2
 	else:
 		hit_box_coll.position.x = hit_box_original_pos.x
-	if velocity > 10 and thrown:
+	if velocity > 10:
 		if powerup: hit_box_coll.disabled = true
 		else: hit_box_coll.disabled = false
 	else:
