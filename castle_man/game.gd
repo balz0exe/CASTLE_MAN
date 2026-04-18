@@ -9,6 +9,7 @@ var sfx_volume: int = -9
 
 # Music
 var music: bool = true
+var level: Node2D
 @onready var music_player_a = $MusicPlayer_1
 @onready var music_player_b = $MusicPlayer_2
 @onready var camera
@@ -24,7 +25,21 @@ var is_ready = false
 signal not_ready
 
 func _ready() -> void:
+	get_tree().node_added.connect(_on_node_added)
+	level = get_level()
 	is_ready = true
+
+func _on_node_added(node: Node) -> void:
+	if node.is_in_group("LevelScene"):
+		level = node
+		sfx_pool.clear()  # old sfx players are gone, reset the pool
+		current_music_path = ""  # force music to reload
+		play_level_music()
+
+func get_level() -> Node2D:
+	if not is_instance_valid(level):
+		level = get_tree().get_first_node_in_group("LevelScene")
+	return level
 
 func _physics_process(delta: float) -> void:
 	if pause_timer > 0:
@@ -35,10 +50,13 @@ func wait_for_seconds(seconds: float) -> Signal:
 		var timer: Timer = Timer.new()
 		timer.wait_time = seconds
 		timer.one_shot = true
-		add_child(timer)
-		timer.start()
+		get_level().call_deferred("add_child", timer)
+		timer.autostart = true
 		return timer.timeout
 	return not_ready
+
+func restart():
+	get_tree().reload_current_scene()
 
 func wait_until(condition_func: Callable) -> void:
 	while not condition_func.call():
@@ -144,7 +162,7 @@ func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
 	if !object.is_class("PackedScene"):
 		var weapon = WeaponPickup.new()
 		weapon.res = object
-		add_child(weapon)
+		level.add_child(weapon)
 		weapon.global_position = global_position
 		weapon.apply_impulse(Vector2(0, -10))
 		weapon.apply_torque(10)
@@ -152,7 +170,7 @@ func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
 	else:
 		var _drop = object.instantiate()
 		_drop.global_position = global_position
-		add_child(_drop)
+		level.add_child(_drop)
 		return _drop
 
 func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO, color = null, behind_parent: bool = true) -> void:
@@ -170,7 +188,7 @@ func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback
 	play_sfx(load("res://fx/audio_fx/fireball_shoot.wav"), sfx_volume + 8, from)
 	
 func explode(from, radius, damage, knockback, explosion):
-	add_child(explosion)
+	level.add_child(explosion)
 	explosion.from = from
 	explosion.global_position = from.global_position
 	explosion.explode(radius, damage, knockback)
@@ -217,7 +235,7 @@ func get_available_sfx_player() -> AudioStreamPlayer2D:
 	var fallback := AudioStreamPlayer2D.new()
 	fallback.bus = "SFX"
 	fallback.connect("finished", _on_sfx_finished.bind(fallback))
-	add_child(fallback)
+	level.add_child(fallback)
 	sfx_pool.append(fallback)
 	return fallback
 

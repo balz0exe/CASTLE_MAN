@@ -12,8 +12,10 @@ func _ready():
 	player.connect("player_died", update_lives_display)
 
 func update_lives_display():
-	if not player:
+	if not Game.get_player():
 		return
+	else:
+		player = Game.get_player()
 
 	for child in get_children():
 		if child != life_sprite_template:
