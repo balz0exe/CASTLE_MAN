@@ -224,6 +224,7 @@ func get_available_sfx_player() -> AudioStreamPlayer2D:
 signal sfx_finished
 func play_sfx(stream: AudioStream, db: float, origin_node: Node2D = null, pitch_randomization: bool = true) -> Signal:
 	var sfx_player: AudioStreamPlayer2D = get_available_sfx_player()
+	sfx_player.bus = "Sfx"
 	sfx_player.stream = stream
 	sfx_player.volume_db = db
 	sfx_player.pitch_scale = randf_range(0.80, 1.20) if pitch_randomization else 1.0
@@ -234,6 +235,7 @@ func play_sfx(stream: AudioStream, db: float, origin_node: Node2D = null, pitch_
 	
 func play_sfx_pitched(stream: AudioStream, db: float, origin_node: Node2D = null, pitch: float = 1.0, pitch_randomization: bool = true) -> Signal:
 	var sfx_player: AudioStreamPlayer2D = get_available_sfx_player()
+	sfx_player.bus = "Sfx"
 	sfx_player.stream = stream
 	sfx_player.volume_db = db
 	sfx_player.pitch_scale = pitch if !pitch_randomization else pitch * randf_range(0.80, 1.20)

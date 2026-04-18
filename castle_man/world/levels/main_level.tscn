@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://tsfvc4t05npa" path="res://world/levels/round_handler.gd" id="2_pakj0"]
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="3_0x0cr"]
 
-[node name="MainLevel" type="Node2D" unique_id=1153981264 groups=["objects"]]
+[node name="MainLevel" type="Node2D" unique_id=1153981264 groups=["LevelScene"]]
 script = ExtResource("1_4pifd")
 music = "res://fx/audio_fx/necro_theme_1.wav"
 boundaries = {

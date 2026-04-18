@@ -20,10 +20,45 @@
 [ext_resource type="Resource" uid="uid://ddvxno3jr7cbe" path="res://knight/powerups/exploding boots/exploding_boots.tres" id="18_i5w6p"]
 [ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="19_xv0ej"]
 [ext_resource type="PackedScene" uid="uid://b6lhxu4r6vwn8" path="res://enemies/scenes/mushroom.tscn" id="20_xv0ej"]
-[ext_resource type="Resource" uid="uid://b5tuta8sk7jei" path="res://knight/powerups/speed potion/speed_potion.tres" id="21_8dpye"]
+[ext_resource type="Texture2D" uid="uid://bafu7js70okt1" path="res://knight/powerups/health potion/potion.png" id="21_8dpye"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="22_r07hd"]
 [ext_resource type="PackedScene" uid="uid://bf0wawlgc7624" path="res://enemies/scenes/goblin_captain.tscn" id="24_r07hd"]
 
-[node name="TestLevel" type="Node2D" unique_id=1980636776]
+[sub_resource type="GDScript" id="GDScript_34cy5"]
+script/source = "extends Node
+
+func _ready() -> void:
+	get_parent().sprite.scale.y = 0.6
+	get_parent().sprite.modulate = Color.SKY_BLUE
+"
+
+[sub_resource type="GDScript" id="GDScript_r4vgb"]
+script/source = "extends Powerup
+
+var timer: float
+
+func _ready() -> void:
+	super()
+	timer = 5
+	while timer > 0:
+		player.speed_potion = 2.5
+		await get_tree().process_frame
+	player.speed_potion = 1
+	queue_free()
+
+func _physics_process(delta: float) -> void:
+	timer -= 1 * delta
+"
+
+[sub_resource type="Resource" id="Resource_proow"]
+script = ExtResource("22_r07hd")
+image = ExtResource("21_8dpye")
+powerup = true
+powerup_gd = SubResource("GDScript_r4vgb")
+pickup_script = SubResource("GDScript_34cy5")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"
+
+[node name="TestLevel" type="Node2D" unique_id=1980636776 groups=["LevelScene"]]
 script = ExtResource("1_yxjfw")
 metadata/_custom_type_script = "uid://df3eilc42dr0j"
 
@@ -244,11 +279,11 @@ position = Vector2(1150, -50)
 
 [node name="WeaponObject14" parent="." unique_id=1009033212 instance=ExtResource("11_p75f5")]
 position = Vector2(57, 54)
-res = ExtResource("21_8dpye")
+res = SubResource("Resource_proow")
 
 [node name="WeaponObject15" parent="." unique_id=109008966 instance=ExtResource("11_p75f5")]
 position = Vector2(6, 55)
-res = ExtResource("21_8dpye")
+res = SubResource("Resource_proow")
 
 [node name="WeaponObject13" parent="." unique_id=74625326 instance=ExtResource("11_p75f5")]
 position = Vector2(17, 16)

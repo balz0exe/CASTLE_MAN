@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bde8hp3ttbclh" path="res://knight/blank_knight_sidescroll_swim.png" id="5_7jktm"]
 [ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="6_eow3j"]
 [ext_resource type="Script" uid="uid://ql2m13hxwmr0" path="res://lives.gd" id="6_j5wjh"]
+[ext_resource type="Script" uid="uid://byfmjihoex3rt" path="res://pause_menu.gd" id="10_hve3p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wjh"]
 shader = ExtResource("6_eow3j")
@@ -17,6 +18,8 @@ shader_parameter/glow_strength = 2.0
 shader_parameter/glow_radius = 2
 shader_parameter/alpha_threshold = 0.1
 shader_parameter/glow_over_sprite = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_vef74"]
 
 [node name="Game" type="Node" unique_id=1283195912]
 script = ExtResource("1_80nbo")
@@ -108,3 +111,73 @@ scale = Vector2(1, 0.6)
 texture = ExtResource("5_7jktm")
 hframes = 8
 vframes = 8
+
+[node name="Pause Menu" type="Control" parent="CanvasLayer/Control" unique_id=463105618]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_hve3p")
+
+[node name="Refrence(disable)2" type="ColorRect" parent="CanvasLayer/Control/Pause Menu" unique_id=1701550592]
+layout_mode = 0
+offset_left = -109.0
+offset_top = -61.0
+offset_right = 1231.0
+offset_bottom = 712.0
+color = Color(0, 0, 0, 0.8156863)
+
+[node name="Restart" type="Button" parent="CanvasLayer/Control/Pause Menu" unique_id=94140061]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 262.0
+offset_right = 553.0
+offset_bottom = 293.0
+text = "RESTART"
+
+[node name="Quit" type="Button" parent="CanvasLayer/Control/Pause Menu" unique_id=369495377]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 300.0
+offset_right = 525.0
+offset_bottom = 331.0
+text = "QUIT"
+
+[node name="SfxDb" type="HSlider" parent="CanvasLayer/Control/Pause Menu" unique_id=1262881696]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 357.0
+offset_right = 696.0
+offset_bottom = 373.0
+max_value = 2.5
+step = 0.5
+scrollable = false
+tick_count = 6
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Pause Menu/SfxDb" unique_id=1246322419]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -24.0
+offset_right = 38.0
+offset_bottom = -1.0
+text = "SFX db:"
+label_settings = SubResource("LabelSettings_vef74")
+
+[node name="MusicDb" type="HSlider" parent="CanvasLayer/Control/Pause Menu" unique_id=1364738670]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 397.0
+offset_right = 696.0
+offset_bottom = 413.0
+max_value = 2.5
+step = 0.5
+scrollable = false
+tick_count = 6
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Pause Menu/MusicDb" unique_id=1059283138]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -24.0
+offset_right = 38.0
+offset_bottom = -1.0
+text = "MUSIC db:"
+label_settings = SubResource("LabelSettings_vef74")

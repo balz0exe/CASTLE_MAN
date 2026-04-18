@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var light = $Glow
 var state_machine = Node
 var state_version: int = 0
+var current_state: String
 
 #PLAYER SFX
 
@@ -217,6 +218,7 @@ func _physics_process(delta: float) -> void:
 	
 	state_machine.current_state.update_input()
 	var current = state_machine.current_state.get_state_name()
+	current_state = current
 	if not current == "AttackState" and not current == "RollState" and not current == "HurtState":
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
 	move_and_slide()

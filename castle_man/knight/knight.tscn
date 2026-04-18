@@ -459,6 +459,7 @@ script = ExtResource("1_f8xjr")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1648207416]
 top_level = true
 position = Vector2(2, -5)
+zoom = Vector2(1.4, 1.4)
 script = ExtResource("2_f5jhb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]

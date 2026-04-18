@@ -8,26 +8,25 @@ func enter(_prev_state):
 		state_machine.change_state("IdleState")
 		return
 	if state_machine.monitor:print("Entered Run State")
-	sfx()
 
 func exit():
 	player.animation.speed_scale = 1
 	if state_machine.monitor:print("Exited Run State")
 
+var playing = false
 func sfx() -> void:
-	while true:
+	if !playing:
+		playing = true
 		if  version == player.state_version:
 			Game.play_sfx(player.run_sfx, Game.sfx_volume - 18, player)
 			if player.sprint:
 				await Game.wait_for_seconds(0.3)
 			else:
 				await Game.wait_for_seconds(0.4)
-			if version != player.state_version:
-				break
-		else:
-			break
+		playing = false
 
 func physics_update(delta):
+	sfx()
 	if Input.get_axis("ui_left", "ui_right") == 0:
 		state_machine.change_state("IdleState")
 	if not is_breaking:
