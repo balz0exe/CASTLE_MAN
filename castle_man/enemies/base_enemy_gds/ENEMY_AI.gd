@@ -176,7 +176,6 @@ func control_process(delta) -> void:
 					if (player.will_throw and abs(distance.x) > player.weapon.ai_throw_range) and abs(distance.y) < 30:
 						if throw_timer <= 0:
 							player.ai_state = player.Ai_State_Request.throw
-							throw_timer = 3
 				set_state(State.CHASE)
 			elif abs(distance.x) < player.attack_range + 20 and not state == State.WAIT:
 				set_state(State.FIGHT)

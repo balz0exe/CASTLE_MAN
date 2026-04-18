@@ -11,6 +11,7 @@ extends CharacterBody2D
 @onready var hurt_box = $HurtBox
 @onready var camera = $Camera2D
 @onready var shadow = $Shadow
+@onready var light = $Glow
 var state_machine = Node
 var state_version: int = 0
 
@@ -25,7 +26,7 @@ var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 
 #PLAYER STATS
 
-var max_health = 100
+var max_health = 50
 var health = max_health
 var lives: int = 3
 var dead = false
@@ -268,6 +269,7 @@ func respawn() -> void:
 	invincible_timer = 3
 	invincible = true
 	player_respawned.emit()
+	Game.fade_in_sprite(light)
 	animation.modulate.a = 100
 	health = max_health
 	rotation = 0
@@ -304,6 +306,7 @@ func die() -> void:
 			drop.apply_impulse(Vector2(0, -10))
 			drop.apply_torque(-direction * 10)
 		if shadow: shadow.visible = false
+		Game.fade_out_sprite(light, 1)
 
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null

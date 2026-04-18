@@ -116,6 +116,7 @@ func _ready() -> void:
 	ENEMY_AI.init(player_ref)
 	if item != null:
 		equip_weapon(item, null)
+	hit_box.coll.disabled = true
 	
 	connect("attacked", on_attacked)
 	connect("died", on_died)

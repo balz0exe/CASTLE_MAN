@@ -199,12 +199,12 @@ func animate_bouncing(sprite: Node2D, strength: float = 10):
 	if is_instance_valid(sprite):
 		active_bounces.erase(sprite)
 
-func fade_out_sprite(sprite: Node2D, duration: float = 0.5, to: float = 0):
+func fade_out_sprite(sprite: CanvasItem, duration: float = 0.5, to: float = 0):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", to, duration)
 	await tween.finished
 	
-func fade_in_sprite(sprite: Node2D, duration: float = 0.5):
+func fade_in_sprite(sprite: CanvasItem, duration: float = 0.5):
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 1.0, duration)
 	await tween.finished

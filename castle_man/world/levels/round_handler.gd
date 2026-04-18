@@ -16,7 +16,7 @@ var score: int = 0
 
 var active_events: Array = []
 var round_events = [
-	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 7, min_round = 3 },
+	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 4, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
 	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 10, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
@@ -157,7 +157,7 @@ func on_enemy_died(round_id):
 	print("enemy killed, enem_count = " + str(enem_count))
 
 func enemies_for_round(r: int) -> int:
-	var A = 3    # starting enemies
+	var A = 10    # starting enemies
 	var B = 1  # scaling
 	var k = 1.2  # curve strength
 	
