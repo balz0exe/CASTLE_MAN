@@ -49,6 +49,12 @@ func get_player() -> Node2D:
 	if players.size() > 0:
 		return players[0]
 	return null
+	
+func get_game_handler() -> Node:
+	var players = get_tree().get_nodes_in_group("roundhandler")
+	if players.size() > 0:
+		return players[0]
+	return null
 
 func get_characters() -> Array[Node2D]:
 	var result: Array[Node2D] = []

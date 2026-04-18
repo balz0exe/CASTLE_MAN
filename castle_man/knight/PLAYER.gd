@@ -27,6 +27,7 @@ var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 
 var max_health = 100
 var health = max_health
+var lives: int = 3
 var dead = false
 var max_stamina: float = 50
 var stamina: float = max_stamina
@@ -291,6 +292,7 @@ func disarm():
 signal player_died
 func die() -> void:
 	if dead == false:
+		lives -= 1
 		player_died.emit()
 		dead = true
 		var drop

@@ -7,9 +7,7 @@ var spawn_height: float = -200
 
 # Add your weapon resources here
 var weapons = [
-	load("res://world/objects/weapons/axe/hand_axe.tres"),
-	load("res://world/objects/weapons/sword/sword.tres"),
-	load("res://world/objects/weapons/spear/spear.tres")
+	load("res://world/objects/weapons/knife/knife.tres")
 ]
 
 # --- STATE ---

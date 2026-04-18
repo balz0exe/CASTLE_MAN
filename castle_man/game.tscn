@@ -3,7 +3,20 @@
 [ext_resource type="Script" uid="uid://ctysdi0timweq" path="res://game.gd" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://dwna6gwnnofdn" path="res://health_bar.gd" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://dd1nnue2qbf2q" path="res://stamina_bar.gd" id="2_fc0e3"]
+[ext_resource type="Script" uid="uid://d33nt12m5q71h" path="res://refrence(disable).gd" id="2_vef74"]
 [ext_resource type="Script" uid="uid://dnjuugyhkf7db" path="res://debug.gd" id="3_feb5d"]
+[ext_resource type="Script" uid="uid://o864t3ag73iw" path="res://score.gd" id="4_7jktm"]
+[ext_resource type="Texture2D" uid="uid://bde8hp3ttbclh" path="res://knight/blank_knight_sidescroll_swim.png" id="5_7jktm"]
+[ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="6_eow3j"]
+[ext_resource type="Script" uid="uid://ql2m13hxwmr0" path="res://lives.gd" id="6_j5wjh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wjh"]
+shader = ExtResource("6_eow3j")
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_strength = 2.0
+shader_parameter/glow_radius = 2
+shader_parameter/alpha_threshold = 0.1
+shader_parameter/glow_over_sprite = false
 
 [node name="Game" type="Node" unique_id=1283195912]
 script = ExtResource("1_80nbo")
@@ -20,11 +33,27 @@ bus = &"Music"
 layout_mode = 3
 anchors_preset = 0
 
+[node name="TopBorder" type="ColorRect" parent="CanvasLayer/Control" unique_id=381196200]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -32.0
+offset_right = 1198.0
+offset_bottom = 50.0
+color = Color(0, 0, 0, 1)
+
+[node name="BottomBorder" type="ColorRect" parent="CanvasLayer/Control" unique_id=1697704806]
+layout_mode = 0
+offset_left = -74.0
+offset_top = 597.0
+offset_right = 1279.0
+offset_bottom = 754.0
+color = Color(0, 0, 0, 1)
+
 [node name="Refrence(disable)" type="ColorRect" parent="CanvasLayer/Control" unique_id=359379810]
-visible = false
 layout_mode = 0
 offset_right = 1151.0
 offset_bottom = 647.0
+script = ExtResource("2_vef74")
 
 [node name="StaminaBar" type="ColorRect" parent="CanvasLayer/Control" unique_id=1110337224]
 layout_mode = 0
@@ -44,7 +73,17 @@ offset_bottom = 641.0
 color = Color(1, 0, 0, 1)
 script = ExtResource("2_e2o6t")
 
+[node name="Score" type="Label" parent="CanvasLayer/Control" unique_id=1554166782]
+layout_mode = 0
+offset_left = 1054.0
+offset_top = 599.0
+offset_right = 1184.0
+offset_bottom = 870.0
+autowrap_mode = 3
+script = ExtResource("4_7jktm")
+
 [node name="Debug" type="Label" parent="CanvasLayer/Control" unique_id=1112841144]
+visible = false
 layout_mode = 0
 offset_left = 14.0
 offset_top = 12.0
@@ -52,3 +91,20 @@ offset_right = 144.0
 offset_bottom = 283.0
 autowrap_mode = 3
 script = ExtResource("3_feb5d")
+
+[node name="Lives" type="Control" parent="CanvasLayer/Control" unique_id=782970059]
+anchors_preset = 0
+offset_left = 575.5
+offset_top = 633.0
+offset_right = 575.5
+offset_bottom = 633.0
+script = ExtResource("6_j5wjh")
+life_sprite_texture = ExtResource("5_7jktm")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/Lives" unique_id=123551471]
+material = SubResource("ShaderMaterial_j5wjh")
+position = Vector2(1006, 629)
+scale = Vector2(1, 0.6)
+texture = ExtResource("5_7jktm")
+hframes = 8
+vframes = 8

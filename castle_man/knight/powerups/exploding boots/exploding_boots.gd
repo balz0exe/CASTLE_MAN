@@ -9,7 +9,6 @@ func _ready() -> void:
 	super()
 	player.has_boots = true
 	timer = 20
-	var original_maxspeed = player.prev_speed
 	while timer > 0:
 		player.speed_potion = 2.5
 		await get_tree().process_frame

@@ -22,6 +22,7 @@ var jump_time: float = 0.2
 var can_jump: bool = true
 var wind_up: bool = false
 var enemy: Node2D
+var throw_timer: float = 0.0
 
 #SIGHT VARIABLES
 
@@ -105,6 +106,8 @@ func state_exited() -> void:
 func _physics_process(delta: float) -> void:
 	if searched_timer > 0:
 		searched_timer -= delta * 1
+	if throw_timer > 0:
+		throw_timer -= delta * 1
 
 	if player.state_machine.current_state.get_state_name() != "HurtState":
 		match state:
@@ -171,7 +174,9 @@ func control_process(delta) -> void:
 			if abs(distance.x) > player.attack_range - 20:
 				if player.weapon:
 					if (player.will_throw and abs(distance.x) > player.weapon.ai_throw_range) and abs(distance.y) < 30:
-						player.ai_state = player.Ai_State_Request.throw
+						if throw_timer <= 0:
+							player.ai_state = player.Ai_State_Request.throw
+							throw_timer = 3
 				set_state(State.CHASE)
 			elif abs(distance.x) < player.attack_range + 20 and not state == State.WAIT:
 				set_state(State.FIGHT)
@@ -259,6 +264,7 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 func lose_enemy(time: float):
 	#NEVER LOSING ENEMY
 	return
+	@warning_ignore("unreachable_code")
 	if time > 0:
 		await Game.wait_for_seconds(time)
 	if enemy == null:

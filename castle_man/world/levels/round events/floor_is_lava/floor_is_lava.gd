@@ -49,7 +49,13 @@ func clean_up():
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if map != null:
+		var prev_y = map.global_position.y
 		map.global_position = Vector2(0, lava_height + 30)
+		# Move anything sitting on top of the map with it
+		var move_delta = map.global_position.y - prev_y
+		if map.has_node("Area2D"):
+			for body in map.get_node("Area2D").get_overlapping_bodies():
+				body.global_position.y += move_delta
 	if !manager.lava_floor:
 		return
 	var characters = Game.get_characters()
@@ -62,7 +68,7 @@ func _physics_process(delta: float) -> void:
 			apply_lava(object)
 
 func apply_lava(player):
-	if player.is_class("CharacterBody2D"): player.take_damage(damage_per_hit, null)
+	if player.is_class("CharacterBody2D"): player.take_damage(player.health, null)
 	elif player.is_in_group("weapons"): player.queue_free()
 	elif player.is_in_group("objects"): player.health = 0
 	if player.is_class("CharacterBody2D"): player.velocity.y = min(player.velocity.y, -200)

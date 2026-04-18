@@ -3,7 +3,7 @@ class_name RoundHandler
 
 var spawn_timer: float = 0
 var spawn_time: float = 1
-var _round: int = 10
+var _round: int = 0
 var enem_round_count: int = 0
 var enem_count: = 0
 var current_round_id: int = 0
@@ -12,19 +12,21 @@ var round_in_progress: bool = false
 
 var lava_floor: bool = false
 
+var score: int = 0
+
 var active_events: Array = []
 var round_events = [
-	#{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 10, min_round = 2 },
+	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 7, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
-	#{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 8, min_round = 3 },
-	#{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
-	#{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 3 }
+	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 10, min_round = 2 },
+	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
+	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 }
 ]
 
 var enemies = [
-	#{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 6, min_round = 5 },
-	#{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 1 },
-	#{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 8 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 6, min_round = 5 },
+	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 1 },
+	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 8 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 6, min_round = 1 },
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 5, min_round = 2 }
 ]
@@ -39,6 +41,7 @@ func _ready() -> void:
 func new_round():
 	await Game.wait_for_seconds(5)
 	_round += 1
+	if _round != 1: score += 10
 	current_round_id += 1
 	enem_count = 0
 	var round_id = current_round_id
@@ -146,6 +149,7 @@ func spawn_enemy(_round_num: int, fall: bool = false):
 		print("spawned enemy " + str(enem_count))
 
 func on_enemy_died(round_id):
+	score += 1
 	if round_id != current_round_id:
 		return
 

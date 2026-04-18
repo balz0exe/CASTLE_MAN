@@ -23,7 +23,7 @@ func update_animation():
 		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", player.animation)
 		Game.fade_out_sprite(player.animation)
 		await Game.wait_for_seconds(3)
-		player.respawn()
+		if player.lives > 0: player.respawn()
 
 func update_input():
 	pass
