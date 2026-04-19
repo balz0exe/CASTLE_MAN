@@ -20,13 +20,14 @@ var round_events = [
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
 	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 10, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
-	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 }
+	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
+	{ name = "darkness", script = load("res://world/levels/round events/darkness.gd"), weight = 3, min_round = 2 }
 ]
 
 var enemies = [
-	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 6, min_round = 5 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 4, min_round = 5 },
 	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 1 },
-	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 8 },
+	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 8 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 6, min_round = 1 },
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 5, min_round = 2 }
 ]
@@ -68,14 +69,21 @@ func new_round():
 	new_round()
 
 func events_for_round(r: int) -> int:
-	if r >= 2 and r < 5:
-		return 1
-	elif r >= 5 and r < 10:
-		return 2
-	elif r >= 10:
-		return 3
+	var value: int
+	if r >= 3 and r < 6:
+		value = randi() % 2
+	elif r >= 6 and r < 11:
+		value = randi() % 3
+	elif r >= 11 and r < 13:
+		value = randi() % 4
+	elif r >= 13 and r < 20:
+		value = randi() % 3 + 1
+	elif r >= 20:
+		value = randi() % 4 + 2
 	else:
-		return 0
+		value = 0
+	
+	return value
 
 func run_round_events(round_id: int):
 	var count = events_for_round(_round)
@@ -143,7 +151,7 @@ func on_enemy_died(round_id):
 	print("enemy killed, enem_count = " + str(enem_count))
 
 func enemies_for_round(r: int) -> int:
-	var A = 6
+	var A = 3
 	var B = 1
-	var k = 1.2
+	var k = 1.1
 	return int(A + B * pow(r, k))

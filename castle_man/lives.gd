@@ -8,8 +8,12 @@ var player: Node
 func _ready():
 	# Get the player node — adjust the path to match your scene tree
 	player = Game.get_player()
-	update_lives_display()
 	player.connect("player_died", update_lives_display)
+
+func _process(_delta: float) -> void:
+	if Game.get_player():
+		player = Game.get_player()
+		update_lives_display()
 
 func update_lives_display():
 	if not Game.get_player():

@@ -72,8 +72,10 @@ func _ready() -> void:
 	connect("throw", on_thrown)
 
 func set_values() -> void:
-	while res == null:
+	while res == null and get_tree() != null:
 		await get_tree().process_frame
+	if res == null:
+		return
 	behavior = res.pickup_script
 	if behavior != null:
 		behavior_node = Node.new()

@@ -40,8 +40,6 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 			apply_impulse(knockback_force)
 		if breakable:
 			health -= damage
-			if health < 0:
-				_break()
 
 func _on_push_area_body_entered(from) -> void:
 	if !broken:
@@ -78,7 +76,8 @@ func _break():
 	if !pixel_break: queue_free()
 
 func _physics_process(_delta: float) -> void:
-	pass
+	if health <= 0 and !broken:
+		_break()
 
 func on_broken() -> void:
 	pass
