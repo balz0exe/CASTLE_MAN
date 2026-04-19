@@ -222,9 +222,9 @@ func fade_out_sprite(sprite: CanvasItem, duration: float = 0.5, to: float = 0):
 	tween.tween_property(sprite, "modulate:a", to, duration)
 	await tween.finished
 	
-func fade_in_sprite(sprite: CanvasItem, duration: float = 0.5):
+func fade_in_sprite(sprite: CanvasItem, duration: float = 0.5, to: float = 1.0):
 	var tween = create_tween()
-	tween.tween_property(sprite, "modulate:a", 1.0, duration)
+	tween.tween_property(sprite, "modulate:a", to, duration)
 	await tween.finished
 
 func get_available_sfx_player() -> AudioStreamPlayer2D:

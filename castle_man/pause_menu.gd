@@ -30,6 +30,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if visible:
 			visible = false
 			level.process_mode = Node.PROCESS_MODE_INHERIT
+			Game.get_game_handler().process_mode = Node.PROCESS_MODE_INHERIT
 		else:
 			level.process_mode = Node.PROCESS_MODE_DISABLED
+			Game.get_game_handler().process_mode = Node.PROCESS_MODE_DISABLED
 			visible = true

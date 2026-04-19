@@ -23,10 +23,10 @@ texture_region_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_6qqy1")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rggk7"]
-size = Vector2(80, 13.5)
+size = Vector2(112, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sc6vl"]
-size = Vector2(48, 7)
+size = Vector2(80, 15)
 
 [node name="Node2D" type="TileMapLayer" unique_id=327518640]
 scale = Vector2(2, 2)
@@ -38,26 +38,26 @@ show_behind_parent = true
 z_index = -1
 position = Vector2(0, -16)
 scale = Vector2(0.25, 0.25)
-tile_map_data = PackedByteArray("AADw////AgABAAAAAADx//7/AgABAAAAAADx////AgABAAAAAADy//7/AgABAAAAAADy////AgABAAAAAADz//7/AgABAAAAAADz////AgABAAAAAAD0////AgABAAAAAAALAP//AgABAAAAAAAMAP7/AgABAAAAAAAMAP//AgABAAAAAAANAP7/AgABAAAAAAANAP//AgABAAAAAAAOAP7/AgABAAAAAAAOAP//AgABAAAAAAAPAP//AgABAAAAAAA=")
+tile_map_data = PackedByteArray("AADw////AgABAAAAAADx//7/AgABAAAAAADx////AgABAAAAAADy//7/AgABAAAAAADy////AgABAAAAAADz//7/AgABAAAAAADz////AgABAAAAAAD0////AgABAAAAAAALAP//AgABAAAAAAAMAP7/AgABAAAAAAAMAP//AgABAAAAAAANAP7/AgABAAAAAAANAP//AgABAAAAAAAOAP7/AgABAAAAAAAOAP//AgABAAAAAAAPAP//AgABAAAAAAD1////AgABAAAAAAD0//7/AgABAAAAAAD2////AgABAAAAAAD1//7/AgABAAAAAAAKAP//AgABAAAAAAALAP7/AgABAAAAAAAJAP//AgABAAAAAAAKAP7/AgABAAAAAAA=")
 tile_set = ExtResource("2_rggk7")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=286348527]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1156068853]
-position = Vector2(-216, -25.25)
+position = Vector2(-200, -25)
+shape = SubResource("RectangleShape2D_rggk7")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Area2D" unique_id=1622585143]
+position = Vector2(200, -25)
 shape = SubResource("RectangleShape2D_rggk7")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=249774340]
-position = Vector2(-216, -44.5)
+position = Vector2(-200, -40.5)
 shape = SubResource("RectangleShape2D_sc6vl")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D" unique_id=2044281929]
-position = Vector2(216, -25.25)
-shape = SubResource("RectangleShape2D_rggk7")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D" unique_id=2063854394]
-position = Vector2(216, -44.5)
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Area2D" unique_id=130171102]
+position = Vector2(200, -40.5)
 shape = SubResource("RectangleShape2D_sc6vl")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1371313613]

@@ -14,8 +14,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wjh"]
 shader = ExtResource("6_eow3j")
 shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_strength = 2.0
-shader_parameter/glow_radius = 2
+shader_parameter/glow_strength = 2.0000000298024
+shader_parameter/glow_radius = 8
 shader_parameter/alpha_threshold = 0.1
 shader_parameter/glow_over_sprite = false
 

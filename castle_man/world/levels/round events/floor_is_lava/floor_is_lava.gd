@@ -1,8 +1,8 @@
 extends RoundEvent
-class_name FloorIsLava
 
 var final_lava_height: float = 165
 var lava_height: float = 500
+var lava_up: bool = false
 var damage_per_hit: float = 10
 var original_height
 var map
@@ -17,6 +17,7 @@ func start(value):
 	raise_lava()
 
 func raise_lava():
+	lava_up = true
 	original_height = lava_height
 	for i in range((original_height - final_lava_height) / 5):
 		lava_height -= 5
@@ -24,6 +25,8 @@ func raise_lava():
 		Game.camera_shake(0.1, 1)
 
 func lower_lava():
+	lava_up = false
+	Game.get_player().camera._set_offset(Vector2(0, 0))
 	for i in range((original_height - final_lava_height) / 5):
 		lava_height += 5
 		await Game.wait_for_seconds(0.05)
@@ -48,6 +51,10 @@ func clean_up():
 
 func _physics_process(delta: float) -> void:
 	super(delta)
+	if lava_up:
+		Game.get_player().camera.limit_bottom = lerp(Game.get_player().camera.limit_bottom, 220, delta)
+	else:
+		Game.get_player().camera.limit_bottom = lerp(Game.get_player().camera.limit_bottom, 570, delta)
 	if map != null:
 		var prev_y = map.global_position.y
 		map.global_position = Vector2(0, lava_height + 30)

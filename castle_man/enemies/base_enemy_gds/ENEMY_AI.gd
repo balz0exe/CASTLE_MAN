@@ -216,13 +216,17 @@ func control_process(delta: float) -> void:
 		if abs(distance.x) > player.attack_range - 20:
 			# Try to throw if in range and cooldown is ready
 			if player.weapon and player.will_throw:
-				if abs(distance.x) > player.weapon.ai_throw_range and abs(distance.y) < 30:
+				if abs(distance.x) > player.weapon.ai_throw_range and abs(distance.y) < 30 and abs(distance.x) < 250:
 					if throw_timer <= 0:
 						player.ai_state = player.Ai_State_Request.throw
 			set_state(State.CHASE)
 
 		elif abs(distance.x) < player.attack_range + 20 and state != State.WAIT:
-			set_state(State.FIGHT)
+			if state == State.FIGHT:
+				# Already in fight state — re-trigger attack directly
+				player.ai_state = player.Ai_State_Request.attack
+			else:
+				set_state(State.FIGHT)
 	else:
 		# No valid target — return to patrol
 		if state != State.WAIT:

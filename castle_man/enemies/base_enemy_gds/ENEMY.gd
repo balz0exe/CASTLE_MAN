@@ -1,6 +1,13 @@
-#enemy.gd
+# enemy.gd
+# Base enemy character. Handles physics, combat, animation, and AI requests.
+# Empty virtual functions at the bottom allow subclasses to extend behavior.
+# Note: many variables here overlap with player.gd — good candidate for character.gd base class.
 extends CharacterBody2D
 class_name Enemy
+
+# =========================================
+# NODE REFERENCES
+# =========================================
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D
 @onready var coll = $CollisionShape2D
@@ -14,17 +21,20 @@ class_name Enemy
 @onready var sight_bubble = $SightBubble
 @onready var hit_box = $HitBox
 @onready var shadow = $Shadow
+
 var state_machine = Node
-var state_version : int = 0
+var state_version: int = 0
 var ENEMY_AI = Node
 
-@export_group("sfx")
+# =========================================
+# EXPORTS
+# =========================================
 
+@export_group("sfx")
 @export var hurt_sfx: Resource
 @export var hit_sfx: Resource
 
 @export_group("basic")
-
 @export var dumb: bool = false
 @export var weapon_user = true
 @export var will_throw = false
@@ -34,24 +44,25 @@ var ENEMY_AI = Node
 @export var sight_radius: float = 216
 
 @export_group("combat")
-
 @export var lose_time: float = 1
 @export var original_attack_range: int = 50
 var attack_range: int = original_attack_range
 @export var attack_hits: int = 2
 
+# AI state request — set by enemy_ai.gd, read by update_ai_request()
+enum Ai_State_Request { attack, block, idle, jump, roll, run, throw, empty }
+var ai_state: Ai_State_Request = Ai_State_Request.idle
 
-enum Ai_State_Request {attack, block, idle, jump, roll, run, throw, empty}
-var ai_state : Ai_State_Request = Ai_State_Request.idle
-
-#COMBAT VARIABLES
+# =========================================
+# COMBAT VARIABLES
+# =========================================
 
 @export var item: Resource
-@export var weapon_hand_offset: Vector2 = Vector2(0,0)
+@export var weapon_hand_offset: Vector2 = Vector2(0, 0)
 @export var follow_up: bool
 @export var patrol_range: float = 100
-var found_weapon
-@export var attack_thrust_factor : float = 1.0
+var found_weapon  # FLAG: worth typing as Node2D or WeaponPickup when possible
+@export var attack_thrust_factor: float = 1.0
 @export var knockback_factor: float = 1.0
 var knocked_back: bool
 var knockback_force: float
@@ -69,16 +80,18 @@ var combo_cooldown_timer: float = 0.0
 var combo_reset_timer: float = 0.0
 var pickup_reset_timer: float = 0.0
 @export var combo_reset_time: float = 0.5
-var original_combo_reset: float = combo_reset_timer
+var original_combo_reset: float = combo_reset_timer  # FLAG: this will always be 0.0 at declaration time, set in _ready instead
 var is_throw: bool = false
 
-#MOVEMENT VARIABLES
+# =========================================
+# MOVEMENT VARIABLES
+# =========================================
 
+# Cached at ready so raycasts can be reset after being aimed each frame
 @onready var original_feet_target_position = feet_cast.target_position
 @onready var original_plat_target_position = platform_cast.target_position
 
 @export_group("movement")
-
 @export var acceleration = 100
 var direction: int = 1
 var direction_y: int = 0
@@ -88,9 +101,9 @@ var friction = 20
 @onready var prev_speed = max_speed
 @export var jump_strength = -250
 @export var roll_distance = 30
-var coyote_time = 0.2
+var coyote_time = 0.2   # seconds the enemy can still jump after walking off a ledge
 var coyote_timer = 0.0
-var in_air = false 
+var in_air = false
 var flip_h = false
 @export var can_air_roll = true
 var has_air_rolled = false
@@ -100,10 +113,18 @@ var has_double_jumped = false
 
 var dead = false
 var basic_attack: bool = true
-var health : float
+var health: float
+
+# =========================================
+# SIGNALS
+# =========================================
 
 signal attacked
 signal died
+
+# =========================================
+# READY
+# =========================================
 
 func _ready() -> void:
 	z_index = 1
@@ -117,14 +138,18 @@ func _ready() -> void:
 	if item != null:
 		equip_weapon(item, null)
 	hit_box.coll.disabled = true
-	
 	connect("attacked", on_attacked)
 	connect("died", on_died)
 
+# =========================================
+# PHYSICS PROCESS
+# =========================================
+
 func _physics_process(delta: float) -> void:
-	
+	# Virtual — subclasses can inject logic here without overriding _physics_process
 	secondary_process()
-	
+
+	# Switch between basic and weapon-based attack pattern
 	if weapon == null:
 		basic_attack = true
 		combo_reset_time = 0.5
@@ -134,27 +159,24 @@ func _physics_process(delta: float) -> void:
 
 	debug.text = (str(health) + " " + str(dead) + " " + state_machine.current_state.get_state_name())
 
+	# Death check
 	if health <= 0 and !dead:
 		die()
 
-	#update animation and Ai script
-	
+	# Run AI and animation — AI is skipped during hurt state
 	if state_machine.current_state.get_state_name() != "HurtState":
 		ENEMY_AI.control_process(delta)
 		update_ai_request()
 	update_animations()
-	
-	#check direction
 
+	# Direction from flip
 	if flip_h:
 		direction = -1
 	else:
 		direction = 1
-
 	animation.flip_h = flip_h
-	
-	#gravity and air roll
 
+	# Gravity and coyote time
 	if not is_on_floor():
 		if not coyote_timer > 0 and in_air == false:
 			coyote_timer = coyote_time
@@ -169,9 +191,7 @@ func _physics_process(delta: float) -> void:
 	if coyote_timer > 0:
 		coyote_timer -= 1 * delta
 
-
-	#attack timers
-
+	# Tick all combat timers
 	if pickup_reset_timer > 0.0:
 		pickup_reset_timer -= delta * 1
 	if combo_cooldown_timer > 0.0:
@@ -180,28 +200,38 @@ func _physics_process(delta: float) -> void:
 		combo_reset_timer -= delta * 1
 	if recovery_timer > 0.0:
 		recovery_timer -= delta * 1
-	
-	#update state inputs
+
+	# Apply state machine input and clamp velocity outside of override states
 	state_machine.current_state.update_input()
 	var current = state_machine.current_state.get_state_name()
 	if not current == "AttackState" and not current == "RollState" and not current == "HurtState":
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
-
 	move_and_slide()
-	
+
+# =========================================
+# ATTACK PATTERN
+# =========================================
+
 func set_attack_pattern(combo: int, anim: Array[String]):
 	combo_count = combo
 	animations = anim
+
+# =========================================
+# AI REQUEST HANDLER
+# Reads ai_state set by enemy_ai.gd and translates it into state machine changes
+# =========================================
 
 func update_ai_request() -> void:
 	var current = state_machine.current_state.get_state_name()
 	if dead or current == "HurtState":
 		return
-	
+
 	if current != "HurtState" and current != "AttackState":
 		if ai_state == Ai_State_Request.attack:
 			state_machine.change_state("AttackState")
 		if ai_state == Ai_State_Request.throw:
+			# FLAG: no throw_timer check here — if you want throw cooldown enforced
+			# check ENEMY_AI.throw_timer <= 0 before changing state
 			if weapon and weapon.throwable: state_machine.change_state("ThrowState")
 		if ai_state == Ai_State_Request.idle:
 			state_machine.change_state("IdleState")
@@ -210,16 +240,26 @@ func update_ai_request() -> void:
 		if ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)):
 			state_machine.change_state("JumpState")
 
+# =========================================
+# ANIMATION
+# =========================================
+
 func update_animations() -> void:
 	state_machine.current_state.update_animation()
 	if weapon != null:
 		weapon.sync_with_animation(animation.animation, animation.frame, flip_h)
+	# Sprint speed modifier
 	if sprint:
 		max_speed = prev_speed * 1.3
 	else:
 		max_speed = prev_speed
-	
+
+# =========================================
+# COMBAT
+# =========================================
+
 var knock_back_direction: Vector2
+
 func take_damage(damage, from: Node2D, knockback: float = 10):
 	if !dead:
 		if parry:
@@ -235,14 +275,18 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		if from == null:
 			return
 		knockback_force = 15 * knockback * knock_back_direction.x * knockback_factor
-			
+
 func get_knockback_direction(from):
+	# Explosions knock directly away from source
 	if from != null:
 		if from.name == "Explosion":
 			knock_back_direction.x = sign(global_position.x - from.global_position.x)
 			return
 	else:
 		return
+	# For everything else, derive direction from how the attacker moved this frame
+	# FLAG: uses get_tree().process_frame directly — could cause issues if this node
+	# is freed mid-await. Consider Game.wait_for_seconds(get_physics_process_delta_time())
 	var pos1: Vector2
 	var pos2: Vector2
 	pos1 = from.global_position
@@ -253,15 +297,23 @@ func get_knockback_direction(from):
 	knock_back_direction = -sign(pos1 - pos2)
 	await get_tree().process_frame
 
+# =========================================
+# DEATH
+# =========================================
+
 func die() -> void:
 	if !dead:
 		died.emit()
 		dead = true
-		dumb = true
+		dumb = true  # disables AI processing
 		if weapon:
 			disarm()
 		if shadow: shadow.queue_free()
 		state_machine.change_state("DieState")
+
+# =========================================
+# WEAPON EQUIP
+# =========================================
 
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
@@ -269,10 +321,9 @@ var pending_pickup_scene: RigidBody2D = null
 func equip_weapon(res: Resource, pickup: RigidBody2D):
 	if pickup_reset_timer > 0:
 		return
-	# Just store the latest request
+	# Store the request and defer to end of frame to avoid equipping mid-physics-step
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
-	# Schedule the actual equip for the end of the frame
 	call_deferred("_do_equip")
 
 var weapon_hit_box_reach_offset: Vector2
@@ -280,12 +331,8 @@ var weapon_hit_box_reach_offset: Vector2
 func _do_equip():
 	if not pending_weapon_res:
 		return
-		
 	weapon = WeaponItem.new()
 	if pending_pickup_scene: pending_pickup_scene.queue_free()
-	# ... rest of your setup ...
-	
-	# Clear the pending status so it doesn't run again unless called
 	has_weapon = true
 	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
 	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset
@@ -309,7 +356,10 @@ func disarm():
 			has_weapon = false
 			weapon.call_deferred("queue_free")
 
-#EMPTY FUNCTIONS
+# =========================================
+# VIRTUAL FUNCTIONS
+# Override these in subclasses to extend enemy behavior without touching this script
+# =========================================
 
 func damage_particles() -> void:
 	pass
@@ -319,6 +369,6 @@ func on_attacked() -> void:
 
 func on_died() -> void:
 	pass
-	
+
 func secondary_process() -> void:
 	pass

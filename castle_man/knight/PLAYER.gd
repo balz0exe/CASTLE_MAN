@@ -93,7 +93,7 @@ var speed_potion: float = 1.0
 var prev_speed: float = max_speed
 var jump_strength: int = -300
 var roll_distance: int = 20
-var roll_stam_cost: int = 10
+var roll_stam_cost: int = 6
 
 # Coyote time — allows jumping briefly after walking off a ledge
 var coyote_time: float = 0.2
@@ -220,8 +220,10 @@ func _physics_process(delta: float) -> void:
 		if state_machine.current_state.get_state_name() != "RollState":
 			blink()
 		hurt_box.coll.disabled = true
+		soft_coll.monitoring = false
 	else:
 		hurt_box.coll.disabled = false
+		soft_coll.monitoring = true
 
 	# --- Tick timers ---
 	invincible_timer = max(invincible_timer - delta, 0)
@@ -290,7 +292,7 @@ func disarm() -> void:
 	drop.apply_impulse(Vector2(0, -10))
 	drop.apply_torque(-direction * 10)
 	has_weapon = false
-	weapon.call_deferred("queue_free")
+	if weapon: weapon.call_deferred("queue_free")
 
 # =========================================
 # DEATH & RESPAWN — could move to character.gd
@@ -325,7 +327,8 @@ func respawn() -> void:
 	coll.disabled = false
 	state_machine.change_state("IdleState")
 	global_position = Vector2.ZERO
-	Game.fade_in_sprite(light)
+	if Game.get_game_handler().active_event_names.has("darkness"): Game.fade_in_sprite(light, 0.5, 0.3)
+	else: Game.fade_in_sprite(light)
 	animation.modulate.a = 1.0
 	player_respawned.emit()
 

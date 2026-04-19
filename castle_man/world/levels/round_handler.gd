@@ -11,10 +11,13 @@ var current_round_id: int = 0
 var round_in_progress: bool = false
 
 var lava_floor: bool = false
+var upgrade_event: bool = false
 
 var score: int = 0
 
 var active_events: Array = []
+var active_event_names: Array[String] = []
+
 var round_events = [
 	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 4, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
@@ -66,7 +69,16 @@ func new_round():
 			await event.clean_up()
 			event.queue_free()
 	active_events.clear()
+	active_event_names.clear()
+	#_upgrade_event()
 	new_round()
+
+func _upgrade_event():
+	var instance = load("res://world/levels/round events/upgrades/upgrade_event.gd").new()
+	add_child(instance)
+	active_events.append(instance)
+	current_round_id += 1
+	instance.start(current_round_id)
 
 func events_for_round(r: int) -> int:
 	var value: int
@@ -90,6 +102,7 @@ func run_round_events(round_id: int):
 	var events = pick_events(_round, count)
 	for e in events:
 		print("event: " + e.name)
+		active_event_names.append(e.name)
 		if e.script:
 			var instance = e.script.new()
 			add_child(instance)

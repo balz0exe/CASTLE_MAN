@@ -25,7 +25,7 @@ func explode(radius: int = 30, damage: int = 10, knockback: float = 50):
 	
 	async_deactivate()
 	
-	while fire.emitting:
+	while fire.emitting and get_tree() != null:
 		await get_tree().process_frame
 	
 	queue_free()

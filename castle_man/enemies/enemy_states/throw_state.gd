@@ -6,7 +6,7 @@ func enter(_prev_state):
 	player.combo_counter = 0
 
 func exit():
-	player.ENEMY_AI.throw_timer = 2
+	player.ENEMY_AI.throw_timer = 2.0
 	if state_machine.monitor:print("Exited Throw State")
 
 func physics_update(delta):

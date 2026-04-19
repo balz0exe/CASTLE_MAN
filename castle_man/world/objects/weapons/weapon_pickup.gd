@@ -37,9 +37,13 @@ var pickup_timer: float = 0.0
 signal hit(target)
 signal throw
 
-func _ready() -> void:
+func _init() -> void:
+	
 	add_to_group("objects")
 	add_to_group("weapons")
+	if projectile: add_to_group("projectiles")
+
+func _ready() -> void:
 	
 	sprite = Sprite2D.new()
 	coll = CollisionShape2D.new()
