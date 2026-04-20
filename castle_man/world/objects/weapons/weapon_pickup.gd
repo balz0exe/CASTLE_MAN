@@ -38,7 +38,6 @@ signal hit(target)
 signal throw
 
 func _init() -> void:
-	
 	add_to_group("objects")
 	add_to_group("weapons")
 	if projectile: add_to_group("projectiles")
@@ -71,6 +70,8 @@ func _ready() -> void:
 	set_values()
 	
 	pickup_timer = 2
+	
+	set_collision_layer_value(3, true)
 	
 	connect("hit", on_hit)
 	connect("throw", on_thrown)

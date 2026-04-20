@@ -100,6 +100,9 @@ func state_entered() -> void:
 				set_state(State.SEARCH_WEAPON)
 
 		State.FIGHT:
+			if looking_for_weapon:
+				set_state(State.SEARCH_WEAPON)
+				return
 			player.ai_state = player.Ai_State_Request.attack
 			has_attacked = true
 
@@ -223,6 +226,14 @@ func control_process(delta: float) -> void:
 
 		elif abs(distance.x) < player.attack_range + 20 and state != State.WAIT:
 			if state == State.FIGHT:
+				if player.weapon_user and !player.weapon:
+					var weapons: Array[WeaponPickup]
+					for weapon in player.sight_bubble.get_overlapping_bodies():
+						if weapon.is_in_group("weapons"):
+							weapons.append(weapon)
+					if weapons != null:
+						set_state(State.SEARCH_WEAPON)
+						return
 				# Already in fight state — re-trigger attack directly
 				player.ai_state = player.Ai_State_Request.attack
 			else:
@@ -268,19 +279,30 @@ func navigate() -> void:
 	if wall_collider != null and wall_collider.is_in_group("enviroment") and enemy == null:
 		_flip()
 
-	# Jump up to platforms to follow the target
-	if enemy != null and (player.global_position.y - enemy.global_position.y) > 10 and enemy.is_on_floor():
+# Enemy body is above the player character — fall down to follow
+	if enemy != null and player.global_position.y - enemy.global_position.y < -30:
+		player.ai_state = player.Ai_State_Request.fall
+		player.update_ai_request()
+		return
+
+	# Enemy body is below the player character — jump up to follow
+	if enemy != null and player.is_on_floor():
 		if player.follow_up and (state == State.CHASE or state == State.SEARCH_WEAPON):
-			if player.platform_cast.is_colliding():
+			# Jump up toward a platform if enemy is higher
+			if player.platform_cast.is_colliding() and player.global_position.y - enemy.global_position.y > 32:
 				var platform = player.platform_cast.get_collider()
 				if platform != null and platform.is_in_group("enviroment"):
 					player.ai_state = player.Ai_State_Request.jump
 					player.update_ai_request()
+			# Jump over a ledge gap even if no platform detected
+			elif !player.feet_cast.is_colliding() and player.is_on_floor() and player.global_position.y - enemy.global_position.y > 10:
+				player.ai_state = player.Ai_State_Request.jump
+				player.update_ai_request()
 
-	# Flip at ledge edges while patrolling
-	if player.is_on_floor() and player.feet_cast.get_collider() == null:
-		if state == State.PATROL:
-			_flip()
+		# Flip at ledge edges while patrolling
+		if player.is_on_floor() and player.feet_cast.get_collider() == null:
+			if state == State.PATROL:
+				_flip()
 
 # =========================================
 # CONTROL FUNCTIONS

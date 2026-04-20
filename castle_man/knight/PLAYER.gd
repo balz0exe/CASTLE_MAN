@@ -206,6 +206,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("drop_item") and !interaction_active:
 		disarm()
 
+	# --- Move through platform ---
+	if Input.is_action_just_pressed("ui_down") and is_on_floor():
+		global_position.y += 3
+
 	# --- Charge throw input ---
 	if has_weapon:
 		if Input.is_action_pressed("attack"):

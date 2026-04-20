@@ -5,3 +5,7 @@ class_name UpgradeTotem
 
 var upgrade: Powerup = null
 var stackable: bool = false
+
+func reset():
+	upgrade = null
+	stackable = false

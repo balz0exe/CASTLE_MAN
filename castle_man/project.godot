@@ -27,7 +27,6 @@ Game="*uid://dq7xs1jex1uq0"
 
 window/size/viewport_width=576
 window/size/viewport_height=324
-window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/scale=0.5
 
@@ -140,7 +139,6 @@ scroll_down={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

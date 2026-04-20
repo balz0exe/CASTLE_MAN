@@ -50,7 +50,7 @@ var attack_range: int = original_attack_range
 @export var attack_hits: int = 2
 
 # AI state request — set by enemy_ai.gd, read by update_ai_request()
-enum Ai_State_Request { attack, block, idle, jump, roll, run, throw, empty }
+enum Ai_State_Request { attack, block, idle, jump, roll, run, throw, empty, fall }
 var ai_state: Ai_State_Request = Ai_State_Request.idle
 
 # =========================================
@@ -239,6 +239,8 @@ func update_ai_request() -> void:
 			state_machine.change_state("RunState")
 		if ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)):
 			state_machine.change_state("JumpState")
+		if ai_state == Ai_State_Request.fall:
+			global_position.y += 3
 
 # =========================================
 # ANIMATION

@@ -16,6 +16,7 @@ var map
 var label: Label
 var totem_nodes: Array[UpgradeTotem]
 var available_upgrades: Array  # upgrades offered this event, cleared each start
+var upgrade_picked: bool = false  # blocks duplicate pickups from overlapping altar areas
 
 # Master upgrade list — loaded in _ready so path errors are visible
 var upgrades: Array[Dictionary] = []
@@ -80,17 +81,17 @@ func pick_weighted_upgrade() -> Dictionary:
 func start(value):
 	totem_nodes.clear()
 	available_upgrades.clear()  # always start fresh regardless of prior state
+	upgrade_picked = false       # reset pick guard each event
 	super(value)
 	manager.upgrade_event = true
 	map = load("res://world/levels/round events/upgrades/upgrade_tilemap.tscn")
 	map = map.instantiate()
 	label = map.get_child(-1)
 	map.global_position = Vector2(0, height + 30)
+	manager.get_parent().add_child(map)
 
 	# Assign a unique weighted upgrade to each of the 4 altar slots
 	# Duplicate the dictionary so the master upgrades array is never mutated
-	manager.get_parent().add_child(map)
-	
 	for i in range(4):
 		var u = pick_weighted_upgrade().duplicate()
 		available_upgrades.append(u)
@@ -148,6 +149,8 @@ func lower():
 # =========================================
 
 func clean_up():
+	for node in totem_nodes:
+		node.reset()
 	await lower()
 	print("free map")
 	queue_free()
@@ -155,16 +158,20 @@ func clean_up():
 # =========================================
 # UPGRADE INTERACTION
 # Player walks into an altar and presses interact to claim the upgrade.
+# upgrade_picked flag blocks any other altar from firing once a choice is made.
 # Emits upgrade_chosen so round_handler knows to continue.
 # =========================================
 
 func on_upgrade_area_entered(body: Node2D, area: UpgradeTotem) -> void:
+	if !up:
+		return
 	var player = Game.get_player()
-	while area.get_overlapping_bodies().has(body):
+	while area.get_overlapping_bodies().has(body) and !upgrade_picked and up:
 		label.text = area.name
 		player.interaction_active = true
 		await Game.wait_for_seconds(get_physics_process_delta_time())
-		if Input.is_action_pressed("drop_item"):
+		if Input.is_action_pressed("drop_item") and !upgrade_picked:
+			upgrade_picked = true
 			print("added upgrade " + area.name)
 			player.add_child(area.upgrade)
 			# Track non-stackable upgrades so they won't appear in future events
@@ -178,9 +185,10 @@ func on_upgrade_area_entered(body: Node2D, area: UpgradeTotem) -> void:
 				node.fire.get_child(0).emitting = false
 				Game.fade_out_sprite(node)
 			return
-	# Player left without choosing
-	player.interaction_active = false
-	label.text = ""
+	# Player left without choosing or another altar was already picked
+	if !upgrade_picked:
+		player.interaction_active = false
+		label.text = ""
 
 # =========================================
 # PHYSICS PROCESS
