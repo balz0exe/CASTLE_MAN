@@ -231,7 +231,7 @@ func control_process(delta: float) -> void:
 					for weapon in player.sight_bubble.get_overlapping_bodies():
 						if weapon.is_in_group("weapons"):
 							weapons.append(weapon)
-					if weapons != null:
+					if !weapons.is_empty():
 						set_state(State.SEARCH_WEAPON)
 						return
 				# Already in fight state — re-trigger attack directly
@@ -299,10 +299,10 @@ func navigate() -> void:
 				player.ai_state = player.Ai_State_Request.jump
 				player.update_ai_request()
 
-		# Flip at ledge edges while patrolling
-		if player.is_on_floor() and player.feet_cast.get_collider() == null:
-			if state == State.PATROL:
-				_flip()
+	# Flip at ledge edges while patrolling
+	if player.is_on_floor() and player.feet_cast.get_collider() == null:
+		if state == State.PATROL:
+			_flip()
 
 # =========================================
 # CONTROL FUNCTIONS
