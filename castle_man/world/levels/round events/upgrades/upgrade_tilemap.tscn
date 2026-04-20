@@ -1,25 +1,80 @@
 [gd_scene format=4 uid="uid://bnrsw4nlxhk5y"]
 
 [ext_resource type="TileSet" uid="uid://c2ulvxtelur3h" path="res://world/tile_set.tres" id="1_6idj6"]
+[ext_resource type="PackedScene" uid="uid://chodq11xoucod" path="res://fx/particle_fx/fire_2.tscn" id="2_fhrov"]
+[ext_resource type="Script" uid="uid://cm2ns4o12dd6k" path="res://world/levels/round events/upgrades/upgrade_totem.gd" id="2_tt4yh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6idj6"]
-size = Vector2(512, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhrov"]
-size = Vector2(256, 31)
-
-[node name="UpgradeTilemap" type="TileMapLayer" unique_id=1291109177]
-tile_map_data = PackedByteArray("AAAIAP3/AgAAAAAAAAAJAP3/AgAAAAAAAAALAP3/AgAAAAAAAAAKAP//AgABAAIAAAAKAAEAAgABAAIAAAAKAAMAAgABAAIAAAAKAAUAAgABAAIAAAAKAAcAAgABAAIAAAAKAAkAAgABAAIAAAAKAAsAAgABAAIAAAAKAA0AAgABAAIAAAAKAA8AAgABAAIAAAAKABEAAgABAAIAAAAMABEAAgABAAQAAAAMAA8AAgABAAQAAAAMAA0AAgABAAQAAAAMAAsAAgABAAQAAAAMAAkAAgABAAQAAAAMAAcAAgABAAQAAAAMAAUAAgABAAQAAAAMAAMAAgABAAQAAAAMAAEAAgABAAQAAAAMAP//AgABAAQAAAAIAP//AgABAAQAAAAIAAEAAgABAAQAAAAIAAMAAgABAAQAAAAIAAUAAgABAAQAAAAIAAcAAgABAAQAAAAIAAkAAgABAAQAAAAIAAsAAgABAAQAAAAIAA0AAgABAAQAAAAIAA8AAgABAAQAAAAIABEAAgABAAQAAAAHABEAAgABAAQAAAAHAA8AAgABAAQAAAAHAA0AAgABAAQAAAAHAAsAAgABAAQAAAAHAAkAAgABAAQAAAAHAAcAAgABAAQAAAAHAAUAAgABAAQAAAAHAAMAAgABAAQAAAAHAAEAAgABAAQAAAAHAP//AgABAAQAAAANAP//AgABAAQAAAANAAEAAgABAAQAAAANAAMAAgABAAQAAAANAAUAAgABAAQAAAANAAcAAgABAAQAAAANAAkAAgABAAQAAAANAAsAAgABAAQAAAANAA0AAgABAAQAAAANAA8AAgABAAQAAAANABEAAgABAAQAAAAGAP3/AgABAAEAAAANAP3/AgABAAEAAAAMAP3/AgABAAEAAAAHAP3/AgABAAEAAAAGAPz/AgADAAIAAAANAPz/AgADAAIAAAAKAP3/AgAAAAAAAAAIAPz/AgABAAEAAAAJAPz/AgABAAEAAAAKAPz/AgABAAEAAAALAPz/AgABAAEAAAAIAPv/AgADAAIAAAALAPv/AgADAAIAAAA=")
+[node name="UpgradeTilemap" type="TileMapLayer" unique_id=1291109177 groups=["enviroment"]]
+z_index = -4
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAD8//7/AgADAAIAAAD8////AgABAAEAAAD9////AgABAAEAAAD9/wEAAgABAAIAAAD9/wMAAgABAAIAAAD9/wUAAgABAAIAAAD9/wcAAgABAAIAAAD9/wkAAgABAAIAAAD9/wsAAgABAAIAAAD9/w0AAgABAAIAAAD9/w8AAgABAAIAAAD9/xEAAgABAAIAAAD9/xMAAgABAAIAAAD+//3/AgADAAIAAAD+//7/AgABAAEAAAD+////AgAAAAMAAAD///7/AgABAAEAAAD/////AgAAAAMAAAAAAP7/AgABAAEAAAAAAP//AgAAAAMAAAAAAAEAAgABAAIAAAAAAAMAAgABAAIAAAAAAAUAAgABAAIAAAAAAAcAAgABAAIAAAAAAAkAAgABAAIAAAAAAAsAAgABAAIAAAAAAA0AAgABAAIAAAAAAA8AAgABAAIAAAAAABEAAgABAAIAAAAAABMAAgABAAIAAAABAP3/AgADAAIAAAABAP7/AgABAAEAAAABAP//AgAAAAMAAAACAP//AgABAAEAAAADAP7/AgADAAIAAAADAP//AgABAAEAAAADAAEAAgABAAIAAAADAAMAAgABAAIAAAADAAUAAgABAAIAAAADAAcAAgABAAIAAAADAAkAAgABAAIAAAADAAsAAgABAAIAAAADAA0AAgABAAIAAAADAA8AAgABAAIAAAADABEAAgABAAIAAAADABMAAgABAAIAAAD//wEAAgABAAIAAAD//wUAAgABAAIAAAD//wkAAgABAAIAAAD//w0AAgABAAIAAAABAA0AAgABAAIAAAABAAkAAgABAAIAAAABAAUAAgABAAIAAAABAAEAAgABAAIAAAA=")
 tile_set = ExtResource("1_6idj6")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=689108445]
-scale = Vector2(0.1, 0.1)
+[node name="Upgrade1" type="Area2D" parent="." unique_id=33376653]
+z_index = -1
+collision_layer = 0
 collision_mask = 2
+script = ExtResource("2_tt4yh")
+metadata/_custom_type_script = "uid://cm2ns4o12dd6k"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=203697924]
-position = Vector2(640, -176)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade1" unique_id=2020910353]
+position = Vector2(-224, -84)
 shape = SubResource("RectangleShape2D_6idj6")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=1514875218]
-position = Vector2(640, -240.5)
-shape = SubResource("RectangleShape2D_fhrov")
+[node name="ball2" parent="Upgrade1" unique_id=122654187 instance=ExtResource("2_fhrov")]
+position = Vector2(-224.00002, -117.99999)
+
+[node name="Upgrade2" type="Area2D" parent="." unique_id=203279814]
+z_index = -1
+position = Vector2(448, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_tt4yh")
+metadata/_custom_type_script = "uid://cm2ns4o12dd6k"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade2" unique_id=801073434]
+position = Vector2(-224, -84)
+shape = SubResource("RectangleShape2D_6idj6")
+
+[node name="ball2" parent="Upgrade2" unique_id=1906171074 instance=ExtResource("2_fhrov")]
+position = Vector2(-224.00002, -117.99999)
+
+[node name="Upgrade3" type="Area2D" parent="." unique_id=2015245211]
+z_index = -1
+position = Vector2(320, -64)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_tt4yh")
+metadata/_custom_type_script = "uid://cm2ns4o12dd6k"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade3" unique_id=69623412]
+position = Vector2(-224, -84)
+shape = SubResource("RectangleShape2D_6idj6")
+
+[node name="ball2" parent="Upgrade3" unique_id=534067884 instance=ExtResource("2_fhrov")]
+position = Vector2(-224.00002, -117.99999)
+
+[node name="Upgrade4" type="Area2D" parent="." unique_id=1703020065]
+z_index = -1
+position = Vector2(128, -64)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_tt4yh")
+metadata/_custom_type_script = "uid://cm2ns4o12dd6k"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgrade4" unique_id=1580922181]
+position = Vector2(-224, -84)
+shape = SubResource("RectangleShape2D_6idj6")
+
+[node name="ball2" parent="Upgrade4" unique_id=1111345356 instance=ExtResource("2_fhrov")]
+position = Vector2(-224.00002, -117.99999)
+
+[node name="Label" type="Label" parent="." unique_id=1955432883]
+offset_left = -262.0
+offset_top = -302.0
+offset_right = 262.0
+offset_bottom = -170.0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1

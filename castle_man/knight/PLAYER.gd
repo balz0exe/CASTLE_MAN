@@ -36,7 +36,7 @@ var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 # =========================================
 
 var max_health: int = 50
-var health: int = max_health
+var health: float = max_health
 var lives: int = 3
 var dead: bool = false
 var max_stamina: float = 50
@@ -48,15 +48,14 @@ var stamina_regen: float = 10
 # =========================================
 
 var weapon: WeaponItem = null
+var damage_factor: float = 1.0
+var hurt_factor: float = 1.0
 var hits_taken: int = 0
 var damage_on_bounce: bool = false
-var groundpound_knockback: float = 10
 var bounce_damage: float = 2
-var throw_path: String
 var animations: Array[String]
 var has_weapon: bool = false
 var has_boots: bool = false
-var parry: bool = false
 
 # Combo system
 var combo_count: int = 4
@@ -86,13 +85,13 @@ var knockback_recovery: float = 0.35
 var knocked_back: bool = false
 var recovery_timer: float = 0.0
 var sprint: bool = false
-var friction: int = 20
+var friction: int = 10
 var max_speed: float = 75
 var sprint_factor: float = 1.8
 var speed_potion: float = 1.0
 var prev_speed: float = max_speed
 var jump_strength: int = -300
-var roll_distance: int = 20
+var roll_distance: int = 10
 var roll_stam_cost: int = 6
 
 # Coyote time — allows jumping briefly after walking off a ledge
@@ -110,6 +109,9 @@ var can_double_jump: bool = false
 var has_double_jumped: bool = false
 var jumps: int = 0
 var can_air_throw: bool = false
+
+# Interaction input
+var interaction_active: bool = false
 
 # =========================================
 # SIGNALS — could move to character.gd
@@ -201,7 +203,7 @@ func _physics_process(delta: float) -> void:
 		coyote_timer -= delta
 
 	# --- Drop weapon ---
-	if Input.is_action_just_pressed("drop_item"):
+	if Input.is_action_just_pressed("drop_item") and !interaction_active:
 		disarm()
 
 	# --- Charge throw input ---
@@ -257,7 +259,7 @@ var knock_back_direction: Vector2
 func take_damage(damage: int, from: Node2D, knockback: float = 10) -> void:
 	if dead:
 		return
-	health -= damage
+	health -= damage * hurt_factor
 	Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
 	await get_knockback_direction(from)
 	if knock_back_direction:

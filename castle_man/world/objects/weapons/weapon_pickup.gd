@@ -133,7 +133,7 @@ func _physics_process(delta: float) -> void:
 		animation_timeout -= delta
 	if equip_delay_timer > 0:
 		equip_delay_timer -= delta
-	var velocity = linear_velocity.length()
+	var velocity = linear_velocity.length()/20
 	if sprite.flip_h:
 		hit_box_coll.position.x = hit_box_original_pos.x * -2
 	else:

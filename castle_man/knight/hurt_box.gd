@@ -15,10 +15,18 @@ func on_area_entered(hit_box: HitBox):
 		return
 	if get_parent().has_method("take_damage"):
 		if hit_box.get_parent().is_class("RigidBody2D"):
-			if get_parent() != hit_box.get_parent().from: get_parent().take_damage(hit_box.get_parent().throw_damage, hit_box.get_parent())
+			if hit_box.get_parent().from != null:
+				if get_parent() != hit_box.get_parent().from: get_parent().take_damage(hit_box.get_parent().throw_damage * hit_box.get_parent().from.damage_factor, hit_box.get_parent())
+			else:
+				if get_parent() != hit_box.get_parent().from: get_parent().take_damage(hit_box.get_parent().throw_damage, hit_box.get_parent())
+			if hit_box.get_parent().is_in_group("player") or get_parent().is_in_group("player"):
+				Game.hit_pause(0.05, 0.3)
+			if hit_box.get_parent().has_signal("hit"):
+				hit_box.get_parent().hit.emit(get_parent())
+			return
 		else:
 			if hit_box.get_parent().weapon != null:
-				if hit_box.get_parent().is_in_group("player"): get_parent().take_damage(hit_box.get_parent().weapon.damage, hit_box.get_parent(), hit_box.get_parent().weapon.knockback)
+				if hit_box.get_parent().is_in_group("player"): get_parent().take_damage(hit_box.get_parent().weapon.damage * hit_box.get_parent().damage_factor, hit_box.get_parent(), hit_box.get_parent().weapon.knockback)
 				elif hit_box.get_parent().is_in_group("enemies"): get_parent().take_damage(hit_box.get_parent().weapon.damage * hit_box.get_parent().damage_factor, hit_box.get_parent(), hit_box.get_parent().weapon.knockback)
 			else:
 				get_parent().take_damage(hit_box.get_parent().basic_damage, hit_box.get_parent())

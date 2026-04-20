@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://chodq11xoucod"]
+
+[ext_resource type="Texture2D" uid="uid://bu0bdov83ijd6" path="res://fx/particle_fx/particle_images/fire_02.png" id="1_l26lq"]
+[ext_resource type="PackedScene" uid="uid://brw3j7pee46b" path="res://fx/particle_fx/fire.tscn" id="2_obotl"]
+
+[sub_resource type="Curve" id="Curve_l26lq"]
+_limits = [-100.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, -19.361267), 0.0, 177.50859, 0, 0, Vector2(0.9263567, -3.7924042), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_afulk"]
+_data = [Vector2(0.00564972, 0.124579), 0.0, 1.359, 0, 0, Vector2(0.596045, 0.068302), -1.47104, -1.47104, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_obotl"]
+offsets = PackedFloat32Array(0, 0.31862745, 0.7058824)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.26153848, 0.26153848, 0.26153848, 1)
+
+[node name="ball2" type="CPUParticles2D" unique_id=122654187]
+scale = Vector2(0.05, 0.05)
+amount = 120
+texture = ExtResource("1_l26lq")
+lifetime = 1.4
+speed_scale = 0.25
+randomness = 1.0
+direction = Vector2(0, -1)
+spread = 22.5
+gravity = Vector2(0, -2)
+initial_velocity_min = 366.34
+initial_velocity_max = 371.29
+angular_velocity_min = -720.0
+angular_velocity_max = -720.0
+linear_accel_max = 50.0
+linear_accel_curve = SubResource("Curve_l26lq")
+damping_max = 24.306
+scale_amount_min = 0.1
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_afulk")
+color_initial_ramp = SubResource("Gradient_obotl")
+
+[node name="CPUParticles2D" parent="." unique_id=144545824 instance=ExtResource("2_obotl")]
+z_index = -1
+position = Vector2(1.9073486e-06, 0)
+lifetime = 1.2
+speed_scale = 0.5
+scale_amount_min = 0.05
+color = Color(0.4955091, 0.4955091, 0.4955091, 1)
+color_ramp = null
+color_initial_ramp = SubResource("Gradient_obotl")

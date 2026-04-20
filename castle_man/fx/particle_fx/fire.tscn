@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://brw3j7pee46b"]
+
+[ext_resource type="Texture2D" uid="uid://djlrthe45covg" path="res://fx/particle_fx/particle_images/flame_06.png" id="1_huvew"]
+
+[sub_resource type="Curve" id="Curve_huvew"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, -200), 0.0, 0.0, 0, 0, Vector2(1, 200), -251.65283, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ar0sa"]
+_data = [Vector2(0, 0.327802), 0.0, 0.0, 0, 0, Vector2(0.40697673, 0.2691285), -2.39072, -2.39072, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_hbnbt"]
+offsets = PackedFloat32Array(0, 0.27450982, 0.43137255, 0.7794118)
+colors = PackedColorArray(0, 0, 0, 1, 0.47058824, 0.43137255, 0.43137255, 1, 0.47058824, 0.43137255, 0.43137255, 1, 1, 0, 0, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=144545824]
+scale = Vector2(0.05, 0.05)
+amount = 10
+texture = ExtResource("1_huvew")
+lifetime = 0.6
+randomness = 1.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, -800)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+linear_accel_curve = SubResource("Curve_huvew")
+tangential_accel_min = -80.0
+tangential_accel_max = 80.0
+scale_amount_min = 0.01
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_ar0sa")
+color = Color(0.64731, 0, 0.066258, 1)
+color_ramp = SubResource("Gradient_hbnbt")

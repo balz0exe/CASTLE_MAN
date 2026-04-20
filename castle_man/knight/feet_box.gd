@@ -12,7 +12,7 @@ func _on_area_entered(area: Node2D) -> void:
 				bounce()
 				area.get_parent().disarm()
 				if player.damage_on_bounce:
-					area.get_parent().take_damage(player.bounce_damage, player)
+					area.get_parent().take_damage(player.bounce_damage * player.damage_factor, player)
 			else:
 				var enemy = area.get_parent()
 				if enemy.dead or player.invincible:
