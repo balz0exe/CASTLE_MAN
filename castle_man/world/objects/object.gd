@@ -23,7 +23,10 @@ func _ready() -> void:
 		set_collision_mask_value(6, true)
 		set_collision_layer_value(6, true)
 		
-	z_index = 0
+	if pushable:
+		z_index = 0
+	else:
+		z_index = -1
 	push_area.connect("body_entered", _on_push_area_body_entered)
 	health = max_health
 	if ground:
