@@ -230,7 +230,7 @@ func control_process(delta: float) -> void:
 						player.ai_state = player.Ai_State_Request.throw
 			set_state(State.CHASE)
 
-		elif abs(distance.x) < player.attack_range + 20 and state != State.WAIT:
+		elif abs(distance.x) < player.attack_range + 20 and abs(distance.y) < 20 and state != State.WAIT:
 			if state == State.FIGHT:
 				if player.weapon_user and !player.weapon:
 					var weapons: Array[WeaponPickup]

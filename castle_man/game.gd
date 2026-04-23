@@ -178,7 +178,10 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	var particles = load(fx)
 	particles = particles.instantiate()
 	from.add_child(particles)
-	particles.show_behind_parent = behind_parent
+	if behind_parent:
+		particles.z_index = -2
+	else:
+		particles.z_index = 0
 	if color != null: particles.color = color
 	particles.global_position = from.global_position + offset
 

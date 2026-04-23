@@ -6,14 +6,19 @@ extends Area2D
 @onready var original_coll_shape: Shape2D
 var player: Node2D
 
+@export var dps_on: bool = false
+@export var dps: float = 5.0
+@export var damage_player: bool = true
+
 func _ready() -> void:
 	collision_layer = 16
-	collision_mask = 0
+	collision_mask = 16
 	player = get_parent()
 	while coll == null:
 		await get_tree().process_frame
 	original_coll_shape = coll.shape
 	original_coll_position = coll.position
+	connect("area_entered", _on_area_entered)
 
 func _physics_process(_delta: float) -> void:
 	if coll == null:
@@ -43,3 +48,9 @@ func _physics_process(_delta: float) -> void:
 					coll.position.x = 30 + (player.weapon_hit_box_reach_offset.x)
 				if player.direction == -1:
 					coll.position.x = -30 - (player.weapon_hit_box_reach_offset.x)
+					
+
+func _on_area_entered(hurt_box: Area2D):
+	if hurt_box == null:
+		return
+	pass
