@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://xhi3tud0tpl2"]
 
+[ext_resource type="Script" uid="uid://8nbglvctb5u2" path="res://fx/particle_fx/lightning/lightning.gd" id="1_oeun0"]
 [ext_resource type="Texture2D" uid="uid://c2mfndrptomq" path="res://fx/particle_fx/particle_images/spark_05.png" id="1_vetvy"]
 [ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="2_oeun0"]
 [ext_resource type="Texture2D" uid="uid://3hhpa33sdq4i" path="res://fx/particle_fx/particle_images/spark_02.png" id="3_nvifl"]
-[ext_resource type="Script" uid="uid://ck1im7ofbls4r" path="res://fx/particle_fx/lightning/lightning_hit_box.gd" id="4_fqvbf"]
-[ext_resource type="PackedScene" uid="uid://ck8mejy8qvx0l" path="res://fx/particle_fx/lightning/sparks.tscn" id="4_oeun0"]
+[ext_resource type="Script" uid="uid://dr15uthiq5us1" path="res://knight/hit_box.gd" id="4_vetvy"]
 
 [sub_resource type="Curve" id="Curve_a47xp"]
 _data = [Vector2(0.70155036, 0.47238863), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -26,11 +26,16 @@ shader_parameter/glow_radius = 2
 shader_parameter/alpha_threshold = 0.1
 shader_parameter/glow_over_sprite = false
 
+[sub_resource type="Gradient" id="Gradient_vetvy"]
+offsets = PackedFloat32Array(0.034313727, 0.1127451)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_38f0s"]
 radius = 540.37036
 
 [node name="lightning" type="Node2D" unique_id=1050204567]
 scale = Vector2(0.05, 0.05)
+script = ExtResource("1_oeun0")
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="." unique_id=449451580]
 position = Vector2(0, -11000)
@@ -81,9 +86,6 @@ scale_curve_x = SubResource("Curve_a47xp")
 scale_curve_y = null
 color = Color(1, 1, 0, 1)
 
-[node name="CPUParticles2D3" parent="." unique_id=424894524 instance=ExtResource("4_oeun0")]
-position = Vector2(1.9073486e-06, 0.0009784698)
-
 [node name="CPUParticles2D5" type="CPUParticles2D" parent="." unique_id=214897928]
 material = SubResource("ShaderMaterial_a47xp")
 position = Vector2(59.999992, -10960)
@@ -94,7 +96,7 @@ texture = ExtResource("1_vetvy")
 lifetime = 20.5
 one_shot = true
 preprocess = 20.0
-speed_scale = 4.0
+speed_scale = 64.0
 direction = Vector2(0, 1)
 spread = 0.0
 gravity = Vector2(0, 2.4)
@@ -104,8 +106,20 @@ scale_amount_min = 0.1
 scale_amount_max = 0.1
 color = Color(1, 1, 0, 1)
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=874039459]
+scale = Vector2(0.99999994, 0.99999994)
+amount = 80
+lifetime = 0.01
+emission_shape = 6
+emission_ring_inner_radius = 0.8
+emission_ring_radius = 500.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+color = Color(1, 1, 0, 1)
+color_ramp = SubResource("Gradient_vetvy")
+
 [node name="HitBox" type="Area2D" parent="." unique_id=865987771]
-script = ExtResource("4_fqvbf")
+script = ExtResource("4_vetvy")
 dps_on = true
 damage_player = false
 metadata/_custom_type_script = "uid://dr15uthiq5us1"

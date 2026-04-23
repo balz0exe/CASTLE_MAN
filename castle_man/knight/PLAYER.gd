@@ -209,7 +209,7 @@ func _physics_process(delta: float) -> void:
 			in_air = true
 		# Transition to fall state if moving downward and not in an overriding animation
 		if velocity.y > 10 and not (animation.animation.contains("attack") or animation.animation.contains("roll")):
-			if not dead:
+			if not dead and state_machine.current_state.get_state_name() != "ThrowState":
 				state_machine.change_state("FallState")
 	else:
 		jumps = 0

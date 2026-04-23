@@ -29,6 +29,8 @@ var projectile: bool = false
 var powerup: bool = false
 var powerup_gd: Script
 
+var direction: int = 1
+
 var behavior: Script
 var behavior_node: Node
 
@@ -75,6 +77,8 @@ func _ready() -> void:
 	
 	connect("hit", on_hit)
 	connect("throw", on_thrown)
+	
+	print("direction at ready: " + str(direction))
 
 func set_values() -> void:
 	while res == null and get_tree() != null:
@@ -112,6 +116,7 @@ func set_values() -> void:
 	powerup = res.powerup
 	if powerup:
 		powerup_gd = res.powerup_gd
+		
 
 var animation_timeout: float = 0.0
 func animate(rate: float = 0.2, _range: int = animated["range"]):
@@ -126,6 +131,8 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 		sprite.frame = 0
 
 func _physics_process(delta: float) -> void:
+	if thrown:  # only print when actually thrown to reduce noise
+		print("lv.x: ", linear_velocity.x, " | direction: ", direction)
 	if picked_up:
 		queue_free()
 	if powerup and animated:
@@ -136,11 +143,19 @@ func _physics_process(delta: float) -> void:
 		animation_timeout -= delta
 	if equip_delay_timer > 0:
 		equip_delay_timer -= delta
-	var velocity = linear_velocity.length()/20
-	if sprite.flip_h:
+
+	var velocity = linear_velocity.length() / 20
+
+	# Drive direction and flip from actual velocity, not sprite state
+	if linear_velocity.x < -0.1:
+		direction = -1
+		sprite.flip_h = true
 		hit_box_coll.position.x = hit_box_original_pos.x * -2
-	else:
+	elif linear_velocity.x > 0.1:
+		direction = 1
+		sprite.flip_h = false
 		hit_box_coll.position.x = hit_box_original_pos.x
+
 	if velocity > 10:
 		if powerup: hit_box_coll.disabled = true
 		else: hit_box_coll.disabled = false
@@ -180,7 +195,6 @@ func _on_body_entered(body: Node2D) -> void:
 					var weapon = res
 					if body.is_in_group("enemies"):
 						body.found_weapon = null
-					#body.call_deferred("equip_weapon", weapon, self)
 					body.equip_weapon(weapon, self)
 
 func connect_interaction() -> void:
@@ -193,6 +207,6 @@ func on_hit(target):
 	if behavior != null and behavior_node.has_method("on_hit"):
 		behavior_node.on_hit(target)
 		
-func on_thrown():
+func on_thrown(delta):
 	if behavior != null and behavior_node.has_method("on_thrown"):
-		behavior_node.on_thrown()
+		behavior_node.on_thrown(delta)

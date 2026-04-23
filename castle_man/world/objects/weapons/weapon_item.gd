@@ -111,7 +111,7 @@ func on_equip(player: Node, res: Resource) -> void:
 	flip_h = player.animation.flip_h
 	update_attack_pattern(combo_count, anim)
 
-func throw() -> void:
+func throw(delta) -> void:
 	Game.play_sfx(owner_player.hit_sfx, Game.sfx_volume, owner_player)
 	if owner_player.weapon.throwable: owner_player.has_weapon = false
 	var projectile
@@ -120,11 +120,11 @@ func throw() -> void:
 	projectile.from = owner_player
 	projectile.thrown = true
 	owner_player.get_parent().add_child(projectile)
-	projectile.sprite.flip_h = owner_player.flip_h
+	projectile.direction = owner_player.direction
 	projectile.global_position = Vector2(owner_player.global_position.x + (owner_player.direction * 35), owner_player.global_position.y - 5)
 	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -150))
 	owner_player.state_machine.change_state("IdleState")
-	projectile.throw.emit()
+	projectile.throw.emit(delta)
 	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
 
 func update_attack_pattern(combo: int, animations: Array[String]) -> void:

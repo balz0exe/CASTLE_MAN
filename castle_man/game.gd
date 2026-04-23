@@ -183,7 +183,12 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	else:
 		particles.z_index = 0
 	if color != null: particles.color = color
-	particles.global_position = from.global_position + offset
+	if from.get("direction") != null:
+		print("offset with direction")
+		print(str(from.direction))
+		particles.global_position = from.global_position + Vector2(offset.x * from.direction, offset.y)
+	else:
+		particles.global_position = from.global_position + Vector2(offset.x, offset.y)
 
 func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false):
 	var explosion = load("res://world/misc/explosion/explosion.tscn")

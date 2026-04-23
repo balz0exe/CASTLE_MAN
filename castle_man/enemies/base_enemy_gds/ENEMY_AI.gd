@@ -181,7 +181,7 @@ func _physics_process(delta: float) -> void:
 		State.FIGHT:
 			if !is_instance_valid(enemy):
 				set_state(State.PATROL)
-			_face_towards(enemy)
+			if enemy: _face_towards(enemy)
 
 		State.SEARCH_WEAPON:
 			# Weapon was picked up mid-search, resume chasing

@@ -41,4 +41,8 @@ func on_body_entered(body):
 	if body != from or damage_from == true:
 		if body.has_method("take_damage") and !hit_bodies.has(body):
 			hit_bodies.append(body)
+			if body.is_in_group("player"):
+				if body.invincible:
+					return
+				body.call_deferred("take_damage", _damage*body.hurt_factor, self, _knockback)
 			body.call_deferred("take_damage", _damage, self, _knockback)
