@@ -182,9 +182,10 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	if color != null: particles.color = color
 	particles.global_position = from.global_position + offset
 
-func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50):
+func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false):
 	var explosion = load("res://world/misc/explosion/explosion.tscn")
 	explosion = explosion.instantiate()
+	explosion.damage_from = damage_from
 	call_deferred("explode", from, radius, damage, knockback, explosion)
 	play_sfx(load("res://fx/audio_fx/fireball_shoot.wav"), sfx_volume + 8, from)
 	

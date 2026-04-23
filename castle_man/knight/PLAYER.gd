@@ -154,6 +154,7 @@ func _ready() -> void:
 
 	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"), WeaponPickup.new())
 	Game.fade_in_sprite(light, 0.5, 0.5)
+	global_position = Vector2(0, 75)
 
 # =========================================
 # PHYSICS PROCESS
@@ -373,7 +374,7 @@ func respawn() -> void:
 	dead = false
 	coll.disabled = false
 	state_machine.change_state("IdleState")
-	global_position = Vector2.ZERO
+	global_position = Vector2(0, 75)
 	if Game.get_level().name == "MainLevel":
 		Game.fade_in_sprite(light, 0.5, 0.5)
 	else:

@@ -7,6 +7,7 @@ extends Area2D
 var _damage
 var _knockback
 var from
+var damage_from = false
 
 func _ready() -> void:
 	connect("body_entered", on_body_entered)
@@ -37,7 +38,7 @@ func async_deactivate():
 var hit_bodies : Array[Node2D] = []
 
 func on_body_entered(body):
-	if body != from:
+	if body != from or damage_from == true:
 		if body.has_method("take_damage") and !hit_bodies.has(body):
 			hit_bodies.append(body)
 			body.call_deferred("take_damage", _damage, self, _knockback)

@@ -27,6 +27,7 @@ animations = [{
 size = Vector2(26, 20)
 
 [node name="Barrel" type="RigidBody2D" unique_id=134338807 groups=["objects"]]
+z_index = -1
 script = ExtResource("1_f7xxn")
 max_health = 20.0
 breakable = true
