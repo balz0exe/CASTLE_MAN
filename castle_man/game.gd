@@ -75,15 +75,15 @@ func get_game_handler() -> Node:
 		return players[0]
 	return null
 
-func get_characters() -> Array[Node2D]:
-	var result: Array[Node2D] = []
+func get_characters() -> Array[CharacterBody2D]:
+	var result: Array[CharacterBody2D] = []
 
 	for n in get_tree().get_nodes_in_group("player"):
-		if n is Node2D:
+		if n is CharacterBody2D:
 			result.append(n)
 
 	for n in get_tree().get_nodes_in_group("enemies"):
-		if n is Node2D:
+		if n is CharacterBody2D:
 			result.append(n)
 
 	return result
