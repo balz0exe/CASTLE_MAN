@@ -7,6 +7,7 @@
 
 [resource]
 script = ExtResource("3_qepjy")
+weapon_name = "stamina potion"
 image = ExtResource("1_1tfwm")
 powerup = true
 powerup_gd = ExtResource("3_1tfwm")

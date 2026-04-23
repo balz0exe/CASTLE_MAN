@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/musroom_man.png-d5f9b59763a923687799951bb050e
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

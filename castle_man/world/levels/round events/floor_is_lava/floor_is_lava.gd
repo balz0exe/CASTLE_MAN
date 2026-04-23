@@ -1,6 +1,6 @@
 extends RoundEvent
 
-var final_lava_height: float = 165
+var final_lava_height: float = 50
 var lava_height: float = 500
 var lava_up: bool = false
 var damage_per_hit: float = 10
@@ -14,6 +14,8 @@ func start(value):
 	map = map.instantiate()
 	map.global_position = Vector2(0, lava_height + 30)
 	manager.get_parent().add_child(map)
+	var tween = create_tween()
+	tween.tween_property(get_tree().get_first_node_in_group("LevelScene").canvas, "color", Color.RED, 3)
 	raise_lava()
 
 func raise_lava():
@@ -47,6 +49,10 @@ func lower_lava():
 func clean_up():
 	await lower_lava()
 	print("free map")
+	var _tween = create_tween()
+	_tween.tween_property(get_tree().get_first_node_in_group("LevelScene").canvas, "color", Game.COLOR, 3)
+	while get_tree().get_first_node_in_group("LevelScene").canvas.color != Game.COLOR:
+		await get_tree().process_frame
 	queue_free()
 
 func _physics_process(delta: float) -> void:
@@ -75,7 +81,7 @@ func _physics_process(delta: float) -> void:
 			apply_lava(object)
 
 func apply_lava(player):
-	if player.is_class("CharacterBody2D"): player.take_damage(player.health, null)
-	elif player.is_in_group("weapons"): player.queue_free()
+	if player.is_class("CharacterBody2D"): player.take_damage(1, null, 0, true)
+	if player.is_in_group("weapons"): player.queue_free()
 	elif player.is_in_group("objects"): player.health = 0
 	if player.is_class("CharacterBody2D"): player.velocity.y = min(player.velocity.y, -200)

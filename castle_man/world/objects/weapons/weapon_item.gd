@@ -7,6 +7,7 @@ class_name WeaponItem
 @export var throwable: bool = false
 @export var ai_throw_range: int = 150
 @export var ranged: bool = false
+var ranged_auto: bool = false
 @export var damage = 2
 @export var range_diff: int = 0
 @export var stamina_cost = 5
@@ -34,12 +35,14 @@ var played: bool = false
 var animation_timeout: float = 0.0
 
 var weapon: Resource
+var behavior_node: Node
+
+signal hit(target)
+signal _throw
 
 func set_values():
 	while weapon == null:
 		await get_tree().process_frame
-	if weapon.item_script != null:
-		set_script(weapon.item_script)
 	sprite.texture = weapon.image
 	anim = weapon.anim
 	speed_scale = weapon.speed_scale
@@ -58,6 +61,7 @@ func set_values():
 	animation_sync_data = weapon.sync_data
 	offset = weapon.offset
 	projectile_path = weapon.projectile_res
+	ranged_auto = weapon.ranged_auto
 	
 	animated = {
 		"true": weapon.animated["true"],
@@ -67,11 +71,16 @@ func set_values():
 	}
 	sprite.hframes = animated["h_frames"]
 	sprite.vframes = animated["v_frames"]
-	
+	if weapon.item_script != null:
+		behavior_node = Node.new()
+		behavior_node.set_script(weapon.item_script)
+		add_child(behavior_node)
 
 func _ready():
 	add_child(sprite)
 	
+	connect("hit", on_hit)
+	connect("_throw", on_thrown)
 
 func _physics_process(delta: float) -> void:
 	if animation_timeout > 0:
@@ -159,3 +168,13 @@ func get_frame_data(anim_name: String, frame: int) -> Dictionary:
 		if frame in anim_data:
 			return anim_data[frame]
 	return {}
+
+#Empty Functions
+
+func on_hit(target):
+	if behavior_node != null and behavior_node.has_method("on_hit"):
+		behavior_node.on_hit(target)
+		
+func on_thrown():
+	if behavior_node != null and behavior_node.has_method("on_thrown"):
+		behavior_node.on_thrown()

@@ -2,6 +2,7 @@ extends Node
 
 #GAME WORLD VARIABLES
 var GRAVITY: int = 800
+var COLOR: Color = Color.LIGHT_SKY_BLUE
 
 # SFX pooling
 var sfx_pool: Array[AudioStreamPlayer2D] = []

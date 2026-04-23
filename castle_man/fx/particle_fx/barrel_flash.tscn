@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://lvoqmlgx1ju4"]
+
+[ext_resource type="Script" uid="uid://dprfd2x42jx8n" path="res://fx/particle_fx/particle_oneshot.gd" id="1_83561"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=2105818994]
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 40
+lifetime = 0.15000000000000002
+one_shot = true
+speed_scale = 4.0
+explosiveness = 1.0
+fixed_fps = 30
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+hue_variation_min = -0.4
+script = ExtResource("1_83561")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"

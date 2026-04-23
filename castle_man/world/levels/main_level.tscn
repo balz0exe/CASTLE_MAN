@@ -10,7 +10,7 @@ script = ExtResource("1_4pifd")
 music = "res://fx/audio_fx/game_music_1.wav"
 boundaries = {
 &"x_boundaries": Vector2(-775, 800),
-&"y_boundaries": Vector2(-1000, 575)
+&"y_boundaries": Vector2(-250, 275)
 }
 metadata/_custom_type_script = "uid://df3eilc42dr0j"
 

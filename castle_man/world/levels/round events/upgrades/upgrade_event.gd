@@ -28,17 +28,24 @@ signal upgrade_chosen
 # =========================================
 
 func _ready() -> void:
+	Game.get_player().connect("interact_released", _on_interact_released)
+	
 	upgrades = [
-		{name = "air roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_roll.gd"), weight = 1, stackable = false},
-		{name = "double jump", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/double_jump.gd"), weight = 3, stackable = false},
-		{name = "health up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/health_up.gd"), weight = 5, stackable = true},
-		{name = "stamina up", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/stamina_up.gd"), weight = 5, stackable = true},
-		{name = "extra life", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/extra_life.gd"), weight = 2, stackable = true},
-		{name = "attack up", color = Color.REBECCA_PURPLE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/attack_up.gd"), weight = 3, stackable = true},
-		{name = "armor up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/armor_up.gd"), weight = 3, stackable = true},
-		{name = "air throw", color = Color.REBECCA_PURPLE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_throw.gd"), weight = 3, stackable = false},
-		{name = "bounce damage", color = Color.REBECCA_PURPLE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/bounce_damage.gd"), weight = 2, stackable = false},
-		{name = "heal up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/heal up.gd"), weight = 1, stackable = true},
+		{name = "air roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_roll.gd"), weight = 2, stackable = false},
+		{name = "double jump", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/double_jump.gd"), weight = 6, stackable = false},
+		{name = "health up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/health_up.gd"), weight = 10, stackable = true},
+		{name = "stamina up", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/stamina_up.gd"), weight = 10, stackable = true},
+		{name = "extra life", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/extra_life.gd"), weight = 4, stackable = true},
+		{name = "attack up", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/attack_up.gd"), weight = 6, stackable = true},
+		{name = "armor up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/armor_up.gd"), weight = 6, stackable = true},
+		{name = "air throw", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_throw.gd"), weight = 6, stackable = false},
+		{name = "bounce damage", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/bounce_damage.gd"), weight = 4, stackable = false},
+		{name = "heal up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/heal up.gd"), weight = 2, stackable = true},
+		{name = "big roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/big_roll.gd"), weight = 4, stackable = false},
+		{name = "iron grip", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/iron_grip.gd"), weight = 1, stackable = false},
+		{name = "goblin horde", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/goblin_horde.gd"), weight = 1, stackable = true},
+		{name = "a gun", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/a_gun.gd"), weight = 1, stackable = true},
+		{name = "exploding arrows", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/exploding_arrows.gd"), weight = 5, stackable = false},
 	]
 
 # =========================================
@@ -82,6 +89,7 @@ func start(value):
 	totem_nodes.clear()
 	available_upgrades.clear()  # always start fresh regardless of prior state
 	upgrade_picked = false       # reset pick guard each event
+	current_area = null
 	super(value)
 	manager.upgrade_event = true
 	map = load("res://world/levels/round events/upgrades/upgrade_tilemap.tscn")
@@ -147,8 +155,8 @@ func lower():
 # =========================================
 # CLEAN UP
 # =========================================
-
 func clean_up():
+	Game.get_player().disconnect("interact_released", _on_interact_released)
 	for node in totem_nodes:
 		node.reset()
 	await lower()
@@ -162,31 +170,38 @@ func clean_up():
 # Emits upgrade_chosen so round_handler knows to continue.
 # =========================================
 
-func on_upgrade_area_entered(body: Node2D, area: UpgradeTotem) -> void:
-	if !up:
+var current_area: UpgradeTotem = null  # tracks which altar is currently displaying
+
+func _on_interact_released():
+	if !up or !Game.get_player().interaction_active:
 		return
+	if !upgrade_picked and Game.get_player().interaction_active and current_area != null:
+		upgrade_picked = true
+		print("added upgrade " + current_area.name)
+		Game.get_player().add_child(current_area.upgrade)
+		if !current_area.stackable:
+			manager.active_nonstackable_upgrades.append(current_area.name)
+		label.text = ""
+		upgrade_chosen.emit()
+		for node in totem_nodes:
+			node.fire.emitting = false
+			node.fire.get_child(0).emitting = false
+			Game.fade_out_sprite(node)
+		return
+
+func on_upgrade_area_entered(body: Node2D, area: UpgradeTotem) -> void:
+	if !up or !body.is_in_group("player"):
+		return
+	current_area = area
 	var player = Game.get_player()
+	player.interaction_active = true
 	while area.get_overlapping_bodies().has(body) and !upgrade_picked and up:
-		label.text = area.name
-		player.interaction_active = true
 		await Game.wait_for_seconds(get_physics_process_delta_time())
-		if Input.is_action_pressed("drop_item") and !upgrade_picked:
-			upgrade_picked = true
-			print("added upgrade " + area.name)
-			player.add_child(area.upgrade)
-			# Track non-stackable upgrades so they won't appear in future events
-			if !area.stackable:
-				manager.active_nonstackable_upgrades.append(area.name)
-			await Game.wait_for_seconds(get_physics_process_delta_time())
-			player.interaction_active = false
-			upgrade_chosen.emit()
-			for node in totem_nodes:
-				node.fire.emitting = false
-				node.fire.get_child(0).emitting = false
-				Game.fade_out_sprite(node)
-			return
-	# Player left without choosing or another altar was already picked
-	if !upgrade_picked:
+		if current_area == area:
+			label.text = area.name + " [f]"
+	# Player left without choosing or another altar took over
+	if current_area == area:
+		current_area = null
 		player.interaction_active = false
 		label.text = ""
 

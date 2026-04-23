@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/knight_up_down_attacks.png-5add7ea57671f9f1ec
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

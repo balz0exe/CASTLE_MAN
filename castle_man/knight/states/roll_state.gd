@@ -17,7 +17,7 @@ func exit():
 func physics_update(delta):
 	player.invincible = true
 	if Input.is_action_pressed("ui_left") or Input.is_action_pressed("ui_right"):
-		player.velocity.x += Input.get_axis("ui_left", "ui_right") * (player.acceleration) * delta
+		player.velocity.x += Input.get_axis("ui_left", "ui_right") * (player.acceleration*player.roll_strength) * delta
 
 func update_animation():
 	if !playing:

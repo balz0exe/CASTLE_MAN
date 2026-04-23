@@ -19,15 +19,13 @@ func start(value):
 
 func run() -> void:
 	while running:
-		# 🔥 Safety check (CRITICAL)
 		if round_id != manager.current_round_id:
 			queue_free()
 			return
 
 		spawn_weapon()
 
-		# Scale spawn speed slightly with round
-		var delay = max(spawn_delay - (manager._round * 0.05), 0.3)
+		var delay = max(spawn_delay - (manager._round * 0.02), 0.3)
 
 		await manager.get_tree().create_timer(delay).timeout
 

@@ -11,7 +11,9 @@ func _ready() -> void:
 func on_area_entered(hit_box: HitBox):
 	if (get_parent().is_in_group("player") and get_parent().invincible) or (get_parent().is_in_group("object") and hit_box.is_in_group("projectile")):
 		return
-	if hit_box == null or (get_parent().is_in_group("enemies") and hit_box.get_parent().is_in_group("enemies")) or (hit_box.get_parent().is_in_group("enemies") and hit_box.get_parent().dead):
+	if ((get_parent().is_in_group("enemies") and get_parent().friendly) or get_parent().is_in_group("player")) and ((hit_box.get_parent().is_in_group("enemies") and hit_box.get_parent().friendly)):
+		return
+	if hit_box == null or (get_parent().is_in_group("enemies") and (hit_box.get_parent().is_in_group("enemies") and !hit_box.get_parent().friendly)) or (hit_box.get_parent().is_in_group("enemies") and hit_box.get_parent().dead):
 		return
 	if get_parent().has_method("take_damage"):
 		if hit_box.get_parent().is_class("RigidBody2D"):

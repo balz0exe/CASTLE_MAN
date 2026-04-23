@@ -12,6 +12,7 @@ func _ready():
 	sfx_db.value_changed.connect(_on_sfx_changed)
 	music_db.value_changed.connect(_on_music_changed)
 	restart.button_up.connect(_on_restart_pressed)
+	quit.button_up.connect(_on_quit_pressed)
 
 func _on_sfx_changed(value: float):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sfx"), linear_to_db(value))
@@ -23,6 +24,12 @@ func _on_restart_pressed():
 	Game.get_level().process_mode = Node.PROCESS_MODE_INHERIT
 	visible = false
 	Game.restart()
+	while Game.get_player() == null:
+		await get_tree().process_frame
+	Game.get_player().equip_weapon(load("res://world/objects/weapons/sword/sword.tres"), WeaponPickup.new())
+
+func _on_quit_pressed():
+	get_tree().quit()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

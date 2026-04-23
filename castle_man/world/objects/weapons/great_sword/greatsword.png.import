@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/greatsword.png-58d4cb5583bb07ae5c0c3268a157ca
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -9,7 +9,53 @@
 [ext_resource type="Texture2D" uid="uid://bde8hp3ttbclh" path="res://knight/blank_knight_sidescroll_swim.png" id="5_7jktm"]
 [ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="6_eow3j"]
 [ext_resource type="Script" uid="uid://ql2m13hxwmr0" path="res://lives.gd" id="6_j5wjh"]
+[ext_resource type="Script" uid="uid://lgyhpmsuww32" path="res://powerup.gd" id="6_mfdv2"]
+[ext_resource type="Shader" uid="uid://dhavs2fmmeknv" path="res://crunch_shader.gdshader" id="8_iotsf"]
 [ext_resource type="Script" uid="uid://byfmjihoex3rt" path="res://pause_menu.gd" id="10_hve3p"]
+
+[sub_resource type="Shader" id="Shader_0swcm"]
+code = "shader_type canvas_item;
+
+uniform float pixel_size = 2.0;   // smaller = finer effect
+uniform float mix_strength = 0.5; // how much neighbors affect each other
+uniform float noise_strength = 0.3; // how much neighbors affect each other
+
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+
+	// Snap to a finer pixel grid
+	vec2 grid = vec2(pixel_size) / vec2(textureSize(SCREEN_TEXTURE, 0));
+	vec2 base_uv = floor(uv / grid) * grid;
+
+	// Sample neighbors
+	vec4 center = texture(SCREEN_TEXTURE, base_uv);
+	vec4 right  = texture(SCREEN_TEXTURE, base_uv + vec2(grid.x, 0.0));
+	vec4 up     = texture(SCREEN_TEXTURE, base_uv + vec2(0.0, grid.y));
+	vec4 diag   = texture(SCREEN_TEXTURE, base_uv + grid);
+
+	// Blend them
+	vec4 mixed = (center + right + up + diag) * 0.25;
+
+	// Mix original + blended
+	COLOR = mix(center, mixed, (mix_strength/100.0));
+	
+	float noise = fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453);
+	base_uv += (noise - noise_strength) * grid * 0.3;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mfdv2"]
+shader = SubResource("Shader_0swcm")
+shader_parameter/pixel_size = 4.0
+shader_parameter/mix_strength = 200.0
+shader_parameter/noise_strength = 1000000.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lc2xo"]
+shader = ExtResource("8_iotsf")
+shader_parameter/strength = 8.0
+shader_parameter/blur = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wjh"]
 shader = ExtResource("6_eow3j")
@@ -31,6 +77,14 @@ bus = &"Music"
 bus = &"Music"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1736962219]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1889933654]
+z_index = 5
+material = SubResource("ShaderMaterial_mfdv2")
+offset_left = -1127.0
+offset_top = -766.0
+offset_right = 1288.0
+offset_bottom = 660.0
 
 [node name="Control" type="Control" parent="CanvasLayer" unique_id=48333705]
 layout_mode = 3
@@ -85,6 +139,15 @@ offset_bottom = 870.0
 autowrap_mode = 3
 script = ExtResource("4_7jktm")
 
+[node name="Powerup" type="Label" parent="CanvasLayer/Control" unique_id=404432889]
+layout_mode = 0
+offset_left = 765.0
+offset_top = 609.0
+offset_right = 1036.0
+offset_bottom = 880.0
+autowrap_mode = 3
+script = ExtResource("6_mfdv2")
+
 [node name="Debug" type="Label" parent="CanvasLayer/Control" unique_id=1112841144]
 visible = false
 layout_mode = 0
@@ -96,11 +159,12 @@ autowrap_mode = 3
 script = ExtResource("3_feb5d")
 
 [node name="Lives" type="Control" parent="CanvasLayer/Control" unique_id=782970059]
+material = SubResource("ShaderMaterial_lc2xo")
 anchors_preset = 0
-offset_left = 575.5
-offset_top = 633.0
-offset_right = 575.5
-offset_bottom = 633.0
+offset_left = 575.0
+offset_top = 622.0
+offset_right = 575.0
+offset_bottom = 622.0
 script = ExtResource("6_j5wjh")
 life_sprite_texture = ExtResource("5_7jktm")
 
@@ -181,3 +245,20 @@ offset_right = 38.0
 offset_bottom = -1.0
 text = "MUSIC db:"
 label_settings = SubResource("LabelSettings_vef74")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Pause Menu" unique_id=1816485500]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 216.0
+offset_right = 389.0
+offset_bottom = 566.0
+text = "CONTROLS:
+
+Jump - [space]
+Move - [arrow keys]
+Attack - [x]
+Throw - hold and release [x]
+Dodge roll - [c]
+Interact \\ Drop Item - [f]
+Powerup - hold [f]
+Ground Pound \\ Bounce - while in air [hold down]"

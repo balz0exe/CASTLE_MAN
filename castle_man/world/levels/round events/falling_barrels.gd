@@ -15,6 +15,8 @@ var drops = [
 	[load("res://world/objects/weapons/spear/spear.tres"), 10],
 	[load("res://world/objects/weapons/bow/bow.tres"), 8],
 	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
+	[load("res://world/objects/weapons/mace/mace.tres"), 8],
+	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
 ]
 
 # --- STATE ---
@@ -30,7 +32,7 @@ func run() -> void:
 			queue_free()
 			return
 		spawn_weapon()
-		var delay = max(spawn_delay - (manager._round * 0.05), 0.3)
+		var delay = max(spawn_delay - (manager._round * 0.08), 0.3)
 		await manager.get_tree().create_timer(delay).timeout
 
 # --- CORE BEHAVIOR ---

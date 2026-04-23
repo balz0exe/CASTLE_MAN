@@ -20,4 +20,4 @@ func _physics_process(delta: float) -> void:
 		global_position = death_pos
 	else:
 		offset = offset.lerp(_offset, 6 * delta)
-		global_position = global_position.lerp(player.global_position + Vector2(player.direction * 15, 5), 6 * delta)   
+		global_position = global_position.lerp(player.global_position + Vector2(player.direction * 4, clamp(player.velocity.y * 0.3, 30, 100)*1.4-30), 4 * delta)

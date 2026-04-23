@@ -16,11 +16,18 @@ func physics_update(delta):
 		player.flip_h = false
 	if Input.get_axis("ui_left", "ui_right") == -1:
 		player.flip_h = true
+	if player.weapon.ranged and player.weapon.ranged_auto:
+		if player.weapon:
+			player.weapon.throw()
+			player.weapon._throw.emit()
 	if Input.is_action_just_released("attack"):
-		if player.weapon: player.weapon.throw()
+		if player.weapon:
+			player.weapon.throw()
+			if player.weapon.ranged: player.weapon._throw.emit()
 
 func update_animation():
-	player.animation.play("throw")
+	if !player.weapon.ranged_auto:
+		player.animation.play("throw")
 	if Input.is_action_pressed("attack"):
 		player.animation.frame = 0
 
@@ -29,8 +36,6 @@ func update_input():
 		player.velocity.y = player.jump_strength
 	if Input.is_action_just_released("jump"):
 		player.velocity.y = 0
-	if Input.is_action_just_pressed("ui_down"):
-		state_machine.change_state("IdleState")
 	if Input.is_action_just_pressed("roll"):
 		state_machine.change_state("RollState")
 

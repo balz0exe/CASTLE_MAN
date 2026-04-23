@@ -160,11 +160,17 @@ func _physics_process(delta: float) -> void:
 
 		State.PATROL:
 			var distance = ran_patrol_x - player.global_position.x
-			_move_towards_x(ran_patrol_x)
-			# Pick a new patrol destination when we arrive
-			if abs(distance) < 5:
-				ran_patrol_x = patrol_origin + randf_range(-player.patrol_range, player.patrol_range)
-				set_state(State.WAIT)
+			if !player.friendly:
+				# Pick a new patrol destination when we arrive
+				if abs(distance) < 5:
+					ran_patrol_x = patrol_origin + randf_range(-player.patrol_range, player.patrol_range)
+					set_state(State.WAIT)
+				_move_towards_x(ran_patrol_x)
+			else:
+				if Game.get_player().global_position.x - player.global_position.x > 80:
+					_move_towards_x(Game.get_player().global_position.x, true)
+				else:
+					set_state(State.WAIT)
 
 		State.CHASE:
 			if enemy != null:
@@ -230,7 +236,8 @@ func control_process(delta: float) -> void:
 					var weapons: Array[WeaponPickup]
 					for weapon in player.sight_bubble.get_overlapping_bodies():
 						if weapon.is_in_group("weapons"):
-							weapons.append(weapon)
+							var dis = player.global_position - weapon.global_position
+							if dis > Vector2(50, 50): weapons.append(weapon)
 					if !weapons.is_empty():
 						set_state(State.SEARCH_WEAPON)
 						return
@@ -258,7 +265,7 @@ func navigate() -> void:
 	# Check sight bubble for the player
 	var colliders = player.sight_bubble.get_overlapping_bodies()
 	for body in colliders:
-		if body.is_in_group("player"):
+		if (body.is_in_group("player") and !player.friendly) or (body.is_in_group("enemies") and player.friendly):
 			player.sight_cast.target_position = body.global_position - player.global_position
 			player.sight_cast.force_raycast_update()
 
@@ -266,7 +273,8 @@ func navigate() -> void:
 				var collider = player.sight_cast.get_collider()
 				# Acquire target if line of sight is clear
 				if collider and not collider.is_in_group("enviroment") and enemy == null:
-					enemy = body
+					if !body.is_in_group("player") and !body.friendly:
+						enemy = body
 				# Lose target if something is in the way
 				elif collider and collider.is_in_group("enviroment") and enemy != null:
 					lose_enemy(player.lose_time)
@@ -299,10 +307,11 @@ func navigate() -> void:
 				player.ai_state = player.Ai_State_Request.jump
 				player.update_ai_request()
 
-	# Flip at ledge edges while patrolling
+	# Jump at ledge edges while patrolling
 	if player.is_on_floor() and player.feet_cast.get_collider() == null:
 		if state == State.PATROL:
-			_flip()
+			player.ai_state = player.Ai_State_Request.jump
+			player.update_ai_request()
 
 # =========================================
 # CONTROL FUNCTIONS
@@ -341,8 +350,9 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 			return
 
 func lose_enemy(time: float) -> void:
-	# Currently disabled — enemies never lose sight of the player
-	return
+	if enemy.is_in_group("enemies"):
+		await Game.wait_for_seconds(time)
+		enemy = null
 
 func _flip() -> void:
 	if !can_flip:

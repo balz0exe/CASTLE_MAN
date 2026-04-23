@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://d351dc4ua3wyd"]
+
+[ext_resource type="Script" uid="uid://cjep343ntuu35" path="res://world/objects/weapons/bow/arrow.gd" id="1_35emc"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_xl6qi"]
+
+[resource]
+script = ExtResource("1_xl6qi")
+weapon_name = "bullet"
+projectile = true
+knockback = 10
+throw_speed = 200
+throw_damage = 100
+pickup_script = ExtResource("1_35emc")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

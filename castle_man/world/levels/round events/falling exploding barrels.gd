@@ -25,7 +25,7 @@ func run() -> void:
 		spawn_weapon()
 
 		# Scale spawn speed slightly with round
-		var delay = max(spawn_delay - (manager._round * 0.05), 0.3)
+		var delay = max(spawn_delay - (manager._round * 0.1), 0.3)
 
 		await manager.get_tree().create_timer(delay).timeout
 

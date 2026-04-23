@@ -36,6 +36,7 @@ var ENEMY_AI = Node
 
 @export_group("basic")
 @export var dumb: bool = false
+@export var friendly: bool = false
 @export var weapon_user = true
 @export var will_throw = false
 @export var max_health: float = 100
@@ -136,7 +137,7 @@ func _ready() -> void:
 	state_machine.init(player_ref)
 	ENEMY_AI.init(player_ref)
 	if item != null:
-		equip_weapon(item, null)
+		equip_weapon(item, WeaponPickup.new())
 	hit_box.coll.disabled = true
 	connect("attacked", on_attacked)
 	connect("died", on_died)
@@ -157,7 +158,7 @@ func _physics_process(delta: float) -> void:
 		basic_attack = false
 		combo_reset_time = original_combo_reset
 
-	debug.text = (str(health) + " " + str(dead) + " " + state_machine.current_state.get_state_name())
+	debug.text = (str(ENEMY_AI.state))
 
 	# Death check
 	if health <= 0 and !dead:
@@ -262,12 +263,14 @@ func update_animations() -> void:
 
 var knock_back_direction: Vector2
 
-func take_damage(damage, from: Node2D, knockback: float = 10):
+func take_damage(damage, from: Node2D, knockback: float = 10, auto_kill: bool = false):
 	if !dead:
 		if parry:
 			from.parried(self)
 			return
-		health = health - damage
+		health -= damage
+		if auto_kill:
+			health =0
 		damage_particles()
 		await get_knockback_direction(from)
 		if state_machine.current_state.get_state_name() == "HurtState":
@@ -317,33 +320,31 @@ func die() -> void:
 # WEAPON EQUIP
 # =========================================
 
+var weapon_hit_box_reach_offset: Vector2
 var pending_weapon_res: Resource = null
 var pending_pickup_scene: RigidBody2D = null
 
-func equip_weapon(res: Resource, pickup: RigidBody2D):
-	if pickup_reset_timer > 0:
+func equip_weapon(res: Resource, pickup: RigidBody2D = null) -> void:
+	if pickup == null:
 		return
-	# Store the request and defer to end of frame to avoid equipping mid-physics-step
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
 	call_deferred("_do_equip")
 
-var weapon_hit_box_reach_offset: Vector2
-
-func _do_equip():
-	if not pending_weapon_res:
+func _do_equip() -> void:
+	if (not pending_weapon_res) or (pending_pickup_scene == null):
 		return
 	weapon = WeaponItem.new()
-	if pending_pickup_scene: pending_pickup_scene.queue_free()
+	pending_pickup_scene.queue_free()
 	has_weapon = true
 	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
 	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset
 	weapon.set_meta("resource_path", pending_weapon_res.resource_path)
-	pending_pickup_scene = null
 	weapon.owner_player = self
 	weapon_hand.add_child(weapon)
 	weapon.on_equip(self, pending_weapon_res)
 	pending_weapon_res = null
+	pending_pickup_scene = null
 
 func disarm():
 	if weapon:

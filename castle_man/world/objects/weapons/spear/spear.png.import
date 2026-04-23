@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/spear.png-7b0840fa1101f65b7f0657a76e9b169b.ct
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

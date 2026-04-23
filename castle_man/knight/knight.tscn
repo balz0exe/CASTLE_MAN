@@ -458,7 +458,7 @@ script = ExtResource("1_f8xjr")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1648207416]
 top_level = true
-position = Vector2(2, -5)
+position = Vector2(0, -31)
 zoom = Vector2(1.4, 1.4)
 limit_bottom = 570
 script = ExtResource("2_f5jhb")
@@ -531,7 +531,7 @@ script = ExtResource("5_8vp70")
 
 [node name="ShadowSprite" type="Sprite2D" parent="Shadow" unique_id=1981193768]
 modulate = Color(0, 0, 0, 1)
-self_modulate = Color(1, 1, 1, 0.19607843)
+self_modulate = Color(1, 1, 1, 0.39215687)
 position = Vector2(1, 4.999998)
 scale = Vector2(0.1015625, 0.054687474)
 texture = ExtResource("4_whyep")

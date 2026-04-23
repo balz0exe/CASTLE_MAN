@@ -34,12 +34,12 @@ var active_nonstackable_upgrades: Array[String] = []  # upgrades that can only b
 # =========================================
 
 var round_events = [
-	{ name = "falling weapons", script = load("res://world/levels/round events/falling_weapons.gd"), weight = 4, min_round = 3 },
+	{ name = "falling weapons", script = load("res://world/levels/round events/falling_knives.gd"), weight = 4, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
-	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 10, min_round = 2 },
+	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
-	{ name = "darkness", script = load("res://world/levels/round events/darkness.gd"), weight = 3, min_round = 2 },
+	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
 ]
 
 # =========================================
@@ -56,6 +56,25 @@ var enemies = [
 ]
 
 # =========================================
+# DROPS
+# Same weighted system as events
+# =========================================
+
+var drops = [
+	[load("res://knight/powerups/exploding boots/exploding_boots.tres"), 5],
+	[load("res://knight/powerups/health potion/health_potion.tres"), 20],
+	[load("res://knight/powerups/stamina potion/stamina_potion.tres"), 20],
+	[load("res://enemies/scenes/slime.tscn"), 10],
+	[load("res://world/objects/weapons/axe/hand_axe.tres"), 15],
+	[load("res://world/objects/weapons/sword/sword.tres"), 15],
+	[load("res://world/objects/weapons/spear/spear.tres"), 10],
+	[load("res://world/objects/weapons/bow/bow.tres"), 8],
+	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
+	[load("res://world/objects/weapons/mace/mace.tres"), 8],
+	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
+]
+
+# =========================================
 # PHYSICS PROCESS
 # =========================================
 
@@ -69,7 +88,54 @@ func _physics_process(delta: float) -> void:
 # =========================================
 
 func _ready() -> void:
+	if !active_events.is_empty():
+		for e in active_events:
+			e.queue_free()
 	new_round()
+	call_deferred("spawn_start_objects")
+
+func spawn_start_objects():
+	var objects = [
+		{ name = "barrel", scene = load("res://world/objects/barrels/barrel.tscn"), weight = 10},
+		{ name = "exploding_barrel", scene = load("res://world/objects/barrels/exploding_barrel.tscn"), weight = 2},
+	]
+	for i in range(25):
+		var d = pick_start_object(objects)
+		var name = d.name
+		var object = d.scene
+		object = object.instantiate()
+		Game.get_level().add_child(object)
+		print(object.name)
+		if name == "barrel":
+			var ran = [1, -1].pick_random()
+			if ran == 1:
+				object.drop = pick_weighted_drop()
+		object.global_position = Vector2(randi_range(-750, 750), 100)
+
+func pick_weighted_drop():
+	var total_weight: float = 0.0
+	for drop in drops:
+		total_weight += drop[1]
+	var roll = randf_range(0.0, total_weight)
+	var cumulative: float = 0.0
+	for drop in drops:
+		cumulative += drop[1]
+		if roll <= cumulative:
+			return drop[0]
+	return drops[-1][0]
+
+func pick_start_object(objects):
+	# Weighted random pick from eligible enemies
+	var available = objects
+	var total_weight = 0
+	for e in available:
+		total_weight += e.weight
+	var roll = randf() * total_weight
+	for e in available:
+		roll -= e.weight
+		if roll <= 0:
+			return e
+	return available.back()
 
 # =========================================
 # MAIN GAME LOOP
@@ -145,13 +211,13 @@ func events_for_round(r: int) -> int:
 	if r >= 3 and r < 6:
 		return randi() % 2
 	elif r >= 6 and r < 11:
-		return randi() % 3
-	elif r >= 11 and r < 13:
-		return randi() % 4
-	elif r >= 13 and r < 20:
 		return randi() % 3 + 1
+	elif r >= 11 and r < 13:
+		return randi() % 4 + 1
+	elif r >= 13 and r < 20:
+		return randi() % 4 + 1
 	elif r >= 20:
-		return randi() % 4 + 2
+		return randi() % 5 + 2
 	return 0
 
 func run_round_events(round_id: int) -> void:
@@ -234,6 +300,6 @@ func on_enemy_died(round_id: int) -> void:
 
 func enemies_for_round(r: int) -> int:
 	var A = 1
-	var B = 1
-	var k = 1.1
+	var B = 1.5
+	var k = 1.2
 	return int(A + B * pow(r, k))

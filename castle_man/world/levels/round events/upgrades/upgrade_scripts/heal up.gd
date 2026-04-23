@@ -2,7 +2,7 @@ extends Powerup
 
 func _ready() -> void:
 	super()
-	var original_health = player.max_health
-	player.max_health += 5
-	player.health += player.max_health * (player.max_health/player.original_health)
-	print("added 5 max_health to player")
+	while player.health < player.max_health:
+		player.health += 1
+		await get_tree().process_frame
+	print("fully healed player")

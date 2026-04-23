@@ -21,7 +21,7 @@ func exit():
 
 func physics_update(_delta):
 	if player.hits_taken > 1:
-		player.disarm()
+		if !player.iron_grip: player.disarm()
 		player.invincible_timer = player.invincible_time
 		player.invincible = true
 	player.velocity.x = player.knockback_force

@@ -39,8 +39,8 @@ signal throw
 
 func _init() -> void:
 	add_to_group("objects")
-	add_to_group("weapons")
 	if projectile: add_to_group("projectiles")
+	elif !powerup: add_to_group("weapons")
 
 func _ready() -> void:
 	
@@ -126,6 +126,8 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 		sprite.frame = 0
 
 func _physics_process(delta: float) -> void:
+	if picked_up:
+		queue_free()
 	if powerup and animated:
 		animate()
 	if pickup_timer > 0:
@@ -156,23 +158,30 @@ func check_contacts(delta) -> void:
 	contact_monitor_timer = 0.5
 	interaction.monitoring = false
 
+var picked_up = false
+
 func _on_body_entered(body: Node2D) -> void:
+	if !powerup and picked_up:
+		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
 		if body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0):
 			return
 		if body.is_in_group("player") or (body.is_in_group("enemies") and body.weapon_user):
 				if powerup:
-					if body.is_in_group("enemies"):
+					if body.is_in_group("enemies") or Game.get_player().powerup!= null:
 						return
 					var _powerup = Powerup.new()
 					_powerup.set_script(powerup_gd)
-					Game.get_player().add_child(_powerup)
+					_powerup.name = res.weapon_name
+					Game.get_player().powerup = _powerup
 					queue_free()
 				elif not body.has_weapon:
+					picked_up = true
 					var weapon = res
 					if body.is_in_group("enemies"):
 						body.found_weapon = null
-					body.call_deferred("equip_weapon", weapon, self)
+					#body.call_deferred("equip_weapon", weapon, self)
+					body.equip_weapon(weapon, self)
 
 func connect_interaction() -> void:
 	if interaction != null:

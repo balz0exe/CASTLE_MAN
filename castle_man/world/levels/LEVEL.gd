@@ -14,6 +14,7 @@ func get_music_path():
 	return music
 
 func _ready():
+	canvas.color = Game.COLOR
 	scale.y = 1
 	if has_method("_start_cutscene_logic"):
 		call_deferred("_start_cutscene_logic")

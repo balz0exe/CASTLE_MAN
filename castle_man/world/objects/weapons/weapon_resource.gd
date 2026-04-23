@@ -11,6 +11,7 @@ class_name WeaponResource
 	"range": 1
 	}
 @export var ranged: bool = false
+@export var ranged_auto: bool = false
 @export var projectile: bool = false
 @export var powerup: bool = false
 @export var powerup_gd: Script

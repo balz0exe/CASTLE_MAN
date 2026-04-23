@@ -39,7 +39,7 @@ var max_health: int = 50
 var health: float = max_health
 var lives: int = 3
 var dead: bool = false
-var max_stamina: float = 50
+var max_stamina: float = 25
 var stamina: float = max_stamina
 var stamina_regen: float = 10
 
@@ -55,7 +55,14 @@ var damage_on_bounce: bool = false
 var bounce_damage: float = 2
 var animations: Array[String]
 var has_weapon: bool = false
+
+# === POWERUPS AND UPGRADES ===
 var has_boots: bool = false
+var iron_grip: bool = false
+var exploding_arrows: bool = false
+var thors_hammer: bool = false
+
+var powerup: Powerup = null
 
 # Combo system
 var combo_count: int = 4
@@ -91,6 +98,7 @@ var sprint_factor: float = 1.8
 var speed_potion: float = 1.0
 var prev_speed: float = max_speed
 var jump_strength: int = -300
+var roll_strength: float = 2
 var roll_distance: int = 10
 var roll_stam_cost: int = 6
 
@@ -110,17 +118,25 @@ var has_double_jumped: bool = false
 var jumps: int = 0
 var can_air_throw: bool = false
 
-# Interaction input
+# Input booleans
 var interaction_active: bool = false
+var applying_powerup: bool = false
 
 # =========================================
 # SIGNALS — could move to character.gd
 # =========================================
 
+#input signals
+signal interact_pressed
+signal interact_released
+signal interact_held
+
+#other signals
 signal ground_pound
 signal hit(target)
 signal player_died
 signal player_respawned
+
 
 # =========================================
 # READY
@@ -136,7 +152,8 @@ func _ready() -> void:
 	connect("ground_pound", on_ground_pound)
 	connect("hit", on_hit)
 
-	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"))
+	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"), WeaponPickup.new())
+	Game.fade_in_sprite(light, 0.5, 0.5)
 
 # =========================================
 # PHYSICS PROCESS
@@ -202,15 +219,11 @@ func _physics_process(delta: float) -> void:
 	if coyote_timer > 0:
 		coyote_timer -= delta
 
-	# --- Drop weapon ---
-	if Input.is_action_just_pressed("drop_item") and !interaction_active:
-		disarm()
-
 	# --- Move through platform ---
 	if Input.is_action_just_pressed("ui_down") and is_on_floor():
 		global_position.y += 3
 
-	# --- Charge throw input ---
+	# --- Charge throw input and powerup input---
 	if has_weapon:
 		if Input.is_action_pressed("attack"):
 			held_frame_counter += delta
@@ -218,8 +231,34 @@ func _physics_process(delta: float) -> void:
 				if (is_on_floor() or can_air_throw) and (weapon.throwable or weapon.ranged):
 					if not dead:
 						state_machine.change_state("ThrowState")
+						held_frame_counter = 0
 		if Input.is_action_just_released("attack"):
 			held_frame_counter = 0
+
+	# --- Drop weapon or apply powerup ---
+	if Input.is_action_pressed("drop_item"):
+		held_frame_counter += delta
+		
+		if held_frame_counter > held_frames:
+			if powerup and not dead:
+				applying_powerup = true
+				add_child(powerup)
+				powerup = null
+				
+				interact_held.emit()
+
+	if Input.is_action_just_pressed("drop_item"):
+		interact_pressed.emit()
+
+	if Input.is_action_just_released("drop_item"):
+		interact_released.emit()
+		
+		if applying_powerup:
+			applying_powerup = false
+		elif !interaction_active:
+			disarm()
+			
+		held_frame_counter = 0
 
 	# --- Invincibility frames ---
 	if invincible:
@@ -260,10 +299,12 @@ func set_attack_pattern(combo: int, anim: Array[String]) -> void:
 var blood_path: String = "res://fx/particle_fx/blood_particles.tscn"
 var knock_back_direction: Vector2
 
-func take_damage(damage: int, from: Node2D, knockback: float = 10) -> void:
+func take_damage(damage: int, from: Node2D, knockback: float = 10, auto_kill: bool = false) -> void:
 	if dead:
 		return
 	health -= damage * hurt_factor
+	if auto_kill:
+		health =0
 	Game.spawn_particle_oneshot(blood_path, self, Vector2(-direction * 5, -10))
 	await get_knockback_direction(from)
 	if knock_back_direction:
@@ -333,8 +374,10 @@ func respawn() -> void:
 	coll.disabled = false
 	state_machine.change_state("IdleState")
 	global_position = Vector2.ZERO
-	if Game.get_game_handler().active_event_names.has("darkness"): Game.fade_in_sprite(light, 0.5, 0.3)
-	else: Game.fade_in_sprite(light)
+	if Game.get_level().name == "MainLevel":
+		Game.fade_in_sprite(light, 0.5, 0.5)
+	else:
+		Game.fade_in_sprite(light)
 	animation.modulate.a = 1.0
 	player_respawned.emit()
 
@@ -349,16 +392,17 @@ var pending_pickup_scene: RigidBody2D = null
 var weapon_hit_box_reach_offset: Vector2
 
 func equip_weapon(res: Resource, pickup: RigidBody2D = null) -> void:
+	if pickup == null:
+		return
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
+	pending_pickup_scene.queue_free()
 	call_deferred("_do_equip")
 
 func _do_equip() -> void:
-	if not pending_weapon_res:
+	if (not pending_weapon_res) or (pending_pickup_scene == null):
 		return
 	weapon = WeaponItem.new()
-	if pending_pickup_scene:
-		pending_pickup_scene.queue_free()
 	has_weapon = true
 	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
 	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset

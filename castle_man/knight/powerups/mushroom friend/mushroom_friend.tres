@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://c5i7lfyx6paj5"]
+
+[ext_resource type="Texture2D" uid="uid://bcv4j8ouybjgs" path="res://enemies/musroom_man.png" id="1_2i8wy"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_5nde2"]
+[ext_resource type="Script" uid="uid://c5bm2h4dqdp45" path="res://knight/powerups/mushroom friend/mushroom_friend.gd" id="2_ftdv6"]
+[ext_resource type="Script" uid="uid://balhn8bnyknvy" path="res://knight/powerups/mushroom friend/mushroom_friend_pickup.gd" id="2_mxffb"]
+
+[resource]
+script = ExtResource("1_5nde2")
+weapon_name = "mushroom friend"
+image = ExtResource("1_2i8wy")
+animated = {
+"h_frames": 4,
+"range": 5,
+"true": false,
+"v_frames": 4
+}
+powerup = true
+powerup_gd = ExtResource("2_ftdv6")
+pickup_script = ExtResource("2_mxffb")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

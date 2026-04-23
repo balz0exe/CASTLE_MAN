@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://b4oq6xdat888i"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_1h5ah"]
+[ext_resource type="Texture2D" uid="uid://buppxh3gwlhni" path="res://world/objects/weapons/hand_gun/hand gun.png" id="1_1y2qh"]
+[ext_resource type="Script" uid="uid://bovf2ykto4toh" path="res://world/objects/weapons/hand_gun/hand_gun_item.gd" id="2_dyllw"]
+[ext_resource type="Resource" uid="uid://d351dc4ua3wyd" path="res://world/objects/weapons/hand_gun/bullet.tres" id="2_rjyan"]
+
+[resource]
+script = ExtResource("1_1h5ah")
+weapon_name = "hand gun"
+image = ExtResource("1_1y2qh")
+ranged = true
+ranged_auto = true
+projectile_res = ExtResource("2_rjyan")
+item_script = ExtResource("2_dyllw")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_4utpr"]
 [ext_resource type="Texture2D" uid="uid://c3ojkgwk343ga" path="res://world/objects/weapons/axe/hand_axe.png" id="1_7fkcv"]
-[ext_resource type="Script" uid="uid://rnp8ipr50fj4" path="res://world/objects/weapons/axe/hand_axe.gd" id="2_s8gaa"]
+[ext_resource type="Script" uid="uid://rnp8ipr50fj4" path="res://world/objects/weapons/axe/hand_axe_pickup.gd" id="2_s8gaa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8gaa"]
 size = Vector2(10, 10)
