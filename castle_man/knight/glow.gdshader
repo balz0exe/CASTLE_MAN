@@ -22,7 +22,7 @@ shader_type canvas_item;
 uniform vec4  glow_color    : source_color = vec4(1.0, 0.5, 0.1, 1.0);
 
 /// How bright the glow is (1.0 = subtle, 3–5 = vivid)
-uniform float glow_strength : hint_range(0.0, 8.0, 0.05) = 2.0;
+uniform float glow_strength : hint_range(0.0, 14.0, 0.01) = 2.0;
 
 /// Radius in texels – kept LOW on purpose so it stays pixel-art-clean
 /// Values > 4 will start to look blurry; use 1–3 for authentic pixel glow

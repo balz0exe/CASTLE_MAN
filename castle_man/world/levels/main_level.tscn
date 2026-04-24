@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="2_imn7r"]
 [ext_resource type="Script" uid="uid://tsfvc4t05npa" path="res://world/levels/round_handler.gd" id="2_pakj0"]
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="3_0x0cr"]
+[ext_resource type="Texture2D" uid="uid://dx02iuqm4rfk1" path="res://world/moon.png" id="7_6v6pp"]
+[ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="8_7tpqa"]
 
 [node name="MainLevel" type="Node2D" unique_id=1153981264 groups=["LevelScene"]]
 y_sort_enabled = true
@@ -15,6 +17,18 @@ boundaries = {
 &"y_boundaries": Vector2(-250, 275)
 }
 metadata/_custom_type_script = "uid://df3eilc42dr0j"
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1820676961]
+z_index = -4
+scroll_scale = Vector2(0.8, 1.2)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D2" unique_id=843310998]
+modulate = Color(0.6745098, 1, 1, 0.11764706)
+position = Vector2(60, -130)
+texture = ExtResource("7_6v6pp")
+
+[node name="light" parent="Parallax2D2/Sprite2D3" unique_id=149216288 instance=ExtResource("8_7tpqa")]
+modulate = Color(0, 0.49411765, 1, 1)
 
 [node name="RoundHandler" type="Node" parent="." unique_id=2098355246 groups=["roundhandler"]]
 script = ExtResource("2_pakj0")
