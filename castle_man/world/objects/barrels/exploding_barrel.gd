@@ -10,12 +10,15 @@ func take_damage(damage, from: Node2D, knockback: float = 10):
 		var knockback_force: Vector2 = 15 * knockback * knock_back_direction
 		if knockback_force.y > 0: knockback_force.y = 0
 		apply_impulse(knockback_force)
-		if from.name == "Explosion":
+		if from.is_class("Area2D"):
 			await Game.wait_for_seconds(0.5)
 			if from == null:
 				return
 			health = 0
 		if breakable:
-			health -= damage
+			if from.is_class("RigidBody2D"):
+				health = 0
+			else:
+				health -= damage
 			if health <= 0:
 				_break()

@@ -121,6 +121,7 @@ color_ramp = SubResource("Gradient_vetvy")
 [node name="HitBox" type="Area2D" parent="." unique_id=865987771]
 script = ExtResource("4_vetvy")
 dps_on = true
+dps = 1.0
 damage_player = false
 metadata/_custom_type_script = "uid://dr15uthiq5us1"
 

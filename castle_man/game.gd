@@ -184,8 +184,6 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 		particles.z_index = 0
 	if color != null: particles.color = color
 	if from.get("direction") != null:
-		print("offset with direction")
-		print(str(from.direction))
 		particles.global_position = from.global_position + Vector2(offset.x * from.direction, offset.y)
 	else:
 		particles.global_position = from.global_position + Vector2(offset.x, offset.y)

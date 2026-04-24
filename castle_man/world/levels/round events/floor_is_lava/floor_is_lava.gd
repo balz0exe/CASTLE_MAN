@@ -83,5 +83,9 @@ func _physics_process(delta: float) -> void:
 func apply_lava(player):
 	if player.is_class("CharacterBody2D"): player.take_damage(1, null, 0, true)
 	if player.is_in_group("weapons"): player.queue_free()
-	elif player.is_in_group("objects"): player.health = 0
+	elif player.is_in_group("objects"): 
+		if player.get("powerup") == true:
+			player.queue_free()
+		else:
+			player.health = 0
 	if player.is_class("CharacterBody2D"): player.velocity.y = min(player.velocity.y, -200)

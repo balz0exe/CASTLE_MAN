@@ -2,11 +2,7 @@ extends RoundEvent
 
 func _ready() -> void:
 	var tween = create_tween()
-	tween.tween_property(get_tree().get_first_node_in_group("LevelScene").canvas, "color", Color.BLACK, 3)
-	for i in range(20):
-		var firefly = load("res://world/levels/round events/darkness/firefly.tscn")
-		firefly = firefly.instantiate()
-		Game.get_level().add_child(firefly)
+	tween.tween_property(get_tree().get_first_node_in_group("LevelScene").canvas, "color", Color.DARK_SLATE_BLUE, 3)
 	
 func clean_up():
 	var _tween = create_tween()

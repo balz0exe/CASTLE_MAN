@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Castle_Man_Proto_v2"
-run/main_scene="uid://fygcebr6i8jm"
+run/main_scene="uid://ect78kjaqdov"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -27,6 +27,7 @@ Game="*uid://dq7xs1jex1uq0"
 
 window/size/viewport_width=576
 window/size/viewport_height=324
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/scale=0.5
 

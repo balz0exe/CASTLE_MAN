@@ -33,6 +33,9 @@ func enter(_prev_state):
 	if prev_state == "RunState":
 		run_attack = true
 	if state_machine.monitor:print("Entered Attack State")
+	if player.weapon == null:
+		start_exit()
+		return
 	clear = true
 	if !player.weapon.ranged: attack()
 

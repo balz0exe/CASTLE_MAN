@@ -32,21 +32,21 @@ func _ready() -> void:
 	
 	upgrades = [
 		{name = "air roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_roll.gd"), weight = 2, stackable = false},
-		{name = "double jump", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/double_jump.gd"), weight = 6, stackable = false},
-		{name = "health up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/health_up.gd"), weight = 10, stackable = true},
-		{name = "stamina up", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/stamina_up.gd"), weight = 10, stackable = true},
+		{name = "double jump", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/double_jump.gd"), weight = 10, stackable = false},
+		{name = "health up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/health_up.gd"), weight = 12, stackable = true},
+		{name = "stamina up", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/stamina_up.gd"), weight = 12, stackable = true},
 		{name = "extra life", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/extra_life.gd"), weight = 4, stackable = true},
 		{name = "attack up", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/attack_up.gd"), weight = 6, stackable = true},
-		{name = "armor up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/armor_up.gd"), weight = 6, stackable = true},
-		{name = "air throw", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_throw.gd"), weight = 6, stackable = false},
-		{name = "bounce damage", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/bounce_damage.gd"), weight = 4, stackable = false},
+		{name = "armor up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/armor_up.gd"), weight = 10, stackable = true},
+		{name = "air throw", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/air_throw.gd"), weight = 4, stackable = false},
+		{name = "bounce damage", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/bounce_damage.gd"), weight = 10, stackable = false},
 		{name = "heal up", color = Color.CRIMSON, script = load("res://world/levels/round events/upgrades/upgrade_scripts/heal up.gd"), weight = 2, stackable = true},
-		{name = "big roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/big_roll.gd"), weight = 4, stackable = false},
-		{name = "iron grip", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/iron_grip.gd"), weight = 1, stackable = false},
+		{name = "big roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/big_roll.gd"), weight = 6, stackable = false},
+		{name = "iron grip", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/iron_grip.gd"), weight = 2, stackable = false},
 		{name = "goblin horde", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/goblin_horde.gd"), weight = 1, stackable = true},
 		{name = "a gun", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/a_gun.gd"), weight = 1, stackable = true},
-		{name = "exploding arrows", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/exploding_arrows.gd"), weight = 5, stackable = false},
-		{name = "thors hammer", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/thors_hammer.gd"), weight = 5, stackable = false},
+		{name = "exploding arrows", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/exploding_arrows.gd"), weight = 2, stackable = false},
+		{name = "thors blessing", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/thors_hammer.gd"), weight = 2, stackable = false},
 	]
 
 # =========================================

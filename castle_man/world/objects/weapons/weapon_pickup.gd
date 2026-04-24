@@ -39,11 +39,6 @@ var pickup_timer: float = 0.0
 signal hit(target)
 signal throw
 
-func _init() -> void:
-	add_to_group("objects")
-	if projectile: add_to_group("projectiles")
-	elif !powerup: add_to_group("weapons")
-
 func _ready() -> void:
 	
 	sprite = Sprite2D.new()
@@ -69,8 +64,6 @@ func _ready() -> void:
 	interaction.body_entered.connect(_on_body_entered)
 	hit_box_original_pos = hit_box.coll.position
 	
-	set_values()
-	
 	pickup_timer = 2
 	
 	set_collision_layer_value(3, true)
@@ -78,11 +71,12 @@ func _ready() -> void:
 	connect("hit", on_hit)
 	connect("throw", on_thrown)
 	
-	print("direction at ready: " + str(direction))
+	set_values()
+	
 
 func set_values() -> void:
-	while res == null and get_tree() != null:
-		await get_tree().process_frame
+	#while res == null and get_tree() != null:
+		#await get_tree().process_frame
 	if res == null:
 		return
 	behavior = res.pickup_script
@@ -116,7 +110,13 @@ func set_values() -> void:
 	powerup = res.powerup
 	if powerup:
 		powerup_gd = res.powerup_gd
-		
+	
+	add_to_group("objects")
+	if projectile: add_to_group("projectiles")
+	if !powerup: add_to_group("weapons")
+	elif is_in_group("weapons"): remove_from_group("weapons")
+	
+	print("powerup: "+str(powerup)+" weapon: "+str(is_in_group("weapons")))
 
 var animation_timeout: float = 0.0
 func animate(rate: float = 0.2, _range: int = animated["range"]):
@@ -131,8 +131,6 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 		sprite.frame = 0
 
 func _physics_process(delta: float) -> void:
-	if thrown:  # only print when actually thrown to reduce noise
-		print("lv.x: ", linear_velocity.x, " | direction: ", direction)
 	if picked_up:
 		queue_free()
 	if powerup and animated:
@@ -176,7 +174,7 @@ func check_contacts(delta) -> void:
 var picked_up = false
 
 func _on_body_entered(body: Node2D) -> void:
-	if !powerup and picked_up:
+	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")):
 		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
 		if body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0):
