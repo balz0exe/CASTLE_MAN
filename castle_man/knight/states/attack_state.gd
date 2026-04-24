@@ -82,7 +82,7 @@ func check_pogo(delta):
 func update_animation():
 	if clear:
 		if player.combo_counter == 0: return
-		if !played:
+		if !played and player.weapon != null:
 			if player.weapon.ranged: return
 			played = true
 			if !up_down_attack:

@@ -10,9 +10,7 @@ func _ready() -> void:
 	player.has_boots = true
 	timer = 20
 	while timer > 0:
-		player.speed_potion = 2.5
 		await get_tree().process_frame
-	player.speed_potion = 1
 	player.has_boots = false
 	queue_free()
 	

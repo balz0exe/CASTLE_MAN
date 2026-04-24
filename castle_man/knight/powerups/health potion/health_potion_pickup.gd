@@ -6,6 +6,6 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if Game.get_player().health < Game.get_player().max_health - 5:
-		get_parent().interaction_coll.disabled = true
-	else:
 		get_parent().interaction_coll.disabled = false
+	else:
+		get_parent().interaction_coll.disabled = true

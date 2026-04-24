@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://chodq11xoucod" path="res://fx/particle_fx/fire_2.tscn" id="6_4gvuq"]
 [ext_resource type="Script" uid="uid://cyqccjuiaegx" path="res://world/levels/start_door.gd" id="6_p8vai"]
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="7_p8vai"]
+[ext_resource type="Script" uid="uid://btdvt5e0ick20" path="res://fx/particle_fx/flame.gd" id="7_scklf"]
 [ext_resource type="Texture2D" uid="uid://dx02iuqm4rfk1" path="res://world/moon.png" id="10_v2o7i"]
+[ext_resource type="Texture2D" uid="uid://cjmnm3ia634ll" path="res://world/Screenshot 2026-04-24 at 5.10.41 PM.png" id="11_sqqyt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gvuq"]
 
@@ -97,10 +99,12 @@ metadata/_edit_use_anchors_ = true
 [node name="ball2" parent="." unique_id=122654187 instance=ExtResource("6_4gvuq")]
 position = Vector2(-48.000004, 209)
 color = Color(1, 0, 0, 1)
+script = ExtResource("7_scklf")
 
 [node name="ball3" parent="." unique_id=1335637096 instance=ExtResource("6_4gvuq")]
 position = Vector2(47.99999, 210)
 color = Color(1, 0, 0, 1)
+script = ExtResource("7_scklf")
 
 [node name="Knight" parent="." unique_id=1190708844 instance=ExtResource("4_4gvuq")]
 position = Vector2(0, 21)
@@ -120,12 +124,21 @@ text = "CASTLE MAN"
 horizontal_alignment = 1
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1136563593]
+z_index = -6
+scroll_scale = Vector2(0.7, 0.7)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1254134990]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("11_sqqyt")
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1515102254]
+z_index = -4
 scroll_scale = Vector2(0.8, 0.8)
 
-[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D" unique_id=940623076]
+[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D2" unique_id=1649290215]
 modulate = Color(0.6745098, 1, 1, 0.11764706)
 position = Vector2(-77, 25)
 texture = ExtResource("10_v2o7i")
 
-[node name="light" parent="Parallax2D/Sprite2D3" unique_id=1816980457 instance=ExtResource("7_p8vai")]
+[node name="light" parent="Parallax2D2/Sprite2D3" unique_id=568605792 instance=ExtResource("7_p8vai")]
 modulate = Color(0, 0.49411765, 1, 1)

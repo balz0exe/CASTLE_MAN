@@ -351,7 +351,6 @@ func die() -> void:
 		return
 	dead = true
 	lives -= 1
-	player_died.emit()
 
 	# Drop weapon on death
 	if weapon:
@@ -361,7 +360,10 @@ func die() -> void:
 		drop.global_position = global_position
 		drop.apply_impulse(Vector2(0, -10))
 		drop.apply_torque(-direction * 10)
-		weapon = null
+		has_weapon = false
+		if weapon: weapon.call_deferred("queue_free")
+	
+	player_died.emit()
 	
 	if shadow:
 		shadow.visible = false

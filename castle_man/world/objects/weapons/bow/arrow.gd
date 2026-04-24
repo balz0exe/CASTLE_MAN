@@ -2,7 +2,7 @@ extends Node
 
 var hit = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	await Game.wait_for_seconds(0.5)
 	print(get_parent().linear_velocity.x)
 

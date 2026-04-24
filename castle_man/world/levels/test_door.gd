@@ -6,7 +6,7 @@ extends Sprite2D
 
 var started = false
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if area.get_overlapping_bodies().has(player):
 		player.interaction_active = true
 		label.visible = true
