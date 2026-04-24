@@ -8,12 +8,13 @@
 [ext_resource type="Resource" uid="uid://d0h353bfqclyh" path="res://world/objects/weapons/axe/hand_axe.tres" id="11_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://cd4h4og1bn6hd" path="res://world/objects/weapons/weapon_tool.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
+[ext_resource type="Resource" uid="uid://dca2etexxjea1" path="res://world/objects/weapons/wand/wand.tres" id="13_ev2xu"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
+[ext_resource type="Resource" uid="uid://c6evbrlhet7ys" path="res://world/objects/weapons/bow/bow.tres" id="14_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://culpn5pv07drb" path="res://world/levels/round events/darkness/firefly.tscn" id="14_p72ms"]
 [ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
-[ext_resource type="Resource" uid="uid://bhq326cjesqu" path="res://world/objects/weapons/mace/mace.tres" id="23_r4vgb"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776 groups=["LevelScene"]]
 script = ExtResource("1_r4vgb")
@@ -154,7 +155,11 @@ position = Vector2(378, 6)
 
 [node name="WeaponObject" parent="." unique_id=258884919 instance=ExtResource("11_p75f5")]
 position = Vector2(-81, 176)
-res = ExtResource("23_r4vgb")
+res = ExtResource("13_ev2xu")
+
+[node name="WeaponObject2" parent="." unique_id=827167746 instance=ExtResource("11_p75f5")]
+position = Vector2(-138, 178)
+res = ExtResource("14_k8ngv")
 
 [node name="Firefly" parent="." unique_id=1239225813 instance=ExtResource("14_p72ms")]
 position = Vector2(-55, 146)

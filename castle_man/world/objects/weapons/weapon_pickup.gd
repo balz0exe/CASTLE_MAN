@@ -26,6 +26,7 @@ var animated: Dictionary = {
 }
 var played: bool = false
 var projectile: bool = false
+var proj_persist: bool = false
 var powerup: bool = false
 var powerup_gd: Script
 
@@ -107,6 +108,7 @@ func set_values() -> void:
 	sprite.hframes = animated["h_frames"]
 	sprite.vframes = animated["v_frames"]
 	projectile = res.projectile
+	proj_persist = res.proj_persist
 	powerup = res.powerup
 	if powerup:
 		powerup_gd = res.powerup_gd
@@ -131,8 +133,6 @@ func animate(rate: float = 0.2, _range: int = animated["range"]):
 		sprite.frame = 0
 
 func _physics_process(delta: float) -> void:
-	if picked_up:
-		queue_free()
 	if powerup and animated:
 		animate()
 	if pickup_timer > 0:
@@ -143,6 +143,9 @@ func _physics_process(delta: float) -> void:
 		equip_delay_timer -= delta
 
 	var velocity = linear_velocity.length() / 20
+
+	if picked_up or (projectile and !proj_persist and abs(linear_velocity.x) < 1):
+		queue_free()
 
 	# Drive direction and flip from actual velocity, not sprite state
 	if linear_velocity.x < -0.1:
@@ -202,6 +205,8 @@ func connect_interaction() -> void:
 #Empty Functions
 
 func on_hit(target):
+	if !proj_persist and target.is_in_group("enviroment"):
+		queue_free()
 	if behavior != null and behavior_node.has_method("on_hit"):
 		behavior_node.on_hit(target)
 		

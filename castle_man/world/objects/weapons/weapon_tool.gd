@@ -26,6 +26,9 @@ var weapon: WeaponPickup
 			call_deferred("add_weapon", weapon)
 
 func _ready() -> void:
+	for i in range(100):
+		await get_tree().process_frame
+	Game.spawn_object(res, global_position)
 	if res != null:
 		sprite.texture = res.image
 	if Engine.is_editor_hint():

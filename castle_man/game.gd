@@ -14,6 +14,7 @@ var level: Node2D
 @onready var music_player_a = $MusicPlayer_1
 @onready var music_player_b = $MusicPlayer_2
 @onready var camera
+@onready var fade = $CanvasLayer/FadeScreen
 var active_player = null
 var inactive_player = null
 var current_music_path := ""
@@ -29,6 +30,38 @@ func _ready() -> void:
 	get_tree().node_added.connect(_on_node_added)
 	level = get_level()
 	is_ready = true
+	await wait_for_seconds(1)
+	fade_out_sprite(fade, 3)
+
+func go_to_scene(next_scene: PackedScene) -> void:
+	var player = get_player()
+	var weapon
+	if player.weapon != null:
+		weapon = player.weapon.weapon
+	await fade_in_sprite(fade)
+	print("->faded out.")
+	if next_scene:
+		await get_tree().process_frame
+		await get_tree().process_frame
+		get_tree().change_scene_to_packed(next_scene)
+		print("->changed scene.")
+	else:
+		push_error("Invalid scene passed to go_to_scene()")
+		return
+	
+	# Wait for the scene to be ready
+	await get_tree().process_frame
+	await get_tree().process_frame  # Add a second frame to be safe
+	print("waiting for level...")
+	while get_level() == null:
+		await get_tree().process_frame
+	print("level found")
+	
+	while get_player() == null:
+		await get_tree().process_frame
+	if get_level().name != "MainLevel": get_player().equip_weapon(weapon, WeaponPickup.new())
+
+	await fade_out_sprite(fade)
 
 func _on_node_added(node: Node) -> void:
 	if node.is_in_group("LevelScene"):

@@ -55,8 +55,7 @@ texture_region_size = Vector2i(64, 64)
 1:2/size_in_atlas = Vector2i(2, 2)
 1:2/0 = 0
 1:2/0/texture_origin = Vector2i(32, 32)
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-96, -75, 32, -76, 32, -80, -96, -80)
-1:2/0/physics_layer_0/polygon_0/one_way = true
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-96, -80, 32, -80, 32, 32, -96, 32)
 
 [resource]
 tile_size = Vector2i(64, 64)

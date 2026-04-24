@@ -113,10 +113,10 @@ func on_equip(player: Node, res: Resource) -> void:
 
 func throw(delta) -> void:
 	Game.play_sfx(owner_player.hit_sfx, Game.sfx_volume, owner_player)
-	if owner_player.weapon.throwable: owner_player.has_weapon = false
+	if owner_player.weapon.throwable and projectile_path == null: owner_player.has_weapon = false
 	var projectile
 	projectile = WeaponPickup.new()
-	projectile.res = weapon if !ranged else projectile_path
+	projectile.res = weapon if projectile_path == null else projectile_path
 	projectile.from = owner_player
 	projectile.thrown = true
 	owner_player.get_parent().add_child(projectile)
@@ -125,7 +125,8 @@ func throw(delta) -> void:
 	projectile.apply_impulse(Vector2(owner_player.direction * projectile.throw_speed * 5, -150))
 	owner_player.state_machine.change_state("IdleState")
 	projectile.throw.emit(delta)
-	if !owner_player.weapon.ranged: owner_player.weapon.queue_free()
+	if projectile_path == null:
+		owner_player.weapon.queue_free()
 
 func update_attack_pattern(combo: int, animations: Array[String]) -> void:
 	if owner_player and owner_player.has_method("set_attack_pattern"):

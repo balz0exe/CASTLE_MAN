@@ -11,6 +11,10 @@ func _ready():
 	player.connect("player_died", update_lives_display)
 
 func _process(_delta: float) -> void:
+	if Game.get_level().name == "TitleScreen":
+		visible = false
+	else:
+		visible = true
 	if Game.get_player():
 		player = Game.get_player()
 		update_lives_display()

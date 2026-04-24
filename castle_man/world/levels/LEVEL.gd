@@ -1,7 +1,7 @@
 class_name LEVEL
 extends Node2D
 
-@onready var player = $Knight
+@onready var player = Game.get_player()
 @onready var canvas = $CanvasModulate
 @onready var camera = player.camera
 @export var music = ""

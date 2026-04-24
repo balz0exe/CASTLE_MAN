@@ -5,7 +5,7 @@ func _ready() -> void:
 	
 	var world = Game.get_level()
 	var pickup = WeaponPickup.new()
-	pickup.res = load("res://world/objects/weapons/hand_gun/hand_gun.tres")
+	pickup.res = load("res://world/objects/weapons/wand/wand.tres")
 	if player.weapon == null:
 		player.equip_weapon(pickup.res, WeaponPickup.new())
 	else:

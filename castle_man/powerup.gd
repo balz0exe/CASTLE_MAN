@@ -5,6 +5,10 @@ var player: Node
 var powerup
 
 func _physics_process(_delta: float) -> void:
+	if Game.get_level().name == "TitleScreen":
+		visible = false
+	else:
+		visible = true
 	if Game.get_player():
 		player = Game.get_player()
 		if player.powerup!= null:

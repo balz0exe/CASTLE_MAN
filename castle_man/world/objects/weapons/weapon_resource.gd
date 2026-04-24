@@ -13,6 +13,7 @@ class_name WeaponResource
 @export var ranged: bool = false
 @export var ranged_auto: bool = false
 @export var projectile: bool = false
+@export var proj_persist: bool = false
 @export var powerup: bool = false
 @export var powerup_gd: Script
 @export var knockback = 5

@@ -11,6 +11,10 @@ func _ready() -> void:
 	is_ready = true
 
 func _physics_process(_delta: float) -> void:
+	if Game.get_level().name == "TitleScreen":
+		visible = false
+	else:
+		visible = true
 	if Game.get_game_handler():
 		player = Game.get_game_handler()
 		if is_ready:

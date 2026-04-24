@@ -23,7 +23,7 @@ func physics_update(delta):
 	if Input.is_action_just_released("attack"):
 		if player.weapon:
 			player.weapon.throw(delta)
-			if player.weapon.ranged: player.weapon._throw.emit()
+			player.weapon._throw.emit()
 
 func update_animation():
 	if !player.weapon.ranged_auto:

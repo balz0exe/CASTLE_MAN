@@ -47,6 +47,13 @@ bus = &"Music"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1736962219]
 
+[node name="FadeScreen" type="ColorRect" parent="CanvasLayer" unique_id=871579031]
+offset_left = -205.0
+offset_top = -113.0
+offset_right = 1332.0
+offset_bottom = 771.0
+color = Color(0, 0, 0, 1)
+
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1889933654]
 z_index = 8
 material = SubResource("ShaderMaterial_215e1")

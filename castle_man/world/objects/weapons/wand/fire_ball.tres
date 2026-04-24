@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://dkcepkuroeymo"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_3buvp"]
+[ext_resource type="Script" uid="uid://bh61ldljirijq" path="res://world/objects/weapons/wand/fire_ball.gd" id="1_i50w5"]
+
+[resource]
+script = ExtResource("1_3buvp")
+weapon_name = "fireball"
+projectile = true
+proj_persist = true
+pickup_script = ExtResource("1_i50w5")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

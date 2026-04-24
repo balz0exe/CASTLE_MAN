@@ -23,10 +23,7 @@ func _on_music_changed(value: float):
 func _on_restart_pressed():
 	Game.get_level().process_mode = Node.PROCESS_MODE_INHERIT
 	visible = false
-	Game.restart()
-	while Game.get_player() == null:
-		await get_tree().process_frame
-	Game.get_player().equip_weapon(load("res://world/objects/weapons/sword/sword.tres"), WeaponPickup.new())
+	Game.go_to_scene(load("res://world/levels/title_screen.tscn"))
 
 func _on_quit_pressed():
 	get_tree().quit()
@@ -37,8 +34,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if visible:
 			visible = false
 			level.process_mode = Node.PROCESS_MODE_INHERIT
-			Game.get_game_handler().process_mode = Node.PROCESS_MODE_INHERIT
+			if Game.get_game_handler() != null:
+				Game.get_game_handler().process_mode = Node.PROCESS_MODE_INHERIT
 		else:
 			level.process_mode = Node.PROCESS_MODE_DISABLED
-			Game.get_game_handler().process_mode = Node.PROCESS_MODE_DISABLED
+			if Game.get_game_handler() != null:
+				Game.get_game_handler().process_mode = Node.PROCESS_MODE_DISABLED
 			visible = true

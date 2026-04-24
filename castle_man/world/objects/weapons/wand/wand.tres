@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://dca2etexxjea1"]
+
+[ext_resource type="Texture2D" uid="uid://sovjn8s6mkvn" path="res://world/objects/weapons/wand/wand.png" id="1_ahrsd"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_q26js"]
+[ext_resource type="Resource" uid="uid://dkcepkuroeymo" path="res://world/objects/weapons/wand/fire_ball.tres" id="2_hs6ev"]
+[ext_resource type="Script" uid="uid://ck20g6n8ikxdx" path="res://world/objects/weapons/wand/wand_item.gd" id="2_te8hi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_te8hi"]
+size = Vector2(10, 10)
+
+[resource]
+script = ExtResource("1_q26js")
+weapon_name = "Wand"
+image = ExtResource("1_ahrsd")
+hurt_box_shape = SubResource("RectangleShape2D_te8hi")
+projectile_res = ExtResource("2_hs6ev")
+throwable = true
+combo_count = 2
+anim = Array[String](["2", "3"])
+item_script = ExtResource("2_te8hi")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

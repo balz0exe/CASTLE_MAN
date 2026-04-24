@@ -2,6 +2,10 @@ extends Node
 
 var hit = false
 
+func _process(delta: float) -> void:
+	await Game.wait_for_seconds(0.5)
+	print(get_parent().linear_velocity.x)
+
 func on_hit(target):
 	if !target.is_class("CharacterBody2D"):
 		return
