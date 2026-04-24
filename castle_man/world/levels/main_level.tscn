@@ -20,11 +20,11 @@ metadata/_custom_type_script = "uid://df3eilc42dr0j"
 
 [node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1820676961]
 z_index = -4
-scroll_scale = Vector2(0.8, 1.2)
+scroll_scale = Vector2(0.8, 0.8)
 
 [node name="Sprite2D3" type="Sprite2D" parent="Parallax2D2" unique_id=843310998]
 modulate = Color(0.6745098, 1, 1, 0.11764706)
-position = Vector2(60, -130)
+position = Vector2(59, -40)
 texture = ExtResource("7_6v6pp")
 
 [node name="light" parent="Parallax2D2/Sprite2D3" unique_id=149216288 instance=ExtResource("8_7tpqa")]

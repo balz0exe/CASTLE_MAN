@@ -120,11 +120,11 @@ text = "CASTLE MAN"
 horizontal_alignment = 1
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1136563593]
-scroll_scale = Vector2(1, 1.2)
+scroll_scale = Vector2(0.8, 0.8)
 
 [node name="Sprite2D3" type="Sprite2D" parent="Parallax2D" unique_id=940623076]
 modulate = Color(0.6745098, 1, 1, 0.11764706)
-position = Vector2(-183, -56)
+position = Vector2(-77, 25)
 texture = ExtResource("10_v2o7i")
 
 [node name="light" parent="Parallax2D/Sprite2D3" unique_id=1816980457 instance=ExtResource("7_p8vai")]
