@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
+[ext_resource type="PackedScene" uid="uid://culpn5pv07drb" path="res://world/levels/round events/darkness/firefly.tscn" id="14_p72ms"]
 [ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
 [ext_resource type="Resource" uid="uid://bhq326cjesqu" path="res://world/objects/weapons/mace/mace.tres" id="23_r4vgb"]
@@ -35,30 +36,24 @@ position = Vector2(-528, 97)
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("11_ciqro")]
 position = Vector2(-192, 202)
-visible_torch = false
 
 [node name="light2" parent="." unique_id=1004330458 instance=ExtResource("11_ciqro")]
 position = Vector2(357, 168)
-visible_torch = false
 
 [node name="light3" parent="." unique_id=875775495 instance=ExtResource("11_ciqro")]
 position = Vector2(610, 165)
-visible_torch = false
 
 [node name="light4" parent="." unique_id=523099292 instance=ExtResource("11_ciqro")]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(260, -13)
-visible_torch = false
 
 [node name="light5" parent="." unique_id=166891295 instance=ExtResource("11_ciqro")]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(704, -19)
-visible_torch = false
 
 [node name="light6" parent="." unique_id=318240401 instance=ExtResource("11_ciqro")]
 position = Vector2(-236, 1479)
 scale = Vector2(2, 2)
-visible_torch = false
 
 [node name="light7" parent="." unique_id=1062960975 instance=ExtResource("11_ciqro")]
 position = Vector2(-238, 1418)
@@ -160,3 +155,6 @@ position = Vector2(378, 6)
 [node name="WeaponObject" parent="." unique_id=258884919 instance=ExtResource("11_p75f5")]
 position = Vector2(-81, 176)
 res = ExtResource("23_r4vgb")
+
+[node name="Firefly" parent="." unique_id=1239225813 instance=ExtResource("14_p72ms")]
+position = Vector2(-55, 146)

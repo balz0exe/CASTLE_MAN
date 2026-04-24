@@ -28,18 +28,22 @@ animations = [{
 show_behind_parent = true
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_n0aq1")
+visible_torch = false
 
 [node name="Torch" type="Node2D" parent="." unique_id=2008161670]
 
 [node name="ball2" parent="Torch" unique_id=122654187 instance=ExtResource("2_g6wwd")]
+visible = false
 position = Vector2(0, 0.99999994)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Torch" unique_id=854483265]
+visible = false
 position = Vector2(0, 8)
 scale = Vector2(0.2, 0.6)
 sprite_frames = SubResource("SpriteFrames_qqp6n")
 
 [node name="CPUParticles2D" parent="Torch" unique_id=144545824 instance=ExtResource("4_g6wwd")]
+visible = false
 position = Vector2(0, -16)
 
 [node name="glow" type="Node2D" parent="." unique_id=747868819]
@@ -59,6 +63,6 @@ energy = 0.8
 texture = ExtResource("7_0k250")
 
 [node name="PointLight2D3" type="PointLight2D" parent="glow" unique_id=1518930826]
-position = Vector2(-5.17647, 1.47059)
+position = Vector2(4.7683716e-07, 3.5294113)
 energy = 1.2
 texture = ExtResource("8_c5vkb")

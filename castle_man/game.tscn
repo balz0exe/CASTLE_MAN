@@ -48,9 +48,9 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mfdv2"]
 shader = SubResource("Shader_0swcm")
-shader_parameter/pixel_size = 4.0
+shader_parameter/pixel_size = 6.0
 shader_parameter/mix_strength = 200.0
-shader_parameter/noise_strength = 1000000.0
+shader_parameter/noise_strength = -10000.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lc2xo"]
 shader = ExtResource("8_iotsf")
