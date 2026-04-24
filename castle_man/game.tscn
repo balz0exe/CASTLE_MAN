@@ -176,6 +176,15 @@ offset_right = 553.0
 offset_bottom = 293.0
 text = "RESTART"
 
+[node name="Title" type="Button" parent="CanvasLayer/Control/Pause Menu" unique_id=2034643007]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 223.0
+offset_right = 591.0
+offset_bottom = 254.0
+text = "TITLE SCREEN
+"
+
 [node name="Quit" type="Button" parent="CanvasLayer/Control/Pause Menu" unique_id=369495377]
 layout_mode = 0
 offset_left = 478.0

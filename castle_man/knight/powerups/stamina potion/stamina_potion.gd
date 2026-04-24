@@ -6,7 +6,7 @@ func _ready() -> void:
 	super()
 	timer = 5
 	while timer > 0:
-		player.speed_potion = 2.5
+		player.speed_potion = 1.8
 		if player.stamina < player.max_stamina:
 			player.stamina += 0.5
 		else:

@@ -11,5 +11,6 @@ weapon_name = "health potion"
 image = ExtResource("1_bfjq3")
 powerup = true
 powerup_gd = ExtResource("2_3a7ss")
+instant = true
 pickup_script = ExtResource("2_eumly")
 metadata/_custom_type_script = "uid://bd1fcxbnr4375"

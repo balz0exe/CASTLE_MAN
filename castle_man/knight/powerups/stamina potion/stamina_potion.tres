@@ -11,5 +11,6 @@ weapon_name = "stamina potion"
 image = ExtResource("1_1tfwm")
 powerup = true
 powerup_gd = ExtResource("3_1tfwm")
+instant = true
 pickup_script = ExtResource("2_1tfwm")
 metadata/_custom_type_script = "uid://bd1fcxbnr4375"

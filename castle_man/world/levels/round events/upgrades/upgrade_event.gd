@@ -214,6 +214,10 @@ func on_upgrade_area_entered(body: Node2D, area: UpgradeTotem) -> void:
 
 func _physics_process(delta: float) -> void:
 	super(delta)
+	if up:
+		map.collision_enabled = true
+	else:
+		map.collision_enabled = false
 	if map != null:
 		map.global_position = Vector2(0, height + 30)
 	if !manager.upgrade_event:

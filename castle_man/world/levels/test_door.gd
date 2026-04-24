@@ -20,7 +20,7 @@ func start():
 	for i in range(3):
 		frame += 1
 		await Game.wait_for_seconds(0.3)
-	Game.go_to_scene(load("res://world/levels/main_level.tscn"))
+	Game.go_to_scene(load("res://world/levels/test_level.tscn"))
 
 func _ready() -> void:
 	area.connect("body_entered", on_body_entered)

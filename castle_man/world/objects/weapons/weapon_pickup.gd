@@ -29,6 +29,7 @@ var projectile: bool = false
 var proj_persist: bool = false
 var powerup: bool = false
 var powerup_gd: Script
+var instant: bool = false
 
 var direction: int = 1
 
@@ -112,6 +113,7 @@ func set_values() -> void:
 	powerup = res.powerup
 	if powerup:
 		powerup_gd = res.powerup_gd
+		instant = res.instant
 	
 	add_to_group("objects")
 	if projectile: add_to_group("projectiles")
@@ -189,7 +191,8 @@ func _on_body_entered(body: Node2D) -> void:
 					var _powerup = Powerup.new()
 					_powerup.set_script(powerup_gd)
 					_powerup.name = res.weapon_name
-					Game.get_player().powerup = _powerup
+					if !instant: Game.get_player().powerup = _powerup
+					else: Game.get_player().add_child(_powerup)
 					queue_free()
 				elif not body.has_weapon:
 					picked_up = true

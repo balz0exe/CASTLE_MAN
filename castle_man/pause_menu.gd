@@ -2,10 +2,13 @@ extends Control
 
 @onready var restart: Button = $Restart
 @onready var quit: Button = $Quit
+@onready var title: Button = $Title
 @onready var sfx_db: HSlider = $SfxDb
 @onready var music_db: HSlider = $MusicDb
 
 func _ready():
+	restart.visible = false
+	title.visible = false
 	visible = false
 	sfx_db.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Sfx")))
 	music_db.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))
@@ -13,6 +16,7 @@ func _ready():
 	music_db.value_changed.connect(_on_music_changed)
 	restart.button_up.connect(_on_restart_pressed)
 	quit.button_up.connect(_on_quit_pressed)
+	title.button_up.connect(_on_title_pressed)
 
 func _on_sfx_changed(value: float):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sfx"), linear_to_db(value))
@@ -21,6 +25,12 @@ func _on_music_changed(value: float):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 
 func _on_restart_pressed():
+	Game.get_level().process_mode = Node.PROCESS_MODE_INHERIT
+	visible = false
+	Game.go_to_scene(load(get_tree().current_scene.scene_file_path))
+	
+
+func _on_title_pressed():
 	Game.get_level().process_mode = Node.PROCESS_MODE_INHERIT
 	visible = false
 	Game.go_to_scene(load("res://world/levels/title_screen.tscn"))
@@ -37,6 +47,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			if Game.get_game_handler() != null:
 				Game.get_game_handler().process_mode = Node.PROCESS_MODE_INHERIT
 		else:
+			if Game.get_level().name != "TitleScreen":
+				restart.visible = true
+				title.visible = true
+			else:
+				restart.visible = false
+				title.visible = false
 			level.process_mode = Node.PROCESS_MODE_DISABLED
 			if Game.get_game_handler() != null:
 				Game.get_game_handler().process_mode = Node.PROCESS_MODE_DISABLED

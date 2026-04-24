@@ -128,7 +128,8 @@ signal died
 # =========================================
 
 func _ready() -> void:
-	z_index = 1
+	z_index = 0
+	y_sort_enabled = true
 	var bubble_coll = $SightBubble/bubble_collision
 	health = max_health
 	bubble_coll.shape.radius = sight_radius

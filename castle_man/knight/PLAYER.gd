@@ -154,7 +154,7 @@ func _ready() -> void:
 
 	equip_weapon(load("res://world/objects/weapons/sword/sword.tres"), WeaponPickup.new())
 	Game.fade_in_sprite(light, 0.5, 0.5)
-	global_position = Vector2(0, 75)
+	global_position = Vector2(0, 50)
 
 # =========================================
 # PHYSICS PROCESS
@@ -361,7 +361,8 @@ func die() -> void:
 		drop.global_position = global_position
 		drop.apply_impulse(Vector2(0, -10))
 		drop.apply_torque(-direction * 10)
-
+		weapon = null
+	
 	if shadow:
 		shadow.visible = false
 	Game.fade_out_sprite(light, 1)
@@ -374,12 +375,14 @@ func respawn() -> void:
 	dead = false
 	coll.disabled = false
 	state_machine.change_state("IdleState")
-	global_position = Vector2(0, 75)
+	global_position = Vector2(0, 50)
 	if Game.get_level().name == "MainLevel":
 		Game.fade_in_sprite(light, 0.5, 0.5)
 	else:
 		Game.fade_in_sprite(light)
 	animation.modulate.a = 1.0
+	if weapon != null:
+		weapon.queue_free()
 	player_respawned.emit()
 
 # =========================================
