@@ -6,7 +6,7 @@ func _ready() -> void:
 	for i in range(20):
 		var firefly = load("res://world/levels/round events/darkness/firefly.tscn")
 		firefly = firefly.instantiate()
-		Game.add_child(firefly)
+		Game.get_level().add_child(firefly)
 	
 func clean_up():
 	var _tween = create_tween()

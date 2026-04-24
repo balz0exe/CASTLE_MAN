@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctysdi0timweq" path="res://game.gd" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://dwna6gwnnofdn" path="res://health_bar.gd" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://dd1nnue2qbf2q" path="res://stamina_bar.gd" id="2_fc0e3"]
+[ext_resource type="Shader" uid="uid://cq7oannp838xo" path="res://ui_pixel_shader.gdshader" id="2_lc2xo"]
 [ext_resource type="Script" uid="uid://d33nt12m5q71h" path="res://refrence(disable).gd" id="2_vef74"]
 [ext_resource type="Script" uid="uid://dnjuugyhkf7db" path="res://debug.gd" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://o864t3ag73iw" path="res://score.gd" id="4_7jktm"]
@@ -13,49 +14,17 @@
 [ext_resource type="Shader" uid="uid://dhavs2fmmeknv" path="res://crunch_shader.gdshader" id="8_iotsf"]
 [ext_resource type="Script" uid="uid://byfmjihoex3rt" path="res://pause_menu.gd" id="10_hve3p"]
 
-[sub_resource type="Shader" id="Shader_0swcm"]
-code = "shader_type canvas_item;
-
-uniform float pixel_size = 2.0;   // smaller = finer effect
-uniform float mix_strength = 0.5; // how much neighbors affect each other
-uniform float noise_strength = 0.3; // how much neighbors affect each other
-
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
-
-void fragment() {
-	vec2 uv = SCREEN_UV;
-
-	// Snap to a finer pixel grid
-	vec2 grid = vec2(pixel_size) / vec2(textureSize(SCREEN_TEXTURE, 0));
-	vec2 base_uv = floor(uv / grid) * grid;
-
-	// Sample neighbors
-	vec4 center = texture(SCREEN_TEXTURE, base_uv);
-	vec4 right  = texture(SCREEN_TEXTURE, base_uv + vec2(grid.x, 0.0));
-	vec4 up     = texture(SCREEN_TEXTURE, base_uv + vec2(0.0, grid.y));
-	vec4 diag   = texture(SCREEN_TEXTURE, base_uv + grid);
-
-	// Blend them
-	vec4 mixed = (center + right + up + diag) * 0.25;
-
-	// Mix original + blended
-	COLOR = mix(center, mixed, (mix_strength/100.0));
-	
-	float noise = fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453);
-	base_uv += (noise - noise_strength) * grid * 0.3;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mfdv2"]
-shader = SubResource("Shader_0swcm")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_215e1"]
+shader = ExtResource("2_lc2xo")
 shader_parameter/pixel_size = 6.0
-shader_parameter/mix_strength = 200.0
-shader_parameter/noise_strength = -10000.0
+shader_parameter/mix_strength = 50.0
+shader_parameter/noise_strength = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lc2xo"]
 shader = ExtResource("8_iotsf")
-shader_parameter/strength = 8.0
-shader_parameter/blur = 0.0
+shader_parameter/pixel_size = 2.0
+shader_parameter/mix_strength = 0.5
+shader_parameter/noise_strength = 0.3
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j5wjh"]
 shader = ExtResource("6_eow3j")
@@ -79,8 +48,8 @@ bus = &"Music"
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1736962219]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1889933654]
-z_index = 5
-material = SubResource("ShaderMaterial_mfdv2")
+z_index = 8
+material = SubResource("ShaderMaterial_215e1")
 offset_left = -1127.0
 offset_top = -766.0
 offset_right = 1288.0

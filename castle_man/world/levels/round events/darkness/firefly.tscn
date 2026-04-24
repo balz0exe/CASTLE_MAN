@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://l7nnsr4em3be" path="res://world/levels/round events/darkness/firefly.gd" id="1_vdaqk"]
 
 [node name="Firefly" type="Node2D" unique_id=1239225813]
+light_mask = 0
+z_index = 3
 script = ExtResource("1_vdaqk")
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("1_7rujv")]
-light_mask = 0
 scale = Vector2(0.05, 0.05)
