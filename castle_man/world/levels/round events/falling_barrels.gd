@@ -5,19 +5,7 @@ var spawn_area_width: float = 900
 var spawn_height: float = -200
 
 var weapon = load("res://world/objects/barrels/barrel.tscn")
-var drops = [
-	[load("res://knight/powerups/exploding boots/exploding_boots.tres"), 5],
-	[load("res://knight/powerups/health potion/health_potion.tres"), 20],
-	[load("res://knight/powerups/stamina potion/stamina_potion.tres"), 20],
-	[load("res://enemies/scenes/slime.tscn"), 10],
-	[load("res://world/objects/weapons/axe/hand_axe.tres"), 15],
-	[load("res://world/objects/weapons/sword/sword.tres"), 15],
-	[load("res://world/objects/weapons/spear/spear.tres"), 10],
-	[load("res://world/objects/weapons/bow/bow.tres"), 8],
-	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
-	[load("res://world/objects/weapons/mace/mace.tres"), 8],
-	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
-]
+@onready var drops = Game.get_game_handler().drops
 
 # --- STATE ---
 var running := true

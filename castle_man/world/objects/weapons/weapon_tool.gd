@@ -4,6 +4,8 @@ class_name WeaponObject
 
 @onready var sprite = $Sprite2D
 
+var added: bool =false
+
 var weapon: WeaponPickup
 @export var res: WeaponResource:
 	set(value):
@@ -23,12 +25,12 @@ var weapon: WeaponPickup
 		# Spawn new one if resource exists
 		if res != null and !Engine.is_editor_hint():
 			weapon = WeaponPickup.new()
-			call_deferred("add_weapon", weapon)
+			if !added:
+				added = true
+				call_deferred("add_weapon", weapon)
 
 func _ready() -> void:
-	for i in range(100):
-		await get_tree().process_frame
-	Game.spawn_object(res, global_position)
+	if !Engine.is_editor_hint(): Game.spawn_object(res, global_position)
 	if res != null:
 		sprite.texture = res.image
 	if Engine.is_editor_hint():

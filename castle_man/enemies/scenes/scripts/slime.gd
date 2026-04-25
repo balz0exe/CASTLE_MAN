@@ -8,6 +8,6 @@ func on_attacked() -> void:
 	if is_on_floor(): velocity.y = jump_strength/2
 	velocity.x += 50 * direction
 
-func on_died() -> void:
+func on_died(_enemy) -> void:
 	@warning_ignore("integer_division")
 	velocity.y = int(jump_strength/2)

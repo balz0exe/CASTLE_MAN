@@ -377,7 +377,10 @@ func respawn() -> void:
 	dead = false
 	coll.disabled = false
 	state_machine.change_state("IdleState")
-	global_position = Vector2(0, 50)
+	if Game.get_game_handler().active_event_names.has("floor is lava"):
+		global_position = Vector2(0, 0)
+	else:
+		global_position = Vector2(0, 50)
 	if Game.get_level().name == "MainLevel":
 		Game.fade_in_sprite(light, 0.5, 0.5)
 	else:

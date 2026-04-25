@@ -49,10 +49,10 @@ var round_events = [
 
 var enemies = [
 	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 4, min_round = 5 },
-	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 1 },
+	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 6, min_round = 1 },
 	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 8 },
-	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 6, min_round = 1 },
-	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 5, min_round = 2 },
+	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 10, min_round = 1 },
+	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 2 },
 ]
 
 # =========================================
@@ -72,6 +72,7 @@ var drops = [
 	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
 	[load("res://world/objects/weapons/mace/mace.tres"), 8],
 	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
+	[load("res://knight/powerups/weapons to coins/weapons_to_coins.tres"), 8],
 ]
 
 # =========================================
@@ -88,9 +89,6 @@ func _physics_process(delta: float) -> void:
 # =========================================
 
 func _ready() -> void:
-	if !active_events.is_empty():
-		for e in active_events:
-			e.queue_free()
 	new_round()
 	call_deferred("spawn_start_objects")
 
@@ -101,12 +99,12 @@ func spawn_start_objects():
 	]
 	for i in range(25):
 		var d = pick_start_object(objects)
-		var name = d.name
+		var _name = d.name
 		var object = d.scene
 		object = object.instantiate()
 		Game.get_level().add_child(object)
 		print(object.name)
-		if name == "barrel":
+		if _name == "barrel":
 			var ran = [1, -1].pick_random()
 			if ran == 1:
 				object.drop = pick_weighted_drop()
@@ -146,11 +144,13 @@ func new_round():
 	if not is_instance_valid(self):
 		return
 
-	await Game.wait_for_seconds(5)
+	await Game.wait_for_seconds(3)
+
+	if !active_events.is_empty():
+		for e in active_events:
+			e.queue_free()
 
 	_round += 1
-	if _round != 1:
-		score += 10
 	current_round_id += 1
 	enem_count = 0
 
@@ -257,7 +257,7 @@ func pick_events(_round_num: int, count: int) -> Array:
 # ENEMY SYSTEM
 # =========================================
 
-func pick_enemy(_round_num: int) -> PackedScene:
+func pick_enemy(_round_num: int) -> Dictionary:
 	# Weighted random pick from eligible enemies
 	var available = enemies.filter(func(e):
 		return e.min_round <= _round_num
@@ -269,11 +269,12 @@ func pick_enemy(_round_num: int) -> PackedScene:
 	for e in available:
 		roll -= e.weight
 		if roll <= 0:
-			return e.scene
-	return available.back().scene
+			return e
+	return available.back()
 
 func spawn_enemy(_round_num: int, fall: bool = false) -> void:
-	var scene = pick_enemy(_round_num)
+	var pick = pick_enemy(_round_num)
+	var scene = pick.scene
 	if !fall:
 		var dir = [1, -1].pick_random()
 		var pos = Vector2(900 * dir, 100) if !lava_floor else Vector2(randi_range(-475, 475), -get_viewport().size.y)
@@ -281,12 +282,51 @@ func spawn_enemy(_round_num: int, fall: bool = false) -> void:
 		var ai = enemy.ENEMY_AI
 		var round_id = current_round_id
 		ai.enemy = Game.get_player()
-		enemy.died.connect(func(): on_enemy_died(round_id))
+		enemy.coin_weight = pick.weight
+		enemy.died.connect(func(e): on_enemy_died(e, round_id))
 		enem_count += 1
 		print("spawned enemy " + str(enem_count))
 
-func on_enemy_died(round_id: int) -> void:
-	score += 1
+func calc_coin_drop(player: CharacterBody2D, enemy: Enemy, round_num: int) -> int:
+	# ---- TUNING KNOBS ----
+	var base_coins: float = 0.0       # floor before any bonuses
+	var rarity_scale: float = 2.5     # max bonus coins for rarest enemy
+	var health_scale: float = 2.0     # max bonus coins for full health
+	var round_scale: float = 3.0      # max bonus coins at round 20+
+	var lives_scale: float = 1.0      # max bonus coins for having max lives
+	var max_lives: int = 5            # your max lives cap
+	# ----------------------
+
+	# rarity: low spawn weight = rare = more coins
+	var total_weight: float = 0.0
+	for e in enemies:
+		total_weight += e.weight
+	var rarity: float = 1.0 - (enemy.coin_weight / total_weight)
+	var rarity_bonus: float = rarity * rarity_scale
+
+	# health: full hp = max bonus, 0 hp = no bonus
+	var health_ratio: float = float(player.health) / float(player.max_health)
+	var health_bonus: float = health_ratio * health_scale
+
+	# round: logarithmic — fast early growth, tapers late
+	var round_bonus: float = (log(max(1, round_num)) / log(20.0)) * round_scale
+
+	# lives: more lives = more coins
+	var lives_ratio: float = float(player.lives) / float(max_lives)
+	var lives_bonus: float = lives_ratio * lives_scale
+
+	var total: float = base_coins + rarity_bonus + health_bonus + round_bonus + lives_bonus
+	return max(0, roundi(total))
+
+func drop_coins(coins: int, from: Node2D):
+	for c in range(coins):
+		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), from.global_position)
+		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
+	print("dropped "+str(coins)+" coins")
+
+func on_enemy_died(enemy: Enemy, round_id: int) -> void:
+	var coins = calc_coin_drop(Game.get_player(), enemy, _round)
+	drop_coins(coins, enemy)
 	if round_id != current_round_id:
 		return
 	enem_count -= 1

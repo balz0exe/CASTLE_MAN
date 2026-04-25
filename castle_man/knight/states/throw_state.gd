@@ -26,10 +26,11 @@ func physics_update(delta):
 			player.weapon._throw.emit()
 
 func update_animation():
-	if !player.weapon.ranged_auto:
-		player.animation.play("throw")
-	if Input.is_action_pressed("attack"):
-		player.animation.frame = 0
+	if player.weapon != null:
+		if !player.weapon.ranged_auto:
+			player.animation.play("throw")
+		if Input.is_action_pressed("attack"):
+			player.animation.frame = 0
 
 func update_input():
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():

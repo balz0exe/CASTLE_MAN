@@ -196,7 +196,7 @@ func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
 	if !object.is_class("PackedScene"):
 		var weapon = WeaponPickup.new()
 		weapon.res = object
-		level.add_child(weapon)
+		level.call_deferred("add_child", weapon)
 		weapon.global_position = global_position
 		weapon.apply_impulse(Vector2(0, -10))
 		weapon.apply_torque(10)
@@ -215,11 +215,12 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 		particles.z_index = -2
 	else:
 		particles.z_index = 0
-	if color != null: particles.color = color
+	if color != null:
+		particles.color = color
 	if from.get("direction") != null:
-		particles.global_position = from.global_position + Vector2(offset.x * from.direction, offset.y)
+		particles.position = Vector2(offset.x * from.direction, offset.y)
 	else:
-		particles.global_position = from.global_position + Vector2(offset.x, offset.y)
+		particles.position = offset
 
 func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false):
 	var explosion = load("res://world/misc/explosion/explosion.tscn")
@@ -238,6 +239,25 @@ func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float
 	var tween = create_tween()
 	tween.tween_property(_camera, "position", position, duration)
 	return tween
+
+var active_spins: Array[Node2D] = []
+func animate_spining(sprite: Node2D, strength: float = 20):
+	if active_spins.has(sprite):
+		return
+	var tween = create_tween()
+	var original_pos = sprite.scale
+	active_spins.append(sprite)
+
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(sprite, "scale", Vector2(-original_pos.x,original_pos.y), 100/strength)
+	tween.tween_property(sprite, "scale", Vector2(original_pos.x,original_pos.y), 100/strength)
+
+	await tween.finished
+	
+	if is_instance_valid(sprite):
+		active_spins.erase(sprite)
 
 var active_bounces: Array[Node2D] = []
 func animate_bouncing(sprite: Node2D, strength: float = 10):
@@ -281,12 +301,12 @@ func get_available_sfx_player() -> AudioStreamPlayer2D:
 	return fallback
 
 signal sfx_finished
-func play_sfx(stream: AudioStream, db: float, origin_node: Node2D = null, pitch_randomization: bool = true) -> Signal:
+func play_sfx(stream: AudioStream, db: float, origin_node: Node2D = null, pitch_randomization: bool = true, randomization: Vector2 = Vector2(0.80, 1.20)) -> Signal:
 	var sfx_player: AudioStreamPlayer2D = get_available_sfx_player()
 	sfx_player.bus = "Sfx"
 	sfx_player.stream = stream
 	sfx_player.volume_db = db
-	sfx_player.pitch_scale = randf_range(0.80, 1.20) if pitch_randomization else 1.0
+	sfx_player.pitch_scale = randf_range(randomization.x, randomization.y) if pitch_randomization else 1.0
 	sfx_player.global_position = origin_node.global_position if origin_node else Vector2.ZERO
 	sfx_player.play()
 	await sfx_player.finished

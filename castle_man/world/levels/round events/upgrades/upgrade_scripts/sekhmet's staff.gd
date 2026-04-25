@@ -3,7 +3,6 @@ extends Powerup
 func _ready() -> void:
 	super()
 	
-	var world = Game.get_level()
 	var pickup = WeaponPickup.new()
 	pickup.res = load("res://world/objects/weapons/wand/wand.tres")
 	if player.weapon == null:

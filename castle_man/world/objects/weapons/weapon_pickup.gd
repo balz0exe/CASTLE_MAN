@@ -120,7 +120,6 @@ func set_values() -> void:
 	if !powerup: add_to_group("weapons")
 	elif is_in_group("weapons"): remove_from_group("weapons")
 	
-	print("powerup: "+str(powerup)+" weapon: "+str(is_in_group("weapons")))
 
 var animation_timeout: float = 0.0
 func animate(rate: float = 0.2, _range: int = animated["range"]):
@@ -182,11 +181,11 @@ func _on_body_entered(body: Node2D) -> void:
 	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")):
 		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
-		if body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0):
+		if (body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0)) or body.dead:
 			return
 		if body.is_in_group("player") or (body.is_in_group("enemies") and body.weapon_user):
 				if powerup:
-					if body.is_in_group("enemies") or Game.get_player().powerup!= null:
+					if body.is_in_group("enemies") or (Game.get_player().powerup!= null and !instant):
 						return
 					var _powerup = Powerup.new()
 					_powerup.set_script(powerup_gd)

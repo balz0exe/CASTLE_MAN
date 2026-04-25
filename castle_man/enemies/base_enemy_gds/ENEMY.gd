@@ -26,6 +26,8 @@ var state_machine = Node
 var state_version: int = 0
 var ENEMY_AI = Node
 
+var coin_weight
+
 # =========================================
 # EXPORTS
 # =========================================
@@ -121,7 +123,7 @@ var health: float
 # =========================================
 
 signal attacked
-signal died
+signal died(enemy)
 
 # =========================================
 # READY
@@ -309,7 +311,7 @@ func get_knockback_direction(from):
 
 func die() -> void:
 	if !dead:
-		died.emit()
+		died.emit(self)
 		dead = true
 		dumb = true  # disables AI processing
 		if weapon:
@@ -371,7 +373,7 @@ func damage_particles() -> void:
 func on_attacked() -> void:
 	pass
 
-func on_died() -> void:
+func on_died(_enemy) -> void:
 	pass
 
 func secondary_process() -> void:

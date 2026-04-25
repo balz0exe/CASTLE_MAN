@@ -22,7 +22,7 @@ func explode(radius: int = 30, damage: int = 10, knockback: float = 50):
 	_damage = damage
 	_knockback = knockback
 	
-	Game.hit_pause(0.1, 0.1, true)
+	Game.hit_pause(0.1, 0.4, true)
 	
 	async_deactivate()
 	

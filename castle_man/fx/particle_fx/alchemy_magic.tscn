@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://c4fv0oispvw60"]
+
+[ext_resource type="Texture2D" uid="uid://b10wh475568hj" path="res://fx/particle_fx/particle_images/body_rune.png" id="1_jy2ma"]
+[ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://fx/particle_fx/particle_images/star_09.png" id="2_jy2ma"]
+[ext_resource type="Script" uid="uid://dprfd2x42jx8n" path="res://fx/particle_fx/particle_oneshot.gd" id="2_py0ck"]
+[ext_resource type="Texture2D" uid="uid://djlrthe45covg" path="res://fx/particle_fx/particle_images/flame_06.png" id="3_lsd4v"]
+
+[sub_resource type="Curve" id="Curve_lsd4v"]
+_data = [Vector2(0, 1), 0.0, -2.869151, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_uks3u"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0.07706767, 0), 0.0, 4.10507, 0, 0, Vector2(0.5093985, 1.8226882), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_py0ck"]
+offsets = PackedFloat32Array(0.3493724, 0.43514645, 0.5083682)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="AlchemyMagic" type="CPUParticles2D" unique_id=1538900932]
+modulate = Color(1, 1, 1, 0.39215687)
+amount = 800
+texture = ExtResource("2_jy2ma")
+lifetime = 5.0
+emission_shape = 6
+emission_ring_inner_radius = 0.8
+emission_ring_radius = 50.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, -15)
+scale_amount_min = 0.03
+scale_amount_max = 0.03
+scale_amount_curve = SubResource("Curve_lsd4v")
+color = Color(0, 1, 0, 0.62352943)
+script = ExtResource("2_py0ck")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="." unique_id=1639540455]
+amount = 4
+texture = ExtResource("1_jy2ma")
+lifetime = 4.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_uks3u")
+color = Color(0, 1, 0.12941177, 1)
+color_ramp = SubResource("Gradient_py0ck")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1617598255]
+amount = 800
+texture = ExtResource("3_lsd4v")
+emission_shape = 6
+emission_ring_inner_radius = 0.8
+emission_ring_radius = 50.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, -280)
+scale_amount_min = 0.02
+scale_amount_max = 0.05
+scale_amount_curve = SubResource("Curve_lsd4v")
+color = Color(0, 1, 0, 0.62352943)

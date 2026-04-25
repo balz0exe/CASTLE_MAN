@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://vw3jem4l8y5c"]
+
+[ext_resource type="Texture2D" uid="uid://diw43b5bbt5sa" path="res://knight/powerups/coins/coin.png" id="1_3k56s"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_elmt5"]
+[ext_resource type="Script" uid="uid://bu2vqrqehy8c7" path="res://knight/powerups/coins/coin_pickup.gd" id="2_armmm"]
+[ext_resource type="Script" uid="uid://bc4ga011hkcm" path="res://knight/powerups/coins/coin.gd" id="2_gttxs"]
+
+[resource]
+script = ExtResource("1_elmt5")
+weapon_name = "coin"
+image = ExtResource("1_3k56s")
+animated = {
+"h_frames": 8,
+"range": 8,
+"true": true,
+"v_frames": 1
+}
+powerup = true
+powerup_gd = ExtResource("2_gttxs")
+instant = true
+pickup_script = ExtResource("2_armmm")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

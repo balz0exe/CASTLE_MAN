@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://c0togvbkw1npf"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_skpot"]
+[ext_resource type="Texture2D" uid="uid://vrlwmq3747ob" path="res://knight/powerups/weapons to coins/weapons_to_coins.png" id="1_sqlc0"]
+[ext_resource type="Script" uid="uid://qnrvtn41ejhh" path="res://knight/powerups/weapons to coins/weapons_to_coins_pickup.gd" id="2_ftqve"]
+[ext_resource type="Script" uid="uid://bt620gq3hyv2v" path="res://knight/powerups/weapons to coins/weapons_to_coins.gd" id="3_3n8vv"]
+
+[resource]
+script = ExtResource("1_skpot")
+weapon_name = "weapons to coins"
+image = ExtResource("1_sqlc0")
+animated = {
+"h_frames": 8,
+"range": 8,
+"true": true,
+"v_frames": 1
+}
+powerup = true
+powerup_gd = ExtResource("3_3n8vv")
+pickup_script = ExtResource("2_ftqve")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"
