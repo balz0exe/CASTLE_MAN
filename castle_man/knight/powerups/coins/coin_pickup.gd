@@ -2,7 +2,7 @@ extends Node
 
 @onready var ground_cast = RayCast2D.new()
 
-var up_force = 10
+var up_force = 20
 
 func _ready() -> void:
 	get_parent().sprite.scale = Vector2.ONE*0.3

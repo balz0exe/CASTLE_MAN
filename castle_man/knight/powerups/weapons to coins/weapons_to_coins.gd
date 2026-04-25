@@ -13,7 +13,7 @@ func _ready() -> void:
 	super()
 	var shape = CircleShape2D.new()
 	coll.shape = shape
-	shape.radius = 200
+	shape.radius = 150
 	area.set_collision_layer_value(1, false)
 	area.set_collision_mask_value(1, false)
 	area.set_collision_mask_value(3, true)

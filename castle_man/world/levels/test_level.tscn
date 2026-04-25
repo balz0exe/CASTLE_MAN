@@ -36,7 +36,7 @@ color = Color(0.42352942, 0.42352942, 0.42352942, 1)
 position = Vector2(-528, 97)
 
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("11_ciqro")]
-position = Vector2(-192, 202)
+position = Vector2(-204, 194)
 
 [node name="light2" parent="." unique_id=1004330458 instance=ExtResource("11_ciqro")]
 position = Vector2(357, 168)
@@ -154,8 +154,58 @@ position = Vector2(644, 27)
 position = Vector2(378, 6)
 
 [node name="WeaponObject" parent="." unique_id=258884919 instance=ExtResource("11_p75f5")]
-position = Vector2(-81, 176)
+position = Vector2(-142, 141)
 res = ExtResource("13_p72ms")
+
+[node name="WeaponObject3" parent="." unique_id=504891345 instance=ExtResource("11_p75f5")]
+position = Vector2(-126, 88)
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject4" parent="." unique_id=448550255 instance=ExtResource("11_p75f5")]
+position = Vector2(-236, 89)
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject5" parent="." unique_id=1176181862 instance=ExtResource("11_p75f5")]
+position = Vector2(-273, 91)
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject6" parent="." unique_id=936807334 instance=ExtResource("11_p75f5")]
+position = Vector2(-29, 113)
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject7" parent="." unique_id=801719070 instance=ExtResource("11_p75f5")]
+position = Vector2(-78, 113)
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject8" parent="." unique_id=1999186437 instance=ExtResource("11_p75f5")]
+position = Vector2(-148, 112)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject9" parent="." unique_id=1981821519 instance=ExtResource("11_p75f5")]
+position = Vector2(3, 97.99999)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject10" parent="." unique_id=1466163666 instance=ExtResource("11_p75f5")]
+position = Vector2(45, 144)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject11" parent="." unique_id=1153377121 instance=ExtResource("11_p75f5")]
+position = Vector2(2, 151)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject12" parent="." unique_id=1810686274 instance=ExtResource("11_p75f5")]
+position = Vector2(-304, 123.999985)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
+
+[node name="WeaponObject13" parent="." unique_id=1445093722 instance=ExtResource("11_p75f5")]
+position = Vector2(-304, 123.999985)
+rotation = -1.8262445
+res = ExtResource("11_k8ngv")
 
 [node name="WeaponObject2" parent="." unique_id=827167746 instance=ExtResource("11_p75f5")]
 position = Vector2(-138, 178)
