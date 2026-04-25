@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cd4h4og1bn6hd" path="res://world/objects/weapons/weapon_tool.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
 [ext_resource type="Resource" uid="uid://vw3jem4l8y5c" path="res://knight/powerups/coins/coin.tres" id="13_ev2xu"]
-[ext_resource type="Resource" uid="uid://c0togvbkw1npf" path="res://knight/powerups/weapons to coins/weapons_to_coins.tres" id="13_p72ms"]
+[ext_resource type="Resource" uid="uid://b4oq6xdat888i" path="res://world/objects/weapons/hand_gun/hand_gun.tres" id="13_p72ms"]
 [ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
 [ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
 [ext_resource type="PackedScene" uid="uid://culpn5pv07drb" path="res://world/levels/round events/darkness/firefly.tscn" id="14_p72ms"]

@@ -1,6 +1,6 @@
 extends RoundEvent
 
-var final_lava_height: float = 50
+var final_lava_height: float = 25
 var lava_height: float = 500
 var lava_up: bool = false
 var damage_per_hit: float = 10

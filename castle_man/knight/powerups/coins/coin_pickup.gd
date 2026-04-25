@@ -2,7 +2,7 @@ extends Node
 
 @onready var ground_cast = RayCast2D.new()
 
-var up_force = 20
+var up_force = 100
 
 func _ready() -> void:
 	get_parent().sprite.scale = Vector2.ONE*0.3
@@ -15,8 +15,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if ground_cast.is_colliding() and ground_cast.get_collider().is_in_group("enviroment"):
-		get_parent().apply_impulse((Vector2.UP*randf_range(5.0, 7.5)*up_force)*Engine.time_scale)
+		get_parent().apply_impulse((Vector2.UP*randf_range(0.50, 0.75)*up_force)*Engine.time_scale)
+		var fac = 1.0
 		if up_force > 0:
-			up_force -= delta * 50
+			fac += delta * 100
+			up_force -= delta * 50 * fac
 			Game.play_sfx(load("res://fx/audio_fx/coin_bounce.wav"), Game.sfx_volume - 24, get_parent())
 	
