@@ -12,4 +12,4 @@ func _ready():
 		return c.is_in_group("enemies")
 	)
 	for e in enemies:
-		e.ENEMY_AI.enemy = null
+		e.ENEMY_AI.enemy = Game.get_player()

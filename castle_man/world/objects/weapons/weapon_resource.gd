@@ -21,7 +21,7 @@ class_name WeaponResource
 @export var damage = 2
 @export_group("EQUIP")
 @export var hurt_box_shape: Shape2D
-@export var hurt_box_offset: Vector2
+@export var hurt_box_offset: Vector2 = Vector2(3, -8)
 @export var projectile_res: Resource
 @export var throwable: bool = false
 @export var ai_throw_range: int = 150

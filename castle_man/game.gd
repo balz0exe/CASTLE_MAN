@@ -214,7 +214,7 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 	if behind_parent:
 		particles.z_index = -2
 	else:
-		particles.z_index = 0
+		particles.z_index = 1
 	if color != null:
 		particles.color = color
 	if from.get("direction") != null:
@@ -259,6 +259,25 @@ func animate_spining(sprite: Node2D, strength: float = 20):
 	
 	if is_instance_valid(sprite):
 		active_spins.erase(sprite)
+
+var active_floats: Array[Node2D] = []
+
+func animate_floating(node: Node2D, amplitude: float = 5.0, speed: float = 2.0) -> void:
+	if active_floats.has(node):
+		return
+	active_floats.append(node)
+	var tween = node.create_tween()  # tween owned by the node, dies with it
+	var origin_y: float = node.position.y
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_loops()
+	tween.tween_property(node, "position:y", origin_y + amplitude, 1.0 / speed)
+	tween.tween_property(node, "position:y", origin_y - amplitude, 1.0 / speed)
+
+func stop_floating(node: Node2D) -> void:
+	active_floats.erase(node)
+	# tween will keep running — call this if you need to kill it externally
+	# store the tween ref if you need to kill it on demand
 
 var active_bounces: Array[Node2D] = []
 func animate_bouncing(sprite: Node2D, strength: float = 10):

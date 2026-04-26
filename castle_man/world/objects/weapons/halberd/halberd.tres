@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c06a4kpcmpgo5" path="res://world/objects/weapons/halberd/halberd.png" id="1_sa321"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sa321"]
-size = Vector2(25, 20)
+size = Vector2(25, 30)
 
 [resource]
 script = ExtResource("1_4hqhk")
@@ -13,7 +13,7 @@ image = ExtResource("1_sa321")
 knockback = 10
 damage = 15
 hurt_box_shape = SubResource("RectangleShape2D_sa321")
-hurt_box_offset = Vector2(5, 0)
+hurt_box_offset = Vector2(5, -8)
 throwable = true
 range_diff = 25
 stamina_cost = 10

@@ -39,6 +39,7 @@ var coin_weight
 @export_group("basic")
 @export var dumb: bool = false
 @export var friendly: bool = false
+@export var flying: bool = false
 @export var weapon_user = true
 @export var will_throw = false
 @export var max_health: float = 100
@@ -144,6 +145,12 @@ func _ready() -> void:
 	hit_box.coll.disabled = true
 	connect("attacked", on_attacked)
 	connect("died", on_died)
+	
+	#Setup flying enemies raycast
+	if flying:
+		feet_cast.position = Vector2.ZERO
+		feet_cast.target_position = Vector2(0, 15)
+	
 
 # =========================================
 # PHYSICS PROCESS
@@ -152,6 +159,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# Virtual — subclasses can inject logic here without overriding _physics_process
 	secondary_process()
+	
 
 	# Switch between basic and weapon-based attack pattern
 	if weapon == null:
@@ -181,14 +189,14 @@ func _physics_process(delta: float) -> void:
 	animation.flip_h = flip_h
 
 	# Gravity and coyote time
-	if not is_on_floor():
+	if not is_on_floor() and !flying:
 		if not coyote_timer > 0 and in_air == false:
 			coyote_timer = coyote_time
 			in_air = true
 		velocity.y += Game.GRAVITY * delta
-		if velocity.y > 100 and not animation.animation.contains("attack") and not state_machine.current_state.get_state_name() == "HurtState":
+		if !flying and velocity.y > 100 and not animation.animation.contains("attack") and not state_machine.current_state.get_state_name() == "HurtState":
 			if !dead: state_machine.change_state("FallState")
-	else:
+	elif !flying:
 		in_air = false
 		has_air_rolled = false
 		has_double_jumped = false
@@ -204,6 +212,12 @@ func _physics_process(delta: float) -> void:
 		combo_reset_timer -= delta * 1
 	if recovery_timer > 0.0:
 		recovery_timer -= delta * 1
+
+	# Flying enemies animate float
+	if flying:
+		Game.animate_floating(animation)
+		if feet_cast.is_colliding() and feet_cast.get_collider().is_in_group("enviroment"):
+			global_position.y -= 50 *delta
 
 	# Apply state machine input and clamp velocity outside of override states
 	state_machine.current_state.update_input()
@@ -241,10 +255,23 @@ func update_ai_request() -> void:
 			state_machine.change_state("IdleState")
 		if ai_state == Ai_State_Request.run:
 			state_machine.change_state("RunState")
-		if ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)):
+		if (ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)) and !flying):
 			state_machine.change_state("JumpState")
-		if ai_state == Ai_State_Request.fall:
+		if ai_state == Ai_State_Request.fall and !flying:
+			_follow_down()
+
+var follow_down: bool = false
+func _follow_down():
+	if !follow_down:
+		follow_down = true
+		var ran = [1, -1].pick_random()
+		if ran == 1:
 			global_position.y += 3
+			follow_down = false
+		else:
+			Game.wait_for_seconds(randi_range(1, 5))
+			follow_down = false
+	
 
 # =========================================
 # ANIMATION

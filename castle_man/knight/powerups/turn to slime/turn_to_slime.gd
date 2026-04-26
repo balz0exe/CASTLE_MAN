@@ -1,13 +1,13 @@
 extends Powerup
 
-var timer: float
+var time: float = 1
 @onready var area: Area2D = Area2D.new()
 @onready var coll: CollisionShape2D = CollisionShape2D.new()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	for body in area.get_overlapping_bodies():
-		if body.is_in_group("weapons"):
-			turn_to_coins(body)
+		if body.is_in_group("enemies"):
+			turn_to_slime(body)
 
 func _ready() -> void:
 	super()
@@ -16,20 +16,20 @@ func _ready() -> void:
 	shape.radius = 150
 	area.set_collision_layer_value(1, false)
 	area.set_collision_mask_value(1, false)
-	area.set_collision_mask_value(3, true)
+	area.set_collision_mask_value(2, true)
 
 	area.add_child(coll)
 	player.add_child(area)
 	Game.spawn_particle_oneshot("res://fx/particle_fx/alchemy_magic.tscn", Game.get_player(), Vector2(0, -20), null, false)
 
-	await Game.wait_for_seconds(6)
+	await Game.wait_for_seconds(time)
 	area.queue_free()
 	queue_free()
 	
-func turn_to_coins(body: Node2D):
+func turn_to_slime(body: Node2D):
 	var pos = body.global_position
-	for i in range(randi_range(3,5)):
-		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), pos)
-		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
-		Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", coin, Vector2.ZERO, null, false)
+	var slime = Game.spawn_object(load("res://enemies/scenes/slime.tscn"), pos)
+	slime.ENEMY_AI.enemy = Game.get_player()
+	Game.get_game_handler().enem_count -= 1
+	Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", slime, Vector2.ZERO, null, false)
 	body.queue_free()

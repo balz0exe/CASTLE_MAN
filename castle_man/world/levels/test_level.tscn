@@ -6,10 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="2_o4dlw"]
 [ext_resource type="Resource" uid="uid://c0togvbkw1npf" path="res://knight/powerups/weapons to coins/weapons_to_coins.tres" id="8_o4dlw"]
 [ext_resource type="Resource" uid="uid://bhq326cjesqu" path="res://world/objects/weapons/mace/mace.tres" id="9_4hgr8"]
-[ext_resource type="Resource" uid="uid://cgqvilp8cysex" path="res://knight/powerups/lightning attacks/lightning_attack.tres" id="9_gx6e6"]
+[ext_resource type="Resource" uid="uid://cjiimefvka1e3" path="res://knight/powerups/turn to slime/turn_to_slime.tres" id="10_ciqro"]
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="11_ciqro"]
 [ext_resource type="PackedScene" uid="uid://cd4h4og1bn6hd" path="res://world/objects/weapons/weapon_tool.tscn" id="11_p75f5"]
+[ext_resource type="PackedScene" uid="uid://dubswctai6jyq" path="res://enemies/scenes/bat.tscn" id="11_qh6br"]
+[ext_resource type="Resource" uid="uid://bcscbtqfsyrdv" path="res://world/objects/weapons/knife/knife.tres" id="12_i5w6p"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
+[ext_resource type="Resource" uid="uid://cs8rfomadsmxt" path="res://world/objects/weapons/great_sword/great_sword.tres" id="13_xv0ej"]
+[ext_resource type="Resource" uid="uid://bw3eor0c5ex7q" path="res://world/objects/weapons/halberd/halberd.tres" id="14_k6uqf"]
+[ext_resource type="Resource" uid="uid://bgws0teqy1t1b" path="res://world/objects/weapons/spear/spear.tres" id="15_u6bnq"]
+[ext_resource type="Resource" uid="uid://dca2etexxjea1" path="res://world/objects/weapons/wand/wand.tres" id="16_8dpye"]
+[ext_resource type="Resource" uid="uid://c6evbrlhet7ys" path="res://world/objects/weapons/bow/bow.tres" id="17_r07hd"]
+[ext_resource type="Resource" uid="uid://d0h353bfqclyh" path="res://world/objects/weapons/axe/hand_axe.tres" id="18_34cy5"]
+[ext_resource type="Resource" uid="uid://b4oq6xdat888i" path="res://world/objects/weapons/hand_gun/hand_gun.tres" id="19_r4vgb"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776 groups=["LevelScene"]]
 script = ExtResource("1_r4vgb")
@@ -45,7 +54,7 @@ position = Vector2(260, -13)
 
 [node name="light5" parent="." unique_id=166891295 instance=ExtResource("11_ciqro")]
 modulate = Color(1, 0, 0, 1)
-position = Vector2(704, -19)
+position = Vector2(770, -17)
 
 [node name="light6" parent="." unique_id=318240401 instance=ExtResource("11_ciqro")]
 position = Vector2(-236, 1479)
@@ -80,4 +89,43 @@ res = ExtResource("9_4hgr8")
 
 [node name="WeaponObject2" parent="." unique_id=912265085 instance=ExtResource("11_p75f5")]
 position = Vector2(-58, 127)
-res = ExtResource("9_gx6e6")
+res = ExtResource("10_ciqro")
+
+[node name="bat" parent="." unique_id=2073903766 instance=ExtResource("11_qh6br")]
+position = Vector2(-118, 71)
+
+[node name="WeaponObject4" parent="." unique_id=840481374 instance=ExtResource("11_p75f5")]
+position = Vector2(322, 86)
+res = ExtResource("12_i5w6p")
+
+[node name="WeaponObject10" parent="." unique_id=1453983282 instance=ExtResource("11_p75f5")]
+position = Vector2(321, 152)
+res = ExtResource("13_xv0ej")
+
+[node name="WeaponObject11" parent="." unique_id=79886637 instance=ExtResource("11_p75f5")]
+position = Vector2(385, 153)
+res = ExtResource("14_k6uqf")
+
+[node name="WeaponObject12" parent="." unique_id=973887075 instance=ExtResource("11_p75f5")]
+position = Vector2(452, 154)
+res = ExtResource("15_u6bnq")
+
+[node name="WeaponObject5" parent="." unique_id=1534273180 instance=ExtResource("11_p75f5")]
+position = Vector2(388, 86)
+res = ExtResource("16_8dpye")
+
+[node name="WeaponObject6" parent="." unique_id=743420281 instance=ExtResource("11_p75f5")]
+position = Vector2(451, 87)
+res = ExtResource("17_r07hd")
+
+[node name="WeaponObject7" parent="." unique_id=1805969347 instance=ExtResource("11_p75f5")]
+position = Vector2(513, 86)
+res = ExtResource("18_34cy5")
+
+[node name="WeaponObject8" parent="." unique_id=264550215 instance=ExtResource("11_p75f5")]
+position = Vector2(578, 87)
+res = ExtResource("19_r4vgb")
+
+[node name="WeaponObject9" parent="." unique_id=925992698 instance=ExtResource("11_p75f5")]
+position = Vector2(643, 88)
+res = ExtResource("9_4hgr8")

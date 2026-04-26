@@ -33,7 +33,10 @@ func _physics_process(_delta: float) -> void:
 			if player.is_in_group("enemies") and player.basic_attack:
 				coll.shape = original_coll_shape
 				coll.position.y = original_coll_position.y
-				coll.position.x = player.direction * original_coll_position.x
+				if player.direction == 1:
+					coll.position.x = original_coll_position.x
+				elif player.direction == -1:
+					coll.position.x = -2 * original_coll_position.x
 				return
 			if player.animation.animation == "attack up" or player.animation.animation == "attack down":
 				if player.animation.animation == "attack up":

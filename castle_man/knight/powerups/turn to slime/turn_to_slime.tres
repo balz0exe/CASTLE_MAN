@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://cjiimefvka1e3"]
+
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_45re4"]
+[ext_resource type="Texture2D" uid="uid://bxdyyl38bn2ya" path="res://knight/powerups/turn to slime/turn_to_slime.png" id="1_evsl1"]
+[ext_resource type="Script" uid="uid://ccwef8yheqi07" path="res://knight/powerups/exploding boots/exploding_boots_pickup.gd" id="2_gbomx"]
+[ext_resource type="Script" uid="uid://c2rtrkocsl140" path="res://knight/powerups/turn to slime/turn_to_slime.gd" id="3_jcuyq"]
+
+[resource]
+script = ExtResource("1_45re4")
+weapon_name = "turn to slime"
+image = ExtResource("1_evsl1")
+animated = {
+"h_frames": 4,
+"range": 4,
+"true": true,
+"v_frames": 1
+}
+powerup = true
+powerup_gd = ExtResource("3_jcuyq")
+pickup_script = ExtResource("2_gbomx")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

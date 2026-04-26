@@ -13,7 +13,6 @@ image = ExtResource("1_i5v5j")
 knockback = 10
 damage = 5
 hurt_box_shape = SubResource("RectangleShape2D_m1h02")
-hurt_box_offset = Vector2(3, 0)
 throwable = true
 range_diff = 10
 thrust_speed_factor = 1.2

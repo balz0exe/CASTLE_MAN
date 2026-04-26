@@ -175,6 +175,7 @@ func _physics_process(delta: float) -> void:
 		State.CHASE:
 			if enemy != null:
 				_move_towards_x(enemy.global_position.x, true)
+				if player.flying: _move_towards_y(enemy.global_position.y)
 			else:
 				set_state(State.PATROL)
 
@@ -257,8 +258,8 @@ func control_process(delta: float) -> void:
 func navigate() -> void:
 	# Point raycasts in the direction the enemy is facing
 	player.wall_cast.target_position = Vector2(player.direction * 50, 0)
-	player.feet_cast.target_position = Vector2(player.direction * player.original_feet_target_position.x, player.original_feet_target_position.y)
-	player.feet_cast.position.x = player.direction * 10
+	if !player.flying: player.feet_cast.target_position = Vector2(player.direction * player.original_feet_target_position.x, player.original_feet_target_position.y)
+	if !player.flying: player.feet_cast.position.x = player.direction * 10
 	player.platform_cast.target_position = Vector2(player.direction * player.original_plat_target_position.x, player.original_plat_target_position.y)
 	player.platform_cast.position.x = player.direction * 10
 
@@ -303,12 +304,12 @@ func navigate() -> void:
 					player.ai_state = player.Ai_State_Request.jump
 					player.update_ai_request()
 			# Jump over a ledge gap even if no platform detected
-			elif !player.feet_cast.is_colliding() and player.is_on_floor() and player.global_position.y - enemy.global_position.y > 10:
+			elif !player.feet_cast.is_colliding() and player.is_on_floor() and player.global_position.y - enemy.global_position.y > 10 and !player.flying:
 				player.ai_state = player.Ai_State_Request.jump
 				player.update_ai_request()
 
 	# Jump at ledge edges while patrolling
-	if player.is_on_floor() and player.feet_cast.get_collider() == null:
+	if player.is_on_floor() and player.feet_cast.get_collider() == null and !player.flying:
 		if state == State.PATROL:
 			player.ai_state = player.Ai_State_Request.jump
 			player.update_ai_request()
@@ -344,10 +345,21 @@ func _move_towards_x(target: float, _sprint: bool = false) -> void:
 	# Stop if close enough or about to walk off a ledge
 	if player.state_machine.current_state.get_state_name() == "RunState" and !can_flip:
 		distance_to_target = target - player.global_position.x
-		if abs(distance_to_target) < 10 or (!player.feet_cast.is_colliding() and state == State.PATROL):
+		if abs(distance_to_target) < 10 or (!player.feet_cast.is_colliding() and state == State.PATROL and !player.flying):
 			moved.emit()
 			is_sprinting = false
 			return
+
+func _move_towards_y(target: float) -> void:
+	if player.state_machine.current_state.get_state_name() == "HurtState":
+		return
+	var distance_to_target = target - player.global_position.y
+	# Move up or down by directly setting velocity y
+	if abs(distance_to_target) > 10:
+		player.velocity.y = sign(distance_to_target) * player.max_speed
+	else:
+		player.velocity.y = 0
+		moved.emit()
 
 func lose_enemy(time: float) -> void:
 	if enemy.is_in_group("enemies"):

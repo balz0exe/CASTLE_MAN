@@ -40,6 +40,9 @@ var round_events = [
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
 	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
+	#STORM (rain fx and random lightning across level)
+	#GARDEN (only mushrooms and sprouts)
+	#BLOOD MOON (only hell hounds and necromancers)
 ]
 
 # =========================================
@@ -53,6 +56,17 @@ var enemies = [
 	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 8 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 10, min_round = 1 },
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 2 },
+	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 3 },
+	#OGRE (big high knockback slow)
+	#HELL HOUND (fast quick attack)
+	#NECROMANCER (avoids player summons skeletons)
+	#FIRE SPROUT (shoots fire balls at player)
+	#LIGHTNING SPROUT (tries to spawn lightning on player)
+	#GARGOYLE (flying enemy with weapons)
+	#GOBLIN ON WARPIG (basic goblin but he comes in on a warpig you have to kill first)
+	#GOBLIN BOMBER (runs at player and kamakatzis)
+	#GOLEM (big high knockback slow throws rocks)
+	#DARK KNIGHT (all around decent stats low spawn chance *mini boss)
 ]
 
 # =========================================
@@ -62,6 +76,7 @@ var enemies = [
 
 var drops = [
 	[load("res://knight/powerups/exploding boots/exploding_boots.tres"), 5],
+	[load("res://knight/powerups/lightning attacks/lightning_attack.tres"), 5],
 	[load("res://knight/powerups/health potion/health_potion.tres"), 20],
 	[load("res://knight/powerups/stamina potion/stamina_potion.tres"), 20],
 	[load("res://enemies/scenes/slime.tscn"), 10],
@@ -73,6 +88,7 @@ var drops = [
 	[load("res://world/objects/weapons/mace/mace.tres"), 8],
 	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
 	[load("res://knight/powerups/weapons to coins/weapons_to_coins.tres"), 3],
+	[load("res://knight/powerups/turn to slime/turn_to_slime.tres"), 3],
 ]
 
 # =========================================
@@ -140,15 +156,18 @@ func pick_start_object(objects):
 # Linear flow: wait → spawn → wait for clear → clean up events → upgrade → repeat
 # =========================================
 
+func clear_events():
+	if !active_events.is_empty():
+		for e in active_events:
+			e.queue_free()
+
 func new_round():
 	if not is_instance_valid(self):
 		return
 
 	await Game.wait_for_seconds(3)
 
-	if !active_events.is_empty():
-		for e in active_events:
-			e.queue_free()
+	clear_events()
 
 	_round += 1
 	current_round_id += 1

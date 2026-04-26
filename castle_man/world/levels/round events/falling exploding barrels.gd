@@ -1,7 +1,7 @@
 extends RoundEvent
 
 # --- CONFIG ---
-var spawn_delay: float = 1.0
+var spawn_delay: float = 3.0
 var spawn_area_width: float = 900
 var spawn_height: float = -200
 

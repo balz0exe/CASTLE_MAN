@@ -28,6 +28,7 @@ func _on_restart_pressed():
 	Game.get_level().process_mode = Node.PROCESS_MODE_INHERIT
 	visible = false
 	Game.go_to_scene(load(get_tree().current_scene.scene_file_path))
+	Game.get_game_handler().clear_events()
 	
 
 func _on_title_pressed():
