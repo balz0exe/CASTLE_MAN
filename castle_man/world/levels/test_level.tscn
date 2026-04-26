@@ -4,17 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="1_scip0"]
 [ext_resource type="Script" uid="uid://tsfvc4t05npa" path="res://world/levels/round_handler.gd" id="2_8dpye"]
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="2_o4dlw"]
+[ext_resource type="Resource" uid="uid://c0togvbkw1npf" path="res://knight/powerups/weapons to coins/weapons_to_coins.tres" id="8_o4dlw"]
+[ext_resource type="Resource" uid="uid://bhq326cjesqu" path="res://world/objects/weapons/mace/mace.tres" id="9_4hgr8"]
+[ext_resource type="Resource" uid="uid://cgqvilp8cysex" path="res://knight/powerups/lightning attacks/lightning_attack.tres" id="9_gx6e6"]
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="11_ciqro"]
-[ext_resource type="Resource" uid="uid://d0h353bfqclyh" path="res://world/objects/weapons/axe/hand_axe.tres" id="11_k8ngv"]
 [ext_resource type="PackedScene" uid="uid://cd4h4og1bn6hd" path="res://world/objects/weapons/weapon_tool.tscn" id="11_p75f5"]
 [ext_resource type="PackedScene" uid="uid://b55f4iyfy51pa" path="res://world/objects/object.tscn" id="12_p75f5"]
-[ext_resource type="Resource" uid="uid://vw3jem4l8y5c" path="res://knight/powerups/coins/coin.tres" id="13_ev2xu"]
-[ext_resource type="Resource" uid="uid://b4oq6xdat888i" path="res://world/objects/weapons/hand_gun/hand_gun.tres" id="13_p72ms"]
-[ext_resource type="PackedScene" uid="uid://dsxsxpncsprvd" path="res://enemies/scenes/slime.tscn" id="13_qh6br"]
-[ext_resource type="PackedScene" uid="uid://fr0ry00s1wo3" path="res://world/objects/barrels/barrel.tscn" id="14_ev2xu"]
-[ext_resource type="PackedScene" uid="uid://culpn5pv07drb" path="res://world/levels/round events/darkness/firefly.tscn" id="14_p72ms"]
-[ext_resource type="PackedScene" uid="uid://brqw8nsqix8p" path="res://world/objects/barrels/exploding_barrel.tscn" id="16_k8ngv"]
-[ext_resource type="PackedScene" uid="uid://dhiquygu02c6j" path="res://enemies/scenes/goblin.tscn" id="16_yxjfw"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776 groups=["LevelScene"]]
 script = ExtResource("1_r4vgb")
@@ -75,141 +70,14 @@ position = Vector2(-323, 157)
 [node name="WorldObject5" parent="." unique_id=160059812 instance=ExtResource("12_p75f5")]
 position = Vector2(-324, 188)
 
-[node name="Barrel3" parent="." unique_id=880333515 instance=ExtResource("14_ev2xu")]
-position = Vector2(-425, 164)
-
-[node name="Barrel4" parent="." unique_id=1174116074 instance=ExtResource("14_ev2xu")]
-position = Vector2(326, 32)
-
-[node name="Barrel5" parent="." unique_id=915677099 instance=ExtResource("14_ev2xu")]
-position = Vector2(548, 27)
-
-[node name="Barrel6" parent="." unique_id=433631840 instance=ExtResource("14_ev2xu")]
-position = Vector2(504, 98)
-
-[node name="Barrel7" parent="." unique_id=212277536 instance=ExtResource("14_ev2xu")]
-position = Vector2(320, 166)
-drop = ExtResource("16_yxjfw")
-
-[node name="Barrel8" parent="." unique_id=1039608337 instance=ExtResource("14_ev2xu")]
-position = Vector2(364, 165)
-drop = ExtResource("13_qh6br")
-
-[node name="Barrel9" parent="." unique_id=1447864346 instance=ExtResource("14_ev2xu")]
-position = Vector2(345, 166)
-drop = ExtResource("13_qh6br")
-
-[node name="Barrel10" parent="." unique_id=164631808 instance=ExtResource("14_ev2xu")]
-position = Vector2(334, 144)
-drop = ExtResource("16_yxjfw")
-
-[node name="Barrel11" parent="." unique_id=2022731980 instance=ExtResource("14_ev2xu")]
-position = Vector2(359, 144)
-drop = ExtResource("13_qh6br")
-
-[node name="Barrel2" parent="." unique_id=155941488 instance=ExtResource("14_ev2xu")]
-position = Vector2(-623, 125)
-
-[node name="Barrel" parent="." unique_id=134338807 instance=ExtResource("14_ev2xu")]
-position = Vector2(-655, 159)
-drop = ExtResource("11_k8ngv")
-
-[node name="ExplodingBarrel" parent="." unique_id=1915653960 instance=ExtResource("16_k8ngv")]
-position = Vector2(-459, 128)
-
-[node name="ExplodingBarrel2" parent="." unique_id=882429707 instance=ExtResource("16_k8ngv")]
-position = Vector2(-466, 165)
-
-[node name="ExplodingBarrel3" parent="." unique_id=615196459 instance=ExtResource("16_k8ngv")]
-position = Vector2(344, 89)
-
-[node name="ExplodingBarrel4" parent="." unique_id=1228645122 instance=ExtResource("16_k8ngv")]
-position = Vector2(361, -34)
-
-[node name="ExplodingBarrel5" parent="." unique_id=301502715 instance=ExtResource("16_k8ngv")]
-position = Vector2(322, -36)
-
-[node name="ExplodingBarrel6" parent="." unique_id=2099365359 instance=ExtResource("16_k8ngv")]
-position = Vector2(387, 36)
-
-[node name="ExplodingBarrel7" parent="." unique_id=1159053825 instance=ExtResource("16_k8ngv")]
-position = Vector2(361, 33)
-
-[node name="ExplodingBarrel8" parent="." unique_id=2099698666 instance=ExtResource("16_k8ngv")]
-position = Vector2(429, 33)
-
-[node name="ExplodingBarrel9" parent="." unique_id=1840216514 instance=ExtResource("16_k8ngv")]
-position = Vector2(479, 36)
-
-[node name="ExplodingBarrel10" parent="." unique_id=886017140 instance=ExtResource("16_k8ngv")]
-position = Vector2(609, 33)
-
-[node name="ExplodingBarrel11" parent="." unique_id=1118436637 instance=ExtResource("16_k8ngv")]
-position = Vector2(407, 20)
-
-[node name="ExplodingBarrel12" parent="." unique_id=529872755 instance=ExtResource("16_k8ngv")]
-position = Vector2(644, 27)
-
-[node name="ExplodingBarrel13" parent="." unique_id=1362127417 instance=ExtResource("16_k8ngv")]
-position = Vector2(378, 6)
-
 [node name="WeaponObject" parent="." unique_id=258884919 instance=ExtResource("11_p75f5")]
-position = Vector2(-142, 141)
-res = ExtResource("13_p72ms")
+position = Vector2(-195, 126)
+res = ExtResource("8_o4dlw")
 
-[node name="WeaponObject3" parent="." unique_id=504891345 instance=ExtResource("11_p75f5")]
-position = Vector2(-126, 88)
-res = ExtResource("11_k8ngv")
+[node name="WeaponObject3" parent="." unique_id=1485358887 instance=ExtResource("11_p75f5")]
+position = Vector2(-263, 194)
+res = ExtResource("9_4hgr8")
 
-[node name="WeaponObject4" parent="." unique_id=448550255 instance=ExtResource("11_p75f5")]
-position = Vector2(-236, 89)
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject5" parent="." unique_id=1176181862 instance=ExtResource("11_p75f5")]
-position = Vector2(-273, 91)
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject6" parent="." unique_id=936807334 instance=ExtResource("11_p75f5")]
-position = Vector2(-29, 113)
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject7" parent="." unique_id=801719070 instance=ExtResource("11_p75f5")]
-position = Vector2(-78, 113)
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject8" parent="." unique_id=1999186437 instance=ExtResource("11_p75f5")]
-position = Vector2(-148, 112)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject9" parent="." unique_id=1981821519 instance=ExtResource("11_p75f5")]
-position = Vector2(3, 97.99999)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject10" parent="." unique_id=1466163666 instance=ExtResource("11_p75f5")]
-position = Vector2(45, 144)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject11" parent="." unique_id=1153377121 instance=ExtResource("11_p75f5")]
-position = Vector2(2, 151)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject12" parent="." unique_id=1810686274 instance=ExtResource("11_p75f5")]
-position = Vector2(-304, 123.999985)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject13" parent="." unique_id=1445093722 instance=ExtResource("11_p75f5")]
-position = Vector2(-304, 123.999985)
-rotation = -1.8262445
-res = ExtResource("11_k8ngv")
-
-[node name="WeaponObject2" parent="." unique_id=827167746 instance=ExtResource("11_p75f5")]
-position = Vector2(-138, 178)
-res = ExtResource("13_ev2xu")
-
-[node name="Firefly" parent="." unique_id=1239225813 instance=ExtResource("14_p72ms")]
-position = Vector2(-55, 146)
+[node name="WeaponObject2" parent="." unique_id=912265085 instance=ExtResource("11_p75f5")]
+position = Vector2(-58, 127)
+res = ExtResource("9_gx6e6")

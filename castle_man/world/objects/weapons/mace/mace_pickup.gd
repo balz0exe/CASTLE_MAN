@@ -13,8 +13,7 @@ func on_thrown(delta):
 		while get_parent().linear_velocity.length() > 5:
 			Game.get_player().global_position = lerp(Game.get_player().global_position, get_parent().global_position, 5*delta)
 			await get_tree().process_frame
-		Game.spawn_particle_oneshot("res://fx/particle_fx/lightning/lightning.tscn", get_parent(), Vector2(10, 0))        
-		Game.play_sfx(load("res://fx/audio_fx/lightning_strike.wav"), Game.sfx_volume, get_parent())
+		Game.spawn_particle_oneshot("res://fx/particle_fx/lightning/lightning.tscn", get_parent(), Vector2(10, 0))
 		var timer = 5
 		while timer > 0:
 			timer -= delta

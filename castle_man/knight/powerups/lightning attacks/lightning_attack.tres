@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://cgqvilp8cysex"]
+
+[ext_resource type="Texture2D" uid="uid://begsittoq4fr6" path="res://knight/powerups/lightning attacks/lightning_attack.png" id="1_hq4vl"]
+[ext_resource type="Script" uid="uid://bd1fcxbnr4375" path="res://world/objects/weapons/weapon_resource.gd" id="1_sthe1"]
+[ext_resource type="Script" uid="uid://ccwef8yheqi07" path="res://knight/powerups/exploding boots/exploding_boots_pickup.gd" id="2_4xq7o"]
+[ext_resource type="Script" uid="uid://44dgxwciuulf" path="res://knight/powerups/lightning attacks/lightning_attacks.gd" id="2_xp1i2"]
+
+[resource]
+script = ExtResource("1_sthe1")
+weapon_name = "lightning attacks"
+image = ExtResource("1_hq4vl")
+animated = {
+"h_frames": 4,
+"range": 1,
+"true": true,
+"v_frames": 1
+}
+powerup = true
+powerup_gd = ExtResource("2_xp1i2")
+pickup_script = ExtResource("2_4xq7o")
+metadata/_custom_type_script = "uid://bd1fcxbnr4375"

@@ -37,7 +37,6 @@ var animation_timeout: float = 0.0
 var weapon: Resource
 var behavior_node: Node
 
-signal hit(target)
 signal _throw
 
 func set_values():
@@ -79,7 +78,7 @@ func set_values():
 func _ready():
 	add_child(sprite)
 	
-	connect("hit", on_hit)
+	Game.get_player().connect("hit", on_hit)
 	connect("_throw", on_thrown)
 
 func _physics_process(delta: float) -> void:

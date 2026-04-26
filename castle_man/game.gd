@@ -207,10 +207,10 @@ func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
 		level.add_child(_drop)
 		return _drop
 
-func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO, color = null, behind_parent: bool = true) -> void:
+func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.ZERO, color = null, behind_parent: bool = true) -> Node2D:
 	var particles = load(fx)
 	particles = particles.instantiate()
-	from.add_child(particles)
+	from.call_deferred("add_child", particles)
 	if behind_parent:
 		particles.z_index = -2
 	else:
@@ -221,6 +221,7 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 		particles.position = Vector2(offset.x * from.direction, offset.y)
 	else:
 		particles.position = offset
+	return particles
 
 func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false):
 	var explosion = load("res://world/misc/explosion/explosion.tscn")

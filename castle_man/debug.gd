@@ -19,6 +19,10 @@ func _ready() -> void:
 	is_ready = true
 
 func _physics_process(_delta: float) -> void:
+	if Game.get_level().name == "TestLevel":
+		visible = true
+	else:
+		visible = false
 	if Game.get_player():
 		player = Game.get_player()
 		if is_ready:

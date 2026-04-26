@@ -44,7 +44,7 @@ func _ready() -> void:
 		{name = "big roll", color = Color.CHARTREUSE, script = load("res://world/levels/round events/upgrades/upgrade_scripts/big_roll.gd"), weight = 6, stackable = false},
 		{name = "iron grip", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/iron_grip.gd"), weight = 2, stackable = false},
 		{name = "goblin horde", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/goblin_horde.gd"), weight = 1, stackable = true},
-		{name = "a gun", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/a_gun.gd"), weight = 1, stackable = true},
+		{name = "a gun", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/a_gun.gd"), weight = 0.5, stackable = true},
 		{name = "exploding arrows", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/exploding_arrows.gd"), weight = 2, stackable = false},
 		{name = "thors blessing", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/thors_hammer.gd"), weight = 2, stackable = false},
 		{name = "sekhmet's staff", color = Color.YELLOW, script = load("res://world/levels/round events/upgrades/upgrade_scripts/sekhmet's staff.gd"), weight = 4, stackable = true},

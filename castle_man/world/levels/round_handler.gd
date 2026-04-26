@@ -72,7 +72,7 @@ var drops = [
 	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
 	[load("res://world/objects/weapons/mace/mace.tres"), 8],
 	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
-	[load("res://knight/powerups/weapons to coins/weapons_to_coins.tres"), 8],
+	[load("res://knight/powerups/weapons to coins/weapons_to_coins.tres"), 3],
 ]
 
 # =========================================
