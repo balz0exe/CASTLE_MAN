@@ -13,28 +13,27 @@ _data = [Vector2(0, 0.327802), 0.0, 0.0, 0, 0, Vector2(0.40697673, 0.2691285), -
 point_count = 3
 
 [sub_resource type="Gradient" id="Gradient_hbnbt"]
-offsets = PackedFloat32Array(0, 0.27450982, 0.53974897, 0.7824268)
-colors = PackedColorArray(0, 0, 0, 1, 0.47058824, 0.43137255, 0.43137255, 1, 0.47058824, 0.43137255, 0.43137255, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.34309623)
 
 [node name="CPUParticles2D" type="CPUParticles2D" unique_id=817688286]
 scale = Vector2(0.05, 0.05)
 emitting = false
 amount = 10
 texture = ExtResource("1_d6yel")
-lifetime = 5.0
+lifetime = 2.0
 one_shot = true
-randomness = 1.0
 emission_shape = 1
 emission_sphere_radius = 50.0
 direction = Vector2(0, -1)
 spread = 0.0
-gravity = Vector2(0, -50)
+gravity = Vector2(0, -10)
 linear_accel_curve = SubResource("Curve_huvew")
 tangential_accel_min = -8.0
 tangential_accel_max = 8.0
-scale_amount_min = 0.01
-scale_amount_max = 0.1
+scale_amount_min = 0.1
+scale_amount_max = 0.15
 scale_amount_curve = SubResource("Curve_ar0sa")
+color = Color(0.68514574, 0.6851458, 0.6851457, 1)
 color_ramp = SubResource("Gradient_hbnbt")
 script = ExtResource("2_r84q4")
 metadata/_custom_type_script = "uid://dprfd2x42jx8n"

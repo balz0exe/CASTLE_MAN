@@ -40,7 +40,7 @@ var round_events = [
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
 	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
-	#STORM (rain fx and random lightning across level)
+	#{ name = "storm", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 2 },
 	#GARDEN (only mushrooms and sprouts)
 	#BLOOD MOON (only hell hounds and necromancers)
 ]

@@ -31,5 +31,6 @@ func turn_to_slime(body: Node2D):
 	var slime = Game.spawn_object(load("res://enemies/scenes/slime.tscn"), pos)
 	slime.ENEMY_AI.enemy = Game.get_player()
 	Game.get_game_handler().enem_count -= 1
-	Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", slime, Vector2.ZERO, null, false)
 	body.queue_free()
+	for i in range(randi_range(3,5)):
+		Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", slime, Vector2.ZERO, null, false)

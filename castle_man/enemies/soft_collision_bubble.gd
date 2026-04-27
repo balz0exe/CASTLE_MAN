@@ -17,7 +17,7 @@ func _physics_process(_delta):
 			elif current == "RunState":
 				player.global_position += direction * 0.1
 			else:
-				player.global_position += direction * 2.0
+				player.global_position += direction * 0.7
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("soft collisions"):
