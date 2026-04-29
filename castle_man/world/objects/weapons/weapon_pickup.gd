@@ -30,6 +30,7 @@ var proj_persist: bool = false
 var powerup: bool = false
 var powerup_gd: Script
 var instant: bool = false
+var persist: bool = false
 
 var direction: int = 1
 
@@ -75,6 +76,10 @@ func _ready() -> void:
 	
 	set_values()
 	
+	if powerup and !persist:
+		await Game.wait_for_seconds(10)
+		await Game.fade_out_sprite(self, 5)
+		queue_free()
 
 func set_values() -> void:
 	#while res == null and get_tree() != null:
@@ -114,6 +119,7 @@ func set_values() -> void:
 	if powerup:
 		powerup_gd = res.powerup_gd
 		instant = res.instant
+		persist = res.persist
 	
 	add_to_group("objects")
 	if projectile: add_to_group("projectiles")
@@ -211,7 +217,7 @@ func on_hit(target):
 		queue_free()
 	if behavior != null and behavior_node.has_method("on_hit"):
 		behavior_node.on_hit(target)
-		
+
 func on_thrown(delta):
 	if behavior != null and behavior_node.has_method("on_thrown"):
 		behavior_node.on_thrown(delta)

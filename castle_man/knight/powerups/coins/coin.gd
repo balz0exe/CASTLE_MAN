@@ -7,5 +7,5 @@ func _ready() -> void:
 		return c is AudioStreamPlayer and c.stream == load(sfx_path) and c.playing)
 	if not already_playing:
 		Game.play_sfx(load(sfx_path), Game.sfx_volume - 18, Game.get_player(), true, Vector2(0.8, 1.6))
-	Game.get_game_handler().score += 1
+	Game.get_player().coins += 1
 	queue_free()

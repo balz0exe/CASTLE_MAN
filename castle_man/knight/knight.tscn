@@ -23,7 +23,7 @@ size = Vector2(19, 15)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ew415"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_okdvf"]
-size = Vector2(16, 6.15625)
+size = Vector2(22, 8.078125)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_whyep"]
 radius = 15.0
@@ -500,7 +500,7 @@ collision_mask = 2
 script = ExtResource("7_okdvf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FeetBox" unique_id=1557045356]
-position = Vector2(0, 6)
+position = Vector2(0, 6.9609375)
 shape = SubResource("RectangleShape2D_okdvf")
 debug_color = Color(0.973625, 0, 0.4360375, 0.41960785)
 

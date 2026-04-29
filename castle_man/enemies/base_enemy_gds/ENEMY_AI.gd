@@ -301,8 +301,7 @@ func navigate() -> void:
 			if player.platform_cast.is_colliding() and player.global_position.y - enemy.global_position.y > 32:
 				var platform = player.platform_cast.get_collider()
 				if platform != null and platform.is_in_group("enviroment"):
-					player.ai_state = player.Ai_State_Request.jump
-					player.update_ai_request()
+					_follow_up()
 			# Jump over a ledge gap even if no platform detected
 			elif !player.feet_cast.is_colliding() and player.is_on_floor() and player.global_position.y - enemy.global_position.y > 10 and !player.flying:
 				player.ai_state = player.Ai_State_Request.jump
@@ -313,6 +312,19 @@ func navigate() -> void:
 		if state == State.PATROL:
 			player.ai_state = player.Ai_State_Request.jump
 			player.update_ai_request()
+
+var follow_up: bool = false
+func _follow_up():
+	if !follow_up:
+		follow_up = true
+		var ran = [1, -1].pick_random()
+		if ran == 1:
+			player.ai_state = player.Ai_State_Request.jump
+			player.update_ai_request()
+			follow_up = false
+		else:
+			await Game.wait_for_seconds(randf_range(1, 2))
+			follow_up = false
 
 # =========================================
 # CONTROL FUNCTIONS

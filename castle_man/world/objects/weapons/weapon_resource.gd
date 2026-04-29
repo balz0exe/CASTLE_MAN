@@ -17,6 +17,7 @@ class_name WeaponResource
 @export var powerup: bool = false
 @export var powerup_gd: Script
 @export var instant: bool = false
+@export var persist: bool = true
 @export var knockback = 5
 @export var damage = 2
 @export_group("EQUIP")

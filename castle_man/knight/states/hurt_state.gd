@@ -13,6 +13,7 @@ func retrigger():
 	player.recovery_timer = player.knockback_recovery
 
 func exit():
+	player.invincible_timer = 8
 	player.knockback_force = 0
 	player.knocked_back = false
 	if state_machine.monitor:print("Exited Hurt State")

@@ -216,8 +216,9 @@ func _physics_process(delta: float) -> void:
 	# Flying enemies animate float
 	if flying:
 		Game.animate_floating(animation)
-		if feet_cast.is_colliding() and feet_cast.get_collider().is_in_group("enviroment"):
-			global_position.y -= 50 *delta
+		if feet_cast.get_collider() != null:
+			if feet_cast.is_colliding() and feet_cast.get_collider().is_in_group("enviroment"):
+				global_position.y -= 50 *delta
 
 	# Apply state machine input and clamp velocity outside of override states
 	state_machine.current_state.update_input()
@@ -257,20 +258,25 @@ func update_ai_request() -> void:
 			state_machine.change_state("RunState")
 		if (ai_state == Ai_State_Request.jump and (is_on_floor() or (can_double_jump and !has_double_jumped)) and !flying):
 			state_machine.change_state("JumpState")
-		if ai_state == Ai_State_Request.fall and !flying:
+		if ai_state == Ai_State_Request.fall:
 			_follow_down()
 
 var follow_down: bool = false
 func _follow_down():
 	if !follow_down:
 		follow_down = true
-		var ran = [1, -1].pick_random()
-		if ran == 1:
-			global_position.y += 3
-			follow_down = false
+		if flying:
+			feet_cast.enabled = false
+			await Game.wait_for_seconds(0.1)
+			feet_cast.enabled = true
 		else:
-			Game.wait_for_seconds(randi_range(1, 5))
-			follow_down = false
+			var ran = [1, -1].pick_random()
+			if ran == 1:
+				global_position.y += 3
+				follow_down = false
+			else:
+				await Game.wait_for_seconds(randf_range(1, 2))
+				follow_down = false
 	
 
 # =========================================

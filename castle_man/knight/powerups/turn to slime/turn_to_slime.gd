@@ -26,11 +26,15 @@ func _ready() -> void:
 	area.queue_free()
 	queue_free()
 	
-func turn_to_slime(body: Node2D):
+var slimes: Array[Node2D]
+func turn_to_slime(body: Enemy):
+	if slimes.has(body):
+		return
+	slimes.append(body)
 	var pos = body.global_position
 	var slime = Game.spawn_object(load("res://enemies/scenes/slime.tscn"), pos)
 	slime.ENEMY_AI.enemy = Game.get_player()
-	Game.get_game_handler().enem_count -= 1
+	body.died.emit(body)
 	body.queue_free()
 	for i in range(randi_range(3,5)):
 		Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", slime, Vector2.ZERO, null, false)

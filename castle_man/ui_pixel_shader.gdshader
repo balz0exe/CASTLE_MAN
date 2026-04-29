@@ -7,24 +7,20 @@ uniform float noise_strength = 0.3; // how much neighbors affect each other
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 void fragment() {
-	vec2 uv = SCREEN_UV;
+    vec2 uv = SCREEN_UV;
+    vec2 grid = vec2(pixel_size) / vec2(textureSize(SCREEN_TEXTURE, 0));
 
-	// Snap to a finer pixel grid
-	vec2 grid = vec2(pixel_size) / vec2(textureSize(SCREEN_TEXTURE, 0));
-	vec2 base_uv = floor(uv / grid) * grid;
+    // Apply noise to UV before snapping
+    float noise = fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+    vec2 noisy_uv = uv + (noise - noise_strength) * grid * 0.3;
 
-	// Sample neighbors
-	vec4 center = texture(SCREEN_TEXTURE, base_uv);
-	vec4 right  = texture(SCREEN_TEXTURE, base_uv + vec2(grid.x, 0.0));
-	vec4 up     = texture(SCREEN_TEXTURE, base_uv + vec2(0.0, grid.y));
-	vec4 diag   = texture(SCREEN_TEXTURE, base_uv + grid);
+    vec2 base_uv = floor(noisy_uv / grid) * grid;
 
-	// Blend them
-	vec4 mixed = (center + right + up + diag) * 0.25;
+    vec4 center = texture(SCREEN_TEXTURE, base_uv);
+    vec4 right  = texture(SCREEN_TEXTURE, base_uv + vec2(grid.x, 0.0));
+    vec4 up     = texture(SCREEN_TEXTURE, base_uv + vec2(0.0, grid.y));
+    vec4 diag   = texture(SCREEN_TEXTURE, base_uv + grid);
 
-	// Mix original + blended
-	COLOR = mix(center, mixed, (mix_strength/100.0));
-	
-	float noise = fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453);
-	base_uv += (noise - noise_strength) * grid * 0.3;
+    vec4 mixed = (center + right + up + diag) * 0.25;
+    COLOR = mix(center, mixed, mix_strength / 100.0);
 }

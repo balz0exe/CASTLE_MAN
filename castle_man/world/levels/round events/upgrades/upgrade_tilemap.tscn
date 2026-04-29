@@ -9,8 +9,9 @@
 [node name="UpgradeTilemap" type="TileMapLayer" unique_id=1291109177 groups=["enviroment"]]
 z_index = -4
 scale = Vector2(0.5, 0.5)
-tile_map_data = PackedByteArray("AAD8//7/AgADAAIAAAD8////AgABAAEAAAD9////AgABAAEAAAD9/wEAAgABAAQAAAD9/wMAAgABAAQAAAD9/wUAAgABAAQAAAD9/wcAAgABAAQAAAD+//3/AgADAAIAAAD+//7/AgABAAEAAAD+////AgAAAAMAAAD///7/AgABAAEAAAD/////AgAAAAMAAAAAAP7/AgABAAEAAAAAAP//AgAAAAMAAAAAAAEAAgABAAQAAAAAAAMAAgABAAQAAAAAAAUAAgABAAQAAAAAAAcAAgABAAQAAAABAP3/AgADAAIAAAABAP7/AgABAAEAAAABAP//AgAAAAMAAAACAP//AgABAAEAAAADAP7/AgADAAIAAAADAP//AgABAAEAAAADAAEAAgABAAQAAAADAAMAAgABAAQAAAADAAUAAgABAAQAAAADAAcAAgABAAQAAAD//wEAAgABAAQAAAD//wUAAgABAAQAAAABAAUAAgABAAQAAAABAAEAAgABAAQAAAA=")
+tile_map_data = PackedByteArray("AAD8//7/AgADAAIAAAD9/wEAAgAAAAEAAAD9/wMAAgABAAQAAAD9/wUAAgABAAQAAAD9/wcAAgABAAQAAAAAAAEAAgAAAAEAAAAAAAMAAgABAAQAAAAAAAUAAgABAAQAAAAAAAcAAgABAAQAAAADAP7/AgADAAIAAAADAAEAAgAAAAEAAAADAAMAAgABAAQAAAADAAUAAgABAAQAAAADAAcAAgABAAQAAAD//wEAAgAAAAEAAAD//wUAAgABAAQAAAABAAUAAgABAAQAAAABAAEAAgAAAAEAAAD+//7/AgADAAIAAAABAP7/AgADAAIAAAD9////AgABAAEAAAD/////AgABAAEAAAAAAP//AgABAAEAAAACAP//AgABAAEAAAD8/wAAAgAAAAEAAAD9/wAAAgAAAAEAAAD+/wAAAgAAAAEAAAD//wAAAgAAAAEAAAAAAAAAAgAAAAEAAAABAAAAAgAAAAEAAAACAAAAAgAAAAEAAAADAAAAAgAAAAEAAAD8/wEAAgAAAAEAAAD+/wEAAgAAAAEAAAACAAEAAgAAAAEAAAA=")
 tile_set = ExtResource("1_6idj6")
+collision_enabled = false
 
 [node name="Upgrade1" type="Area2D" parent="." unique_id=33376653]
 z_index = -1
@@ -43,7 +44,7 @@ position = Vector2(-224.00002, -117.99999)
 
 [node name="Upgrade3" type="Area2D" parent="." unique_id=2015245211]
 z_index = -1
-position = Vector2(320, -64)
+position = Vector2(320, 0)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("2_tt4yh")
@@ -58,7 +59,7 @@ position = Vector2(-224.00002, -117.99999)
 
 [node name="Upgrade4" type="Area2D" parent="." unique_id=1703020065]
 z_index = -1
-position = Vector2(128, -64)
+position = Vector2(128, 0)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("2_tt4yh")
@@ -76,5 +77,5 @@ offset_left = -262.0
 offset_top = -302.0
 offset_right = 262.0
 offset_bottom = -170.0
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1

@@ -17,5 +17,6 @@ animated = {
 }
 powerup = true
 powerup_gd = ExtResource("3_jcuyq")
+persist = false
 pickup_script = ExtResource("2_gbomx")
 metadata/_custom_type_script = "uid://bd1fcxbnr4375"

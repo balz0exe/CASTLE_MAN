@@ -12,9 +12,12 @@ func physics_update(delta):
 	player.velocity.y += 1 * delta
 	if player.is_on_floor():
 		if Input.is_action_pressed("ui_down"):
-			Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume + 3, player)
 			Game.spawn_particle_oneshot("res://fx/particle_fx/ground_pound_particles.tscn", player, Vector2(0, 5), Color.WHITE, false)
+			Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume + 3, player)
 			player.emit_signal("ground_pound")
+		else:
+			Game.spawn_particle_oneshot("res://fx/particle_fx/ground_pound_particles.tscn", player, Vector2(0, 5), Color(1, 1, 1, 0.3), false)
+			Game.play_sfx(load("res://fx/audio_fx/player_landing.wav"), Game.sfx_volume - 6, player)
 		if Input.get_axis("ui_left", "ui_right") != 0:
 			state_machine.change_state("RunState")
 		else:

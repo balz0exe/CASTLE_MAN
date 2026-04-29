@@ -5,6 +5,8 @@ extends Node2D
 @onready var c = $CPUParticles2D5
 @onready var d = $CPUParticles2D
 
+@onready var hit_box = $HitBox
+
 var time = 20
 
 func _ready() -> void:

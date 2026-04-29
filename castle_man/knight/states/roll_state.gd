@@ -10,7 +10,7 @@ func enter(_prev_state):
 	player.velocity.x = player.roll_distance * 10 * Input.get_axis("ui_left", "ui_right")
 
 func exit():
-	player.invincible = false
+	player.invincible_timer = 0.2
 	playing = false
 	if state_machine.monitor:print("Exited Roll State")
 

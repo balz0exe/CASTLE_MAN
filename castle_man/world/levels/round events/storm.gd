@@ -2,11 +2,9 @@ extends RoundEvent
 
 # --- CONFIG ---
 var cast_count: int = 20          # number of raycast columns across the screen
-var strike_interval_min: float = 0.4
-var strike_interval_max: float = 1.2
+var strike_interval_min: float = 0.8
+var strike_interval_max: float = 2.4
 var warning_duration: float = 0.5  # time the warning indicator shows before strike
-var damage: int = 25
-var knockback: float = 200.0
 var spawn_area_width: float = 900
 
 # --- STATE ---
@@ -51,7 +49,6 @@ func trigger_strike() -> void:
 		return
 
 	var hit_pos: Vector2 = result.position
-	var collider = result.collider
 
 	# Show a warning indicator at the hit position, then strike
 	show_warning(hit_pos)
@@ -63,13 +60,7 @@ func trigger_strike() -> void:
 	# Spawn lightning particles at the hit position
 	spawn_lightning(hit_pos)
 
-	# Deal damage if we hit a character directly
-	if collider.is_in_group("player") or collider.is_in_group("enemies"):
-		apply_lightning_hit(collider, hit_pos)
-	else:
-		# Hit environment — do an overlap check for nearby characters
-		check_area_damage(hit_pos)
-
+var warnings: Array[ColorRect]
 func show_warning(pos: Vector2) -> void:
 	var level = Game.get_level()
 	if not is_instance_valid(level):
@@ -77,9 +68,10 @@ func show_warning(pos: Vector2) -> void:
 
 	var warning = ColorRect.new()
 	warning.size = Vector2(4, 600)
-	warning.color = Color(1.0, 1.0, 0.3, 0.35)
+	warning.color = Color(1.0, 1.0, 0.3, 0.6)
 	warning.position = Vector2(pos.x - 2, pos.y - 600)
 	level.add_child(warning)
+	warnings.append(warning)
 
 	# Flicker the warning
 	var tween = warning.create_tween()
@@ -92,36 +84,22 @@ func show_warning(pos: Vector2) -> void:
 
 func spawn_lightning(pos: Vector2) -> void:
 	# Main ground burst particles
-	Game.spawn_particle_oneshot(
+	var lightning = Game.spawn_particle_oneshot(
 		"res://fx/particle_fx/lightning/lightning.tscn",
 		Game.get_level(),
 		pos,
-		Color(0.6, 0.8, 1.0)
 	)
+	lightning.time = 1
+	await get_tree().process_frame
+	lightning.hit_box.damage_player = true
 	# Camera shake
 	Game.camera_shake(0.2, 5.0)
 	# SFX — swap path for your actual thunder/zap sound
 	Game.play_sfx(load("res://fx/audio_fx/lightning_strike.wav"), Game.sfx_volume)
 
-func apply_lightning_hit(character: Node2D, pos: Vector2) -> void:
-	if character.has_method("take_damage"):
-		character.take_damage(damage, knockback, pos)
-	Game.spawn_particle_oneshot(
-		"res://fx/particle_fx/lightning/lightning.tscn",
-		Game.get_level(),
-		character.global_position,
-		Color(0.6, 0.8, 1.0)
-	)
-	Game.camera_shake(0.25, 7.0)
-
-func check_area_damage(pos: Vector2) -> void:
-	# Check a small radius around the ground hit for nearby characters
-	var hit_radius: float = 40.0
-	for character in Game.get_characters():
-		if is_instance_valid(character):
-			if character.global_position.distance_to(pos) <= hit_radius:
-				apply_lightning_hit(character, pos)
-
 # --- CLEANUP ---
 func clean_up():
+	for w in warnings:
+		if w != null:
+			w.queue_free()
 	running = false

@@ -40,7 +40,7 @@ var round_events = [
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
 	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
-	#{ name = "storm", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 2 },
+	{ name = "storm", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 5 },
 	#GARDEN (only mushrooms and sprouts)
 	#BLOOD MOON (only hell hounds and necromancers)
 ]
@@ -74,18 +74,21 @@ var enemies = [
 # Same weighted system as events
 # =========================================
 
+var weapons = [
+	[load("res://world/objects/weapons/axe/hand_axe.tres"), 15],
+	[load("res://world/objects/weapons/sword/sword.tres"), 15],
+	[load("res://world/objects/weapons/spear/spear.tres"), 10],
+	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
+	[load("res://world/objects/weapons/mace/mace.tres"), 8],
+]
+
 var drops = [
 	[load("res://knight/powerups/exploding boots/exploding_boots.tres"), 5],
 	[load("res://knight/powerups/lightning attacks/lightning_attack.tres"), 5],
 	[load("res://knight/powerups/health potion/health_potion.tres"), 20],
 	[load("res://knight/powerups/stamina potion/stamina_potion.tres"), 20],
 	[load("res://enemies/scenes/slime.tscn"), 10],
-	[load("res://world/objects/weapons/axe/hand_axe.tres"), 15],
-	[load("res://world/objects/weapons/sword/sword.tres"), 15],
-	[load("res://world/objects/weapons/spear/spear.tres"), 10],
 	[load("res://world/objects/weapons/bow/bow.tres"), 8],
-	[load("res://world/objects/weapons/great_sword/great_sword.tres"), 5],
-	[load("res://world/objects/weapons/mace/mace.tres"), 8],
 	[load("res://knight/powerups/mushroom friend/mushroom_friend.tres"), 5],
 	[load("res://knight/powerups/weapons to coins/weapons_to_coins.tres"), 3],
 	[load("res://knight/powerups/turn to slime/turn_to_slime.tres"), 3],
@@ -111,7 +114,7 @@ func _ready() -> void:
 func spawn_start_objects():
 	var objects = [
 		{ name = "barrel", scene = load("res://world/objects/barrels/barrel.tscn"), weight = 10},
-		{ name = "exploding_barrel", scene = load("res://world/objects/barrels/exploding_barrel.tscn"), weight = 2},
+		{ name = "exploding_barrel", scene = load("res://world/objects/barrels/exploding_barrel.tscn"), weight = 1},
 	]
 	for i in range(25):
 		var d = pick_start_object(objects)
@@ -137,6 +140,18 @@ func pick_weighted_drop():
 		if roll <= cumulative:
 			return drop[0]
 	return drops[-1][0]
+
+func pick_weighted_weapon():
+	var total_weight: float = 0.0
+	for w in weapons:
+		total_weight += w[1]
+	var roll = randf_range(0.0, total_weight)
+	var cumulative: float = 0.0
+	for w in weapons:
+		cumulative += w[1]
+		if roll <= cumulative:
+			return w[0]
+	return weapons[-1][0]
 
 func pick_start_object(objects):
 	# Weighted random pick from eligible enemies
@@ -202,7 +217,9 @@ func new_round():
 			event.queue_free()
 	active_events.clear()
 	active_event_names.clear()
-
+	
+	score += floori(_round*1.3)+9
+	
 	# Show upgrade selection and wait for player to choose before continuing
 	await _upgrade_event()
 
@@ -298,6 +315,14 @@ func spawn_enemy(_round_num: int, fall: bool = false) -> void:
 		var dir = [1, -1].pick_random()
 		var pos = Vector2(900 * dir, 100) if !lava_floor else Vector2(randi_range(-475, 475), -get_viewport().size.y)
 		var enemy: Enemy = Game.spawn_object(scene, pos)
+		if pick.name == "skeleton":
+			var ran = [1, -1].pick_random()
+			if ran == 1:
+				while is_instance_valid(enemy) == false:
+					await get_tree().process_frame
+				var weapon = pick_weighted_weapon()
+				if is_instance_valid(enemy):
+					enemy.equip_weapon(weapon, WeaponPickup.new())
 		var ai = enemy.ENEMY_AI
 		var round_id = current_round_id
 		ai.enemy = Game.get_player()
@@ -341,6 +366,7 @@ func drop_coins(coins: int, from: Node2D):
 	for c in range(coins):
 		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), from.global_position)
 		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
+		score += 1
 	print("dropped "+str(coins)+" coins")
 
 func on_enemy_died(enemy: Enemy, round_id: int) -> void:
@@ -358,7 +384,7 @@ func on_enemy_died(enemy: Enemy, round_id: int) -> void:
 # =========================================
 
 func enemies_for_round(r: int) -> int:
-	var A = 1
+	var A = 10
 	var B = 1.5
 	var k = 1.2
 	return int(A + B * pow(r, k))

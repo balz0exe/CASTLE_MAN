@@ -38,6 +38,7 @@ var hurt_sfx: AudioStream = load("res://fx/audio_fx/player_hurt.wav")
 var max_health: int = 50
 var health: float = max_health
 var lives: int = 3
+var coins: int = 0
 var dead: bool = false
 var max_stamina: float = 25
 var stamina: float = max_stamina
