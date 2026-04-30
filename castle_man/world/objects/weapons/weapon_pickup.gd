@@ -38,11 +38,15 @@ var behavior: Script
 var behavior_node: Node
 
 var pickup_timer: float = 0.0
+var fire_timer: float = 0.0
+var ignore_enemies: bool = false
+var ignore_objects: bool = false
 
 signal hit(target)
 signal throw
 
 func _ready() -> void:
+	print("WeaponPickup created: ", get_instance_id(), " res: ", res)
 	
 	sprite = Sprite2D.new()
 	coll = CollisionShape2D.new()
@@ -121,6 +125,9 @@ func set_values() -> void:
 		instant = res.instant
 		persist = res.persist
 	
+	if projectile:
+		fire_timer = 0.2
+	
 	add_to_group("objects")
 	if projectile: add_to_group("projectiles")
 	if !powerup: add_to_group("weapons")
@@ -148,6 +155,8 @@ func _physics_process(delta: float) -> void:
 		animation_timeout -= delta
 	if equip_delay_timer > 0:
 		equip_delay_timer -= delta
+	if fire_timer > 0:
+		fire_timer -= delta
 
 	var velocity = linear_velocity.length() / 20
 
@@ -170,7 +179,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		thrown = false
 		hit_box_coll.set_deferred("disabled", true)
-		if projectile: hit.emit(self)
+		if projectile and fire_timer <= 0: hit.emit(self)
 	check_contacts(delta)
 
 func check_contacts(delta) -> void:
@@ -184,6 +193,7 @@ func check_contacts(delta) -> void:
 var picked_up = false
 
 func _on_body_entered(body: Node2D) -> void:
+	print("body_entered: ", body.name, " | picked_up: ", picked_up, " | has_weapon: ", body.get("has_weapon"), " | claimed: ", Game.claimed_pickups.has(get_instance_id()))
 	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")):
 		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
@@ -200,7 +210,12 @@ func _on_body_entered(body: Node2D) -> void:
 					else: Game.get_player().add_child(_powerup)
 					queue_free()
 				elif not body.has_weapon:
+					if !Game.claim_pickup(self):
+						return
+					interaction.set_deferred("monitoring", false)
+					interaction.set_deferred("monitorable", false)
 					picked_up = true
+					hide()
 					var weapon = res
 					if body.is_in_group("enemies"):
 						body.found_weapon = null
@@ -209,6 +224,10 @@ func _on_body_entered(body: Node2D) -> void:
 func connect_interaction() -> void:
 	if interaction != null:
 		interaction.connect("body_entered", Callable(self, "_on_body_entered"))
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		Game.release_pickup(self)
 
 #Empty Functions
 

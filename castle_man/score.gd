@@ -19,7 +19,7 @@ func _physics_process(_delta: float) -> void:
 		player = Game.get_game_handler()
 		if is_ready:
 			score = "score: " + str(player.score)
-			round_ = "round: " + str(player._round)
+			round_ = "round: " + str(player._round - 1)
 		
 		debug_list = [
 			score,

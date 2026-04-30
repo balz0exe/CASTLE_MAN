@@ -4,7 +4,7 @@ var timer: float
 @onready var area: Area2D = Area2D.new()
 @onready var coll: CollisionShape2D = CollisionShape2D.new()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	for body in area.get_overlapping_bodies():
 		if body.is_in_group("weapons"):
 			turn_to_coins(body)

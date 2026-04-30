@@ -192,6 +192,19 @@ func hit_pause(duration: float = 0.1, pause_scale: float = 0.6, ignore_timer: bo
 		pause_timer = pause_cooldown
 		Engine.time_scale = 1.0
 
+
+var claimed_pickups: Dictionary = {}
+func claim_pickup(pickup: WeaponPickup) -> bool:
+	if claimed_pickups.has(pickup.get_instance_id()):
+		print("CLAIM REJECTED: ", pickup.get_instance_id())
+		return false
+	print("CLAIM ACCEPTED: ", pickup.get_instance_id())
+	claimed_pickups[pickup.get_instance_id()] = true
+	return true
+
+func release_pickup(pickup: WeaponPickup) -> void:
+	claimed_pickups.erase(pickup.get_instance_id())
+
 func spawn_object(object: Resource, global_position: Vector2) -> Node2D:
 	if !object.is_class("PackedScene"):
 		var weapon = WeaponPickup.new()
@@ -242,7 +255,7 @@ func tween_camera_position(_camera: Camera2D, position: Vector2, duration: float
 	return tween
 
 var active_spins: Array[Node2D] = []
-func animate_spining(sprite: Node2D, strength: float = 20):
+func animate_spining(sprite: Node, strength: float = 20):
 	if active_spins.has(sprite):
 		return
 	var tween = create_tween()
@@ -262,7 +275,7 @@ func animate_spining(sprite: Node2D, strength: float = 20):
 
 var active_floats: Array[Node2D] = []
 
-func animate_floating(node: Node2D, amplitude: float = 5.0, speed: float = 2.0) -> void:
+func animate_floating(node: Node, amplitude: float = 5.0, speed: float = 2.0) -> void:
 	if active_floats.has(node):
 		return
 	active_floats.append(node)
@@ -274,7 +287,7 @@ func animate_floating(node: Node2D, amplitude: float = 5.0, speed: float = 2.0) 
 	tween.tween_property(node, "position:y", origin_y + amplitude, 1.0 / speed)
 	tween.tween_property(node, "position:y", origin_y - amplitude, 1.0 / speed)
 
-func stop_floating(node: Node2D) -> void:
+func stop_floating(node: Node) -> void:
 	active_floats.erase(node)
 	# tween will keep running — call this if you need to kill it externally
 	# store the tween ref if you need to kill it on demand

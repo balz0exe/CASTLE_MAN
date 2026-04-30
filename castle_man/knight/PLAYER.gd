@@ -178,17 +178,19 @@ func _physics_process(delta: float) -> void:
 	update_animations()
 	Game.update_music_filter(health, max_health)
 
+#======== REMOVED SPRINT =========
+
 	# --- Sprint speed ---
-	if sprint and stamina > 0:
-		max_speed = prev_speed * sprint_factor * speed_potion
-	else:
-		max_speed = prev_speed * speed_potion
+	#if sprint and stamina > 0:
+	max_speed = prev_speed * sprint_factor * speed_potion
+	#else:
+		#max_speed = prev_speed * speed_potion
 
 	# --- Stamina regen (not during attacks) ---
 	if state_machine.current_state.get_state_name() != "AttackState":
 		if stamina < max_stamina:
-			if not sprint:
-				stamina = clamp(stamina + stamina_regen * delta, 0, max_stamina)
+			#if not sprint:
+			stamina = clamp(stamina + stamina_regen * delta, 0, max_stamina)
 		else:
 			stamina = max_stamina
 
@@ -331,17 +333,23 @@ func get_knockback_direction(from: Node2D) -> void:
 	await Game.wait_for_seconds(get_physics_process_delta_time())
 
 func disarm() -> void:
+	print("disarm called, weapon: ", weapon)
 	if not weapon:
 		return
+	if weapon: weapon.call_deferred("queue_free")
+	var res = weapon.weapon
+	weapon = null
+	has_weapon = false
 	var drop = WeaponPickup.new()
-	drop.res = weapon.weapon
+	drop.res = res
+	Game.claim_pickup(drop)
 	await Game.wait_for_seconds(get_physics_process_delta_time())
 	get_parent().add_child(drop)
 	drop.global_position = global_position
 	drop.apply_impulse(Vector2(0, -10))
 	drop.apply_torque(-direction * 10)
-	has_weapon = false
-	if weapon: weapon.call_deferred("queue_free")
+	await Game.wait_for_seconds(1.0)
+	Game.release_pickup(drop)
 
 # =========================================
 # DEATH & RESPAWN — could move to character.gd
@@ -407,13 +415,13 @@ func equip_weapon(res: Resource, pickup: RigidBody2D = null) -> void:
 	pending_weapon_res = res
 	pending_pickup_scene = pickup
 	pending_pickup_scene.queue_free()
+	has_weapon = true
 	call_deferred("_do_equip")
 
 func _do_equip() -> void:
 	if (not pending_weapon_res) or (pending_pickup_scene == null):
 		return
 	weapon = WeaponItem.new()
-	has_weapon = true
 	hit_box.get_child(0).shape = pending_weapon_res.hurt_box_shape
 	weapon_hit_box_reach_offset = pending_weapon_res.hurt_box_offset
 	weapon.set_meta("resource_path", pending_weapon_res.resource_path)

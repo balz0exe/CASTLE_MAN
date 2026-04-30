@@ -1,30 +1,32 @@
 [gd_scene format=4 uid="uid://bdnkpbo476xmb"]
 
-[ext_resource type="Script" uid="uid://df3eilc42dr0j" path="res://world/levels/LEVEL.gd" id="1_x5v1q"]
+[ext_resource type="Script" uid="uid://5td78aesnk" path="res://world/levels/title_screen.gd" id="1_ek1m8"]
 [ext_resource type="PackedScene" uid="uid://ssqdqlxnc0hk" path="res://world/map.tscn" id="3_utnjl"]
 [ext_resource type="PackedScene" uid="uid://bkjv1x2fi6yb7" path="res://knight/knight.tscn" id="4_4gvuq"]
-[ext_resource type="Shader" uid="uid://bkl2gmflemj5c" path="res://world/levels/ghost.gdshader" id="4_x5v1q"]
 [ext_resource type="Script" uid="uid://dckq8xbl24tgm" path="res://world/levels/test_door.gd" id="5_ckwgo"]
 [ext_resource type="Texture2D" uid="uid://cvthxof421ugc" path="res://world/door.png" id="5_f4n57"]
 [ext_resource type="PackedScene" uid="uid://chodq11xoucod" path="res://fx/particle_fx/fire_2.tscn" id="6_4gvuq"]
 [ext_resource type="Script" uid="uid://cyqccjuiaegx" path="res://world/levels/start_door.gd" id="6_p8vai"]
 [ext_resource type="PackedScene" uid="uid://dtkrdwlwo8dqf" path="res://world/misc/light/light.tscn" id="7_p8vai"]
 [ext_resource type="Script" uid="uid://btdvt5e0ick20" path="res://fx/particle_fx/flame.gd" id="7_scklf"]
+[ext_resource type="Shader" uid="uid://bmckd8kp6a6lr" path="res://knight/glow.gdshader" id="10_sqqyt"]
 [ext_resource type="Texture2D" uid="uid://dx02iuqm4rfk1" path="res://world/moon.png" id="10_v2o7i"]
+[ext_resource type="Script" uid="uid://c2n70oyo1vw4l" path="res://world/levels/label.gd" id="11_ek1m8"]
 [ext_resource type="Texture2D" uid="uid://cjmnm3ia634ll" path="res://world/Screenshot 2026-04-24 at 5.10.41 PM.png" id="11_sqqyt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gvuq"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f4n57"]
-shader = ExtResource("4_x5v1q")
-shader_parameter/speed = 1.0
-shader_parameter/cell_size = 1.0
-shader_parameter/ghost_fade_start = 0.4630000219925
-shader_parameter/break_start = 0.8090000384275
-shader_parameter/drift_scale = 1.0000000475
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ek1m8"]
+shader = ExtResource("10_sqqyt")
+shader_parameter/glow_color = Color(0.9254902, 0, 0.49019608, 0.4862745)
+shader_parameter/glow_strength = 3.20999992825008
+shader_parameter/glow_radius = 4
+shader_parameter/alpha_threshold = 0.009999999747
+shader_parameter/tint_strength = 0.999999977648
+shader_parameter/glow_over_sprite = true
 
 [node name="TitleScreen" type="Node2D" unique_id=1153981264 groups=["LevelScene"]]
-script = ExtResource("1_x5v1q")
+script = ExtResource("1_ek1m8")
 music = "res://fx/audio_fx/necro_theme_1.wav"
 boundaries = {
 &"x_boundaries": Vector2(-225, 225),
@@ -112,8 +114,12 @@ position = Vector2(0, 21)
 [node name="light" parent="." unique_id=149216288 instance=ExtResource("7_p8vai")]
 position = Vector2(0, 185)
 
-[node name="Label" type="Label" parent="." unique_id=1155671287]
-material = SubResource("ShaderMaterial_f4n57")
+[node name="Title" type="Node2D" parent="." unique_id=384562632]
+script = ExtResource("11_ek1m8")
+
+[node name="Label" type="Label" parent="Title" unique_id=1155671287]
+modulate = Color(0, 0, 0, 0.8235294)
+material = SubResource("ShaderMaterial_ek1m8")
 offset_left = -221.0
 offset_top = 14.0
 offset_right = 221.0

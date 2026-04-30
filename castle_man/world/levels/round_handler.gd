@@ -10,7 +10,7 @@ class_name RoundHandler
 
 var spawn_timer: float = 0
 var spawn_time: float = 1
-var _round: int = 0
+var _round: int = 1
 var enem_round_count: int = 0
 var enem_count: int = 0
 var current_round_id: int = 0
@@ -51,16 +51,16 @@ var round_events = [
 # =========================================
 
 var enemies = [
-	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 4, min_round = 5 },
-	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 6, min_round = 1 },
-	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 8 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 4, min_round = 4 },
+	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 6, min_round = 2 },
+	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 6 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 10, min_round = 1 },
-	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 2 },
-	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 3 },
+	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 1 },
+	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 2 },
+	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 3, min_round = 3 },
 	#OGRE (big high knockback slow)
 	#HELL HOUND (fast quick attack)
 	#NECROMANCER (avoids player summons skeletons)
-	#FIRE SPROUT (shoots fire balls at player)
 	#LIGHTNING SPROUT (tries to spawn lightning on player)
 	#GARGOYLE (flying enemy with weapons)
 	#GOBLIN ON WARPIG (basic goblin but he comes in on a warpig you have to kill first)
@@ -311,25 +311,38 @@ func pick_enemy(_round_num: int) -> Dictionary:
 func spawn_enemy(_round_num: int, fall: bool = false) -> void:
 	var pick = pick_enemy(_round_num)
 	var scene = pick.scene
-	if !fall:
+	
+	var cam = Game.get_player().camera
+	var cam_pos = cam.get_screen_center_position()
+	var half_size = get_viewport().get_visible_rect().size / 2
+	
+	var pos: Vector2
+	if fall:
+		# Spawn along top edge, random x within screen bounds
+		pos = Vector2(randf_range(cam_pos.x - half_size.x, cam_pos.x + half_size.x), cam_pos.y - half_size.y)
+	elif lava_floor:
+		pos = Vector2(randf_range(cam_pos.x - half_size.x, cam_pos.x + half_size.x), cam_pos.y - half_size.y)
+	else:
+		# Spawn at left or right edge, random y within screen bounds
 		var dir = [1, -1].pick_random()
-		var pos = Vector2(900 * dir, 100) if !lava_floor else Vector2(randi_range(-475, 475), -get_viewport().size.y)
-		var enemy: Enemy = Game.spawn_object(scene, pos)
-		if pick.name == "skeleton":
-			var ran = [1, -1].pick_random()
-			if ran == 1:
-				while is_instance_valid(enemy) == false:
-					await get_tree().process_frame
-				var weapon = pick_weighted_weapon()
-				if is_instance_valid(enemy):
-					enemy.equip_weapon(weapon, WeaponPickup.new())
-		var ai = enemy.ENEMY_AI
-		var round_id = current_round_id
-		ai.enemy = Game.get_player()
-		enemy.coin_weight = pick.weight
-		enemy.died.connect(func(e): on_enemy_died(e, round_id))
-		enem_count += 1
-		print("spawned enemy " + str(enem_count))
+		pos = Vector2(cam_pos.x + (half_size.x * dir), randf_range(cam_pos.y - half_size.y, cam_pos.y))
+
+	var enemy: Enemy = Game.spawn_object(scene, pos)
+	if pick.name == "skeleton":
+		var ran = [1, -1].pick_random()
+		if ran == 1:
+			while is_instance_valid(enemy) == false:
+				await get_tree().process_frame
+			var weapon = pick_weighted_weapon()
+			if is_instance_valid(enemy):
+				enemy.equip_weapon(weapon, WeaponPickup.new())
+	var ai = enemy.ENEMY_AI
+	var round_id = current_round_id
+	ai.enemy = Game.get_player()
+	enemy.coin_weight = pick.weight
+	enemy.died.connect(func(e): on_enemy_died(e, round_id))
+	enem_count += 1
+	print("spawned enemy " + str(enem_count))
 
 func calc_coin_drop(player: CharacterBody2D, enemy: Enemy, round_num: int) -> int:
 	# ---- TUNING KNOBS ----
@@ -384,7 +397,7 @@ func on_enemy_died(enemy: Enemy, round_id: int) -> void:
 # =========================================
 
 func enemies_for_round(r: int) -> int:
-	var A = 10
+	var A = 8
 	var B = 1.5
 	var k = 1.2
 	return int(A + B * pow(r, k))

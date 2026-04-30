@@ -9,6 +9,8 @@ func _ready() -> void:
 	connect("area_entered", on_area_entered)
 	
 func on_area_entered(hit_box: HitBox):
+	if hit_box.get_parent() is WeaponPickup and ((hit_box.get_parent().ignore_enemies and get_parent().is_in_group("enemies")) or (hit_box.get_parent().ignore_objects and get_parent().is_in_group("objects"))):
+		return
 	if (get_parent().is_in_group("player") and (get_parent().invincible or hit_box.damage_player == false)) or (get_parent().is_in_group("object") and hit_box.is_in_group("projectile")):
 		return
 	if ((get_parent().is_in_group("enemies") and get_parent().friendly) or get_parent().is_in_group("player")) and ((hit_box.get_parent().is_in_group("enemies") and hit_box.get_parent().friendly)):

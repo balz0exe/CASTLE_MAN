@@ -174,7 +174,8 @@ func _physics_process(delta: float) -> void:
 
 		State.CHASE:
 			if enemy != null:
-				_move_towards_x(enemy.global_position.x, true)
+				if player.ranged_type: _move_towards_x(enemy.global_position.x + (-player.direction * player.attack_range), true)
+				else: _move_towards_x(enemy.global_position.x, true)
 				if player.flying: _move_towards_y(enemy.global_position.y)
 			else:
 				set_state(State.PATROL)
@@ -223,6 +224,12 @@ func control_process(delta: float) -> void:
 	if enemy != null and !enemy.dead:
 		var distance = enemy.global_position - player.global_position
 
+		if player.ranged_type:
+			if abs(distance.x) < 250 and abs(distance.y) < 30:
+				if throw_timer <= 0:
+					player.ai_state = player.Ai_State_Request.throw
+				set_state(State.CHASE)  # keeps them moving into range if too far
+
 		if abs(distance.x) > player.attack_range - 20:
 			# Try to throw if in range and cooldown is ready
 			if player.weapon and player.will_throw:
@@ -232,6 +239,7 @@ func control_process(delta: float) -> void:
 			set_state(State.CHASE)
 
 		elif abs(distance.x) < player.attack_range + 20 and abs(distance.y) < 20 and state != State.WAIT:
+			if player.ranged_type: return
 			if state == State.FIGHT:
 				if player.weapon_user and !player.weapon:
 					var weapons: Array[WeaponPickup]

@@ -42,6 +42,8 @@ var coin_weight
 @export var flying: bool = false
 @export var weapon_user = true
 @export var will_throw = false
+@export var ranged_type: bool = false
+@export var ranged_proj: WeaponResource
 @export var max_health: float = 100
 @export var basic_damage: float = 5
 @export var damage_factor: float = 1.0
@@ -145,9 +147,11 @@ func _ready() -> void:
 	hit_box.coll.disabled = true
 	connect("attacked", on_attacked)
 	connect("died", on_died)
+	connect("fired", on_fired)
 	
 	#Setup flying enemies raycast
 	if flying:
+		Game.animate_floating(animation)
 		feet_cast.position = Vector2.ZERO
 		feet_cast.target_position = Vector2(0, 15)
 	
@@ -156,10 +160,11 @@ func _ready() -> void:
 # PHYSICS PROCESS
 # =========================================
 
+var _delta
 func _physics_process(delta: float) -> void:
 	# Virtual — subclasses can inject logic here without overriding _physics_process
 	secondary_process()
-	
+	_delta = delta
 
 	# Switch between basic and weapon-based attack pattern
 	if weapon == null:
@@ -215,7 +220,6 @@ func _physics_process(delta: float) -> void:
 
 	# Flying enemies animate float
 	if flying:
-		Game.animate_floating(animation)
 		if feet_cast.get_collider() != null:
 			if feet_cast.is_colliding() and feet_cast.get_collider().is_in_group("enviroment"):
 				global_position.y -= 50 *delta
@@ -249,9 +253,7 @@ func update_ai_request() -> void:
 		if ai_state == Ai_State_Request.attack:
 			state_machine.change_state("AttackState")
 		if ai_state == Ai_State_Request.throw:
-			# FLAG: no throw_timer check here — if you want throw cooldown enforced
-			# check ENEMY_AI.throw_timer <= 0 before changing state
-			if weapon and weapon.throwable: state_machine.change_state("ThrowState")
+			if (weapon and weapon.throwable) or ranged_type: state_machine.change_state("ThrowState")
 		if ai_state == Ai_State_Request.idle:
 			state_machine.change_state("IdleState")
 		if ai_state == Ai_State_Request.run:
@@ -266,9 +268,9 @@ func _follow_down():
 	if !follow_down:
 		follow_down = true
 		if flying:
-			feet_cast.enabled = false
-			await Game.wait_for_seconds(0.1)
-			feet_cast.enabled = true
+			await Game.wait_for_seconds(randf_range(0.5, 1))
+			global_position.y += 3
+			follow_down = false
 		else:
 			var ran = [1, -1].pick_random()
 			if ran == 1:
@@ -382,18 +384,38 @@ func _do_equip() -> void:
 	pending_weapon_res = null
 	pending_pickup_scene = null
 
-func disarm():
-	if weapon:
-		pickup_reset_timer = 2
-		var drop = WeaponPickup.new()
-		drop.res = weapon.weapon
-		if drop != null:
-			get_parent().add_child(drop)
-			drop.global_position = global_position
-			drop.apply_impulse(Vector2(0, -10))
-			drop.apply_torque(-direction * 10)
-			has_weapon = false
-			weapon.call_deferred("queue_free")
+func disarm() -> void:
+	print("disarm called, weapon: ", weapon)
+	if not weapon:
+		return
+	if weapon: weapon.call_deferred("queue_free")
+	var res = weapon.weapon
+	weapon = null
+	has_weapon = false
+	var drop = WeaponPickup.new()
+	drop.res = res
+	Game.claim_pickup(drop)
+	await Game.wait_for_seconds(get_physics_process_delta_time())
+	get_parent().add_child(drop)
+	drop.global_position = global_position
+	drop.apply_impulse(Vector2(0, -10))
+	drop.apply_torque(-direction * 10)
+	await Game.wait_for_seconds(1.0)
+	Game.release_pickup(drop)
+
+signal fired(projectile)
+func fire() -> void:
+	var projectile = WeaponPickup.new()
+	projectile.res = ranged_proj
+	projectile.from = self
+	projectile.thrown = true
+	projectile.direction = direction
+	projectile.global_position = Vector2(global_position.x + (direction * 35), global_position.y - 15)
+	get_parent().add_child(projectile)
+	await get_tree().process_frame
+	projectile.apply_impulse(Vector2(direction * projectile.throw_speed * 5, 0))
+	projectile.throw.emit(_delta)
+	fired.emit(projectile)
 
 # =========================================
 # VIRTUAL FUNCTIONS
@@ -407,6 +429,9 @@ func on_attacked() -> void:
 	pass
 
 func on_died(_enemy) -> void:
+	pass
+
+func on_fired(projectile) -> void:
 	pass
 
 func secondary_process() -> void:

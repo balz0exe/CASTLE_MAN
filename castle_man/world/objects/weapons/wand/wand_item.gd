@@ -1,3 +1,4 @@
+#wand_item.gd
 extends Node
 
 var fire: CPUParticles2D
