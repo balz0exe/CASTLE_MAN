@@ -263,14 +263,12 @@ func control_process(delta: float) -> void:
 # =========================================
 
 func navigate() -> void:
-	# Point raycasts in the direction the enemy is facing
 	player.wall_cast.target_position = Vector2(player.direction * 50, 0)
 	if !player.flying: player.feet_cast.target_position = Vector2(player.direction * player.original_feet_target_position.x, player.original_feet_target_position.y)
 	if !player.flying: player.feet_cast.position.x = player.direction * 10
 	player.platform_cast.target_position = Vector2(player.direction * player.original_plat_target_position.x, player.original_plat_target_position.y)
 	player.platform_cast.position.x = player.direction * 10
 
-	# Check sight bubble for the player
 	var colliders = player.sight_bubble.get_overlapping_bodies()
 	for body in colliders:
 		if (body.is_in_group("player") and !player.friendly) or (body.is_in_group("enemies") and player.friendly):
@@ -279,45 +277,45 @@ func navigate() -> void:
 
 			if player.sight_cast.is_colliding():
 				var collider = player.sight_cast.get_collider()
-				# Acquire target if line of sight is clear
 				if collider and not collider.is_in_group("enviroment") and enemy == null:
-					enemy = body
-				# Lose target if something is in the way
+					if player.friendly and body.is_in_group("enemies") and !body.friendly:
+						enemy = body
+					elif !player.friendly and body.is_in_group("player"):
+						enemy = body
 				elif collider and collider.is_in_group("enviroment") and enemy != null:
 					lose_enemy(player.lose_time)
 
 		if enemy == null and state != State.WAIT:
 			set_state(State.PATROL)
 
-	# Flip direction if walking into a wall
 	var wall_collider = player.wall_cast.get_collider()
 	if wall_collider != null and wall_collider.is_in_group("enviroment") and enemy == null:
 		_flip()
 
-# Enemy body is above the player character — fall down to follow
 	if enemy != null and player.global_position.y - enemy.global_position.y < -30:
 		player.ai_state = player.Ai_State_Request.fall
 		player.update_ai_request()
 		return
 
-	# Enemy body is below the player character — jump up to follow
 	if enemy != null and player.is_on_floor():
 		if player.follow_up and (state == State.CHASE or state == State.SEARCH_WEAPON):
-			# Jump up toward a platform if enemy is higher
 			if player.platform_cast.is_colliding() and player.global_position.y - enemy.global_position.y > 32:
 				var platform = player.platform_cast.get_collider()
 				if platform != null and platform.is_in_group("enviroment"):
 					_follow_up()
-			# Jump over a ledge gap even if no platform detected
 			elif !player.feet_cast.is_colliding() and player.is_on_floor() and player.global_position.y - enemy.global_position.y > 10 and !player.flying:
 				player.ai_state = player.Ai_State_Request.jump
 				player.update_ai_request()
 
-	# Jump at ledge edges while patrolling
 	if player.is_on_floor() and player.feet_cast.get_collider() == null and !player.flying:
 		if state == State.PATROL:
 			player.ai_state = player.Ai_State_Request.jump
 			player.update_ai_request()
+
+func lose_enemy(time: float) -> void:
+	if enemy != null and (enemy.is_in_group("player") or (enemy.is_in_group("enemies") and !enemy.friendly)):
+		await Game.wait_for_seconds(time)
+		enemy = null
 
 var follow_up: bool = false
 func _follow_up():
@@ -378,11 +376,6 @@ func _move_towards_y(target: float) -> void:
 	else:
 		player.velocity.y = 0
 		moved.emit()
-
-func lose_enemy(time: float) -> void:
-	if enemy.is_in_group("enemies"):
-		await Game.wait_for_seconds(time)
-		enemy = null
 
 func _flip() -> void:
 	if !can_flip:
