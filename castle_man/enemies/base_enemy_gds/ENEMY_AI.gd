@@ -174,7 +174,8 @@ func _physics_process(delta: float) -> void:
 
 		State.CHASE:
 			if enemy != null:
-				if player.ranged_type: _move_towards_x(enemy.global_position.x + (-player.direction * player.attack_range), true)
+				var dir_to_enemy = sign(enemy.global_position.x - player.global_position.x)
+				if player.ranged_type: _move_towards_x(enemy.global_position.x + (-dir_to_enemy * player.attack_range), true)
 				else: _move_towards_x(enemy.global_position.x, true)
 				if player.flying: _move_towards_y(enemy.global_position.y)
 			else:
@@ -198,7 +199,6 @@ func control_process(delta: float) -> void:
 	if player.dumb or player.dead or player.state_machine.current_state.get_state_name() == "HurtState":
 		return
 
-	# Tick flip and jump cooldown timers
 	if flip_timer > 0:
 		flip_timer -= delta
 	else:
@@ -209,7 +209,6 @@ func control_process(delta: float) -> void:
 	else:
 		can_jump = true
 
-	# Sync attack range with current weapon
 	if player.weapon != null:
 		player.attack_range = player.original_attack_range + player.weapon.range_diff
 	else:
@@ -217,21 +216,23 @@ func control_process(delta: float) -> void:
 
 	navigate()
 
-	# Skip combat logic during weapon search
 	if state == State.SEARCH_WEAPON:
 		return
 
+	var distance
 	if enemy != null and !enemy.dead:
-		var distance = enemy.global_position - player.global_position
+		distance = enemy.global_position - player.global_position
 
-		if player.ranged_type:
+		if player.ranged_type and distance != null:
 			if abs(distance.x) < 250 and abs(distance.y) < 30:
-				if throw_timer <= 0:
+				if abs(distance.x) < player.attack_range:
+					# Too close — back up to preferred range
+					set_state(State.CHASE)
+				elif throw_timer <= 0:
 					player.ai_state = player.Ai_State_Request.throw
-				set_state(State.CHASE)  # keeps them moving into range if too far
+			return
 
 		if abs(distance.x) > player.attack_range - 20:
-			# Try to throw if in range and cooldown is ready
 			if player.weapon and player.will_throw:
 				if abs(distance.x) > player.weapon.ai_throw_range and abs(distance.y) < 30 and abs(distance.x) < 250:
 					if throw_timer <= 0:
@@ -239,23 +240,21 @@ func control_process(delta: float) -> void:
 			set_state(State.CHASE)
 
 		elif abs(distance.x) < player.attack_range + 20 and abs(distance.y) < 20 and state != State.WAIT:
-			if player.ranged_type: return
 			if state == State.FIGHT:
 				if player.weapon_user and !player.weapon:
 					var weapons: Array[WeaponPickup]
 					for weapon in player.sight_bubble.get_overlapping_bodies():
 						if weapon.is_in_group("weapons"):
 							var dis = player.global_position - weapon.global_position
-							if dis > Vector2(50, 50): weapons.append(weapon)
+							if dis > Vector2(50, 50):
+								weapons.append(weapon)
 					if !weapons.is_empty():
 						set_state(State.SEARCH_WEAPON)
 						return
-				# Already in fight state — re-trigger attack directly
 				player.ai_state = player.Ai_State_Request.attack
 			else:
 				set_state(State.FIGHT)
 	else:
-		# No valid target — return to patrol
 		if state != State.WAIT:
 			set_state(State.PATROL)
 
@@ -282,8 +281,7 @@ func navigate() -> void:
 				var collider = player.sight_cast.get_collider()
 				# Acquire target if line of sight is clear
 				if collider and not collider.is_in_group("enviroment") and enemy == null:
-					if !body.is_in_group("player") and !body.friendly:
-						enemy = body
+					enemy = body
 				# Lose target if something is in the way
 				elif collider and collider.is_in_group("enviroment") and enemy != null:
 					lose_enemy(player.lose_time)

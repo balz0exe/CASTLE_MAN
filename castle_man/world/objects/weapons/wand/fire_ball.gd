@@ -1,13 +1,14 @@
 extends Node
 
 var hit = false
-var ball: CPUParticles2D
+var ball
 
 var radius = 40
 var damage = 40
 
 func _ready() -> void:
-	ball = load("res://fx/particle_fx/fire_ball.tscn").instantiate()
+	ball = load("res://fx/particle_fx/fire_ball.tscn")
+	ball = ball.instantiate()
 	get_parent().add_child(ball)
 	ball.scale = Vector2.ONE * 5
 

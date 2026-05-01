@@ -42,8 +42,9 @@ var coin_weight
 @export var flying: bool = false
 @export var weapon_user = true
 @export var will_throw = false
+@export var throw_delay: = 2.0
 @export var ranged_type: bool = false
-@export var ranged_proj: WeaponResource
+@export var ranged_proj: Resource
 @export var max_health: float = 100
 @export var basic_damage: float = 5
 @export var damage_factor: float = 1.0
@@ -406,18 +407,22 @@ func disarm() -> void:
 
 signal fired(projectile)
 func fire() -> void:
-	var projectile = WeaponPickup.new()
-	projectile.res = ranged_proj
-	projectile.from = self
-	projectile.thrown = true
-	projectile.direction = direction
+	var projectile
+	if ranged_proj is WeaponResource:
+		projectile = WeaponPickup.new()
+		projectile.res = ranged_proj
+		projectile.from = self
+		projectile.thrown = true
+		projectile.direction = direction
+		projectile.throw.emit(_delta)
+	elif ranged_proj is PackedScene:
+		projectile = ranged_proj.instantiate()
 	projectile.global_position = Vector2(global_position.x + (direction * 35), global_position.y - 15)
 	get_parent().add_child(projectile)
-	await get_tree().process_frame
-	projectile.apply_impulse(Vector2(direction * projectile.throw_speed * 5, 0))
-	projectile.throw.emit(_delta)
+	if ranged_proj is WeaponResource:
+		await get_tree().process_frame
+		projectile.apply_impulse(Vector2(direction * projectile.throw_speed * 5, 0))
 	fired.emit(projectile)
-
 # =========================================
 # VIRTUAL FUNCTIONS
 # Override these in subclasses to extend enemy behavior without touching this script

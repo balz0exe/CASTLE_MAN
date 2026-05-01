@@ -9,7 +9,7 @@ func enter(_prev_state):
 
 func exit():
 	fired = false
-	player.ENEMY_AI.throw_timer = 2.0
+	player.ENEMY_AI.throw_timer = player.throw_delay
 	print("set throw timer: "+str(player.ENEMY_AI.throw_timer))
 	if state_machine.monitor:print("Exited Throw State")
 

@@ -74,6 +74,14 @@ region = Rect2(32, 0, 32, 32)
 atlas = ExtResource("7_dw16c")
 region = Rect2(64, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vymbb"]
+atlas = ExtResource("7_dw16c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ymm4"]
+atlas = ExtResource("7_dw16c")
+region = Rect2(160, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0mksc"]
 animations = [{
 "frames": [{
@@ -85,6 +93,28 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack 1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cm2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnytv")
+}],
+"loop": false,
+"name": &"attack 2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cm2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnytv")
+}],
+"loop": false,
+"name": &"attack 3",
 "speed": 5.0
 }, {
 "frames": [{
@@ -150,6 +180,17 @@ animations = [{
 "loop": false,
 "name": &"run",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vymbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ymm4")
+}],
+"loop": false,
+"name": &"wind up",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xens1"]
@@ -169,7 +210,6 @@ collision_layer = 2
 script = ExtResource("1_kjy7n")
 hurt_sfx = ExtResource("2_2cm2a")
 flying = true
-weapon_user = false
 max_health = 10.0
 basic_damage = 3.0
 max_speed = 50
@@ -214,7 +254,7 @@ hit_from_inside = true
 position = Vector2(1, -3)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_0mksc")
-animation = &"fall"
+animation = &"attack 3"
 
 [node name="PlatformCast" type="RayCast2D" parent="." unique_id=1921004274]
 position = Vector2(0, -18)

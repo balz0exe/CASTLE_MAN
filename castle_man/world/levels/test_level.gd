@@ -9,7 +9,7 @@ func _ready():
 	player.can_air_throw = true
 	#player.hurt_factor = 0
 	var enemies = Game.get_characters().filter(func(c):
-		return c.is_in_group("enemies")
+		return c.is_in_group("enemies") and !c.friendly
 	)
 	for e in enemies:
 		e.ENEMY_AI.enemy = Game.get_player()

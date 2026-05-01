@@ -13,7 +13,8 @@ func secondary_process() -> void:
 		Game.animate_bouncing(animation)
 
 func on_fired(projectile) -> void:
-	projectile.ignore_enemies = true
+	if !friendly: projectile.ignore_enemies = true
+	else: projectile.ignore_player = true
 	projectile.ignore_objects = true
 	projectile.behavior_node.damage = 6
 	projectile.behavior_node.radius = 15

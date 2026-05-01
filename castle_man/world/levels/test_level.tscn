@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://d0h353bfqclyh" path="res://world/objects/weapons/axe/hand_axe.tres" id="18_34cy5"]
 [ext_resource type="PackedScene" uid="uid://ofsn7i2nw71s" path="res://enemies/scenes/fire_sprout.tscn" id="19_i5w6p"]
 [ext_resource type="Resource" uid="uid://b4oq6xdat888i" path="res://world/objects/weapons/hand_gun/hand_gun.tres" id="19_r4vgb"]
+[ext_resource type="PackedScene" uid="uid://dubswctai6jyq" path="res://enemies/scenes/bat.tscn" id="20_xv0ej"]
 
 [node name="TestLevel" type="Node2D" unique_id=1980636776 groups=["LevelScene"]]
 script = ExtResource("1_r4vgb")
@@ -127,5 +128,9 @@ res = ExtResource("19_r4vgb")
 position = Vector2(643, 88)
 res = ExtResource("9_4hgr8")
 
-[node name="fire_sprout" parent="." unique_id=1435472188 instance=ExtResource("19_i5w6p")]
-position = Vector2(-284, 190)
+[node name="fire_sprout2" parent="." unique_id=199209107 instance=ExtResource("19_i5w6p")]
+position = Vector2(29, 197)
+
+[node name="bat" parent="." unique_id=1261564143 instance=ExtResource("20_xv0ej")]
+position = Vector2(69, 64)
+weapon_user = false

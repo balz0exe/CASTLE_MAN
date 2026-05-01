@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://clk0kr61oxtxq"]
+
+[ext_resource type="Texture2D" uid="uid://8sh675rvhdnt" path="res://fx/particle_fx/particle_images/star_09.png" id="1_o62tt"]
+[ext_resource type="Script" uid="uid://dprfd2x42jx8n" path="res://fx/particle_fx/particle_oneshot.gd" id="2_lxjlt"]
+
+[sub_resource type="Curve" id="Curve_lsd4v"]
+_data = [Vector2(0, 1), 0.0, -2.869151, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="AlchemyMagic" type="CPUParticles2D" unique_id=1538900932]
+modulate = Color(1, 1, 1, 0.39215687)
+amount = 800
+texture = ExtResource("1_o62tt")
+lifetime = 2.0
+emission_shape = 6
+emission_ring_inner_radius = 0.8
+emission_ring_radius = 50.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, -15)
+scale_amount_min = 0.03
+scale_amount_max = 0.03
+scale_amount_curve = SubResource("Curve_lsd4v")
+color = Color(0.9519698, 0.00021408558, 0.8172088, 0.62352943)
+script = ExtResource("2_lxjlt")
+metadata/_custom_type_script = "uid://dprfd2x42jx8n"

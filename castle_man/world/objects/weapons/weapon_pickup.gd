@@ -41,6 +41,7 @@ var pickup_timer: float = 0.0
 var fire_timer: float = 0.0
 var ignore_enemies: bool = false
 var ignore_objects: bool = false
+var ignore_player: bool = false
 
 signal hit(target)
 signal throw

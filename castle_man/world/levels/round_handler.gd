@@ -51,16 +51,16 @@ var round_events = [
 # =========================================
 
 var enemies = [
-	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 4, min_round = 4 },
-	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 6, min_round = 2 },
-	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 6 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 3, min_round = 6 },
+	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 2 },
+	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 7 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 10, min_round = 1 },
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 1 },
-	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 2 },
-	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 3, min_round = 3 },
-	#OGRE (big high knockback slow)
-	#HELL HOUND (fast quick attack)
-	#NECROMANCER (avoids player summons skeletons)
+	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
+	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
+	{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 8 },
+	#OGRE (big, high knockback, slow movement)
+	#HELL HOUND (fast movement, quick attack)
 	#LIGHTNING SPROUT (tries to spawn lightning on player)
 	#GARGOYLE (flying enemy with weapons)
 	#GOBLIN ON WARPIG (basic goblin but he comes in on a warpig you have to kill first)
@@ -377,13 +377,16 @@ func calc_coin_drop(player: CharacterBody2D, enemy: Enemy, round_num: int) -> in
 	return max(0, roundi(total))
 
 func drop_coins(coins: int, from: Node2D):
+	if from == null:
+		return
+	var pos = from.global_position
 	for c in range(coins):
 		if from == null:
 			return
-		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), from.global_position)
+		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), pos)
 		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
 		score += 1
-		await get_tree().process_frame
+		await Game.wait_for_seconds(0.1)
 	print("dropped "+str(coins)+" coins")
 
 func on_enemy_died(enemy: Enemy, round_id: int) -> void:

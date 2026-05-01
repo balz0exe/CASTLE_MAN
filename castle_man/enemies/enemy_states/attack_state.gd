@@ -51,7 +51,7 @@ func enter(_prev_state):
 	attack()
 
 func start_exit() -> void:
-	if player.is_on_floor():
+	if player.is_on_floor() or player.flying:
 		state_machine.change_state("IdleState")
 	else:
 		state_machine.change_state("FallState")
@@ -70,7 +70,7 @@ func exit():
 func physics_update(_delta):
 	if clear:
 		if player.animation.animation.contains("attack"):
-			if player.is_on_floor():
+			if player.is_on_floor() and !player.flying:
 				player.velocity.x = 50 * player.direction
 
 func update_animation():
@@ -82,7 +82,7 @@ func async_animations():
 		return
 	Game.play_sfx(player.hit_sfx, Game.sfx_volume, player)
 	attacking = false
-	if player.is_on_floor(): player.velocity.x = 0
+	if player.is_on_floor() or player.flying: player.velocity.x = 0
 	player.animation.play("idle")
 
 func update_input():
