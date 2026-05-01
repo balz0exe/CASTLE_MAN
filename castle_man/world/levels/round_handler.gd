@@ -9,7 +9,7 @@ class_name RoundHandler
 # =========================================
 
 var spawn_timer: float = 0
-var spawn_time: float = 1
+var spawn_time: float = 2
 var _round: int = 1
 var enem_round_count: int = 0
 var enem_count: int = 0
@@ -113,7 +113,7 @@ func _ready() -> void:
 
 func spawn_start_objects():
 	var objects = [
-		{ name = "barrel", scene = load("res://world/objects/barrels/barrel.tscn"), weight = 10},
+		{ name = "barrel", scene = load("res://world/objects/barrels/barrel.tscn"), weight = 100},
 		{ name = "exploding_barrel", scene = load("res://world/objects/barrels/exploding_barrel.tscn"), weight = 1},
 	]
 	for i in range(25):
@@ -314,18 +314,16 @@ func spawn_enemy(_round_num: int, fall: bool = false) -> void:
 	
 	var cam = Game.get_player().camera
 	var cam_pos = cam.get_screen_center_position()
-	var half_size = get_viewport().get_visible_rect().size / 2
+	var half_size = get_viewport().get_visible_rect().size / 2 / cam.zoom
 	
 	var pos: Vector2
 	if fall:
 		# Spawn along top edge, random x within screen bounds
 		pos = Vector2(randf_range(cam_pos.x - half_size.x, cam_pos.x + half_size.x), cam_pos.y - half_size.y)
-	elif lava_floor:
-		pos = Vector2(randf_range(cam_pos.x - half_size.x, cam_pos.x + half_size.x), cam_pos.y - half_size.y)
 	else:
 		# Spawn at left or right edge, random y within screen bounds
 		var dir = [1, -1].pick_random()
-		pos = Vector2(cam_pos.x + (half_size.x * dir), randf_range(cam_pos.y - half_size.y, cam_pos.y))
+		pos = Vector2(cam_pos.x + (half_size.x * dir), 112)
 
 	var enemy: Enemy = Game.spawn_object(scene, pos)
 	if pick.name == "skeleton":
