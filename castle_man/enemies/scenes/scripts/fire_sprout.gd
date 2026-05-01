@@ -20,7 +20,10 @@ func on_fired(projectile) -> void:
 	projectile.apply_impulse(Vector2(0, -150))
 
 func take_damage(damage, from: Node2D, knockback: float = 10, auto_kill: bool = false):
-	if !dead and not from.has_method("explode"):
+	if !dead:
+		if from != null:
+			if from.has_method("explode"):
+				return
 		if parry:
 			from.parried(self)
 			return

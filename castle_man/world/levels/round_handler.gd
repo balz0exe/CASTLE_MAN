@@ -110,6 +110,8 @@ func _physics_process(delta: float) -> void:
 func _ready() -> void:
 	new_round()
 	call_deferred("spawn_start_objects")
+	
+	Game.get_player().connect("player_died", on_player_died)
 
 func spawn_start_objects():
 	var objects = [
@@ -198,7 +200,10 @@ func new_round():
 	# Spawn all enemies for this round spaced by spawn_time
 	for i in range(enem_round_count):
 		spawn_timer = spawn_time
-		spawn_enemy(_round)
+		if lava_floor:
+			spawn_enemy(_round, true)
+		else:
+			spawn_enemy(_round)
 		while spawn_timer > 0:
 			await Game.wait_for_seconds(get_physics_process_delta_time())
 
@@ -318,10 +323,8 @@ func spawn_enemy(_round_num: int, fall: bool = false) -> void:
 	
 	var pos: Vector2
 	if fall:
-		# Spawn along top edge, random x within screen bounds
-		pos = Vector2(randf_range(cam_pos.x - half_size.x, cam_pos.x + half_size.x), cam_pos.y - half_size.y)
+		pos = Vector2(randf_range(-270, 270), -400)
 	else:
-		# Spawn at left or right edge, random y within screen bounds
 		var dir = [1, -1].pick_random()
 		pos = Vector2(cam_pos.x + (half_size.x * dir), 112)
 
@@ -387,6 +390,12 @@ func on_enemy_died(enemy: Enemy, round_id: int) -> void:
 		return
 	enem_count -= 1
 	print("enemy killed, enem_count = " + str(enem_count))
+
+func on_player_died():
+	drop_coins(Game.get_player().coins, Game.get_player())
+	for c in range(Game.get_player().coins):
+		Game.get_player().coins -= 1
+		Game.wait_for_seconds(0.1)
 
 # =========================================
 # ROUND SCALING
