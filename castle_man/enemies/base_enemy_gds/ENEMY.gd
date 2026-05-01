@@ -409,6 +409,7 @@ signal fired(projectile)
 func fire() -> void:
 	var projectile
 	if ranged_proj is WeaponResource:
+		ENEMY_AI._face_towards(ENEMY_AI.enemy)
 		projectile = WeaponPickup.new()
 		projectile.res = ranged_proj
 		projectile.from = self

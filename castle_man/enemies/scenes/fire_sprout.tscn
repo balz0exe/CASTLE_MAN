@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ofsn7i2nw71s"]
 
 [ext_resource type="Script" uid="uid://bhwm6g8dhotxr" path="res://enemies/scenes/scripts/fire_sprout.gd" id="1_1x45f"]
+[ext_resource type="AudioStream" uid="uid://0xsd666n03oi" path="res://fx/audio_fx/slime_hurt.wav" id="2_4rtxh"]
 [ext_resource type="Resource" uid="uid://dkcepkuroeymo" path="res://world/objects/weapons/wand/fire_ball.tres" id="2_i13um"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_u6xrf"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="4_isbt1"]
@@ -263,6 +264,7 @@ size = Vector2(15, 6.5)
 [node name="fire_sprout" type="CharacterBody2D" unique_id=1435472188 groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_1x45f")
+hurt_sfx = ExtResource("2_4rtxh")
 weapon_user = false
 ranged_type = true
 ranged_proj = ExtResource("2_i13um")

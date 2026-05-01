@@ -80,7 +80,7 @@ func _physics_process(delta: float) -> void:
 		pause_timer -= 1 * delta
 
 func wait_for_seconds(seconds: float) -> Signal:
-	if is_ready:
+	if is_ready and seconds != 0:
 		var timer: Timer = Timer.new()
 		timer.wait_time = seconds
 		timer.one_shot = true

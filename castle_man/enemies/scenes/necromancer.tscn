@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d13dh8isjj5l" path="res://enemies/scenes/necromancer.gd" id="1_hfsww"]
 [ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="2_hfsww"]
+[ext_resource type="AudioStream" uid="uid://dp2n0c0pcgnyj" path="res://fx/audio_fx/necro_speak.wav" id="2_yuvr4"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_yeng5"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="4_e6ssw"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_wqc6m"]
@@ -277,10 +278,12 @@ size = Vector2(15, 6.5)
 [node name="necromancer" type="CharacterBody2D" unique_id=1435472188 groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_hfsww")
+hit_sfx = ExtResource("2_yuvr4")
 weapon_user = false
 throw_delay = 6.0
 ranged_type = true
 ranged_proj = ExtResource("2_hfsww")
+max_health = 50.0
 original_attack_range = 200
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 

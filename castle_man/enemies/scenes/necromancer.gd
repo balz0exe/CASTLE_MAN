@@ -11,4 +11,5 @@ func on_fired(projectile) -> void:
 
 func on_died(_enemy) -> void:
 	for s in skeletons:
-		s.take_damage(s.health, s)
+		if s != null:
+			s.take_damage(s.health, s)

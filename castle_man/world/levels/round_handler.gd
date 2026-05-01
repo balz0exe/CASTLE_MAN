@@ -124,7 +124,6 @@ func spawn_start_objects():
 		var object = d.scene
 		object = object.instantiate()
 		Game.get_level().add_child(object)
-		print(object.name)
 		if _name == "barrel":
 			var ran = [1, -1].pick_random()
 			if ran == 1:
@@ -193,7 +192,7 @@ func new_round():
 	var round_id = current_round_id
 	run_round_events(round_id)
 
-	print("round " + str(_round) + " begins")
+	print("round " + str(_round - 1) + " begins")
 	enem_round_count = enemies_for_round(_round)
 	round_in_progress = true
 
