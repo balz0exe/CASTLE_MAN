@@ -170,7 +170,7 @@ script = ExtResource("1_kjy7n")
 hurt_sfx = ExtResource("2_2cm2a")
 flying = true
 weapon_user = false
-max_health = 20.0
+max_health = 10.0
 basic_damage = 3.0
 max_speed = 50
 

@@ -401,7 +401,8 @@ func disarm() -> void:
 	drop.apply_impulse(Vector2(0, -10))
 	drop.apply_torque(-direction * 10)
 	await Game.wait_for_seconds(1.0)
-	Game.release_pickup(drop)
+	if drop:
+		Game.release_pickup(drop)
 
 signal fired(projectile)
 func fire() -> void:
@@ -431,7 +432,7 @@ func on_attacked() -> void:
 func on_died(_enemy) -> void:
 	pass
 
-func on_fired(projectile) -> void:
+func on_fired(_projectile) -> void:
 	pass
 
 func secondary_process() -> void:

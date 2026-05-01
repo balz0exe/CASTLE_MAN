@@ -196,9 +196,9 @@ func hit_pause(duration: float = 0.1, pause_scale: float = 0.6, ignore_timer: bo
 var claimed_pickups: Dictionary = {}
 func claim_pickup(pickup: WeaponPickup) -> bool:
 	if claimed_pickups.has(pickup.get_instance_id()):
-		print("CLAIM REJECTED: ", pickup.get_instance_id())
+		#print("CLAIM REJECTED: ", pickup.get_instance_id())
 		return false
-	print("CLAIM ACCEPTED: ", pickup.get_instance_id())
+	#print("CLAIM ACCEPTED: ", pickup.get_instance_id())
 	claimed_pickups[pickup.get_instance_id()] = true
 	return true
 

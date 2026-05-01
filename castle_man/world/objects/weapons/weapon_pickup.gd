@@ -46,7 +46,7 @@ signal hit(target)
 signal throw
 
 func _ready() -> void:
-	print("WeaponPickup created: ", get_instance_id(), " res: ", res)
+	#print("WeaponPickup created: ", get_instance_id(), " res: ", res)
 	
 	sprite = Sprite2D.new()
 	coll = CollisionShape2D.new()
@@ -193,7 +193,7 @@ func check_contacts(delta) -> void:
 var picked_up = false
 
 func _on_body_entered(body: Node2D) -> void:
-	print("body_entered: ", body.name, " | picked_up: ", picked_up, " | has_weapon: ", body.get("has_weapon"), " | claimed: ", Game.claimed_pickups.has(get_instance_id()))
+	#print("body_entered: ", body.name, " | picked_up: ", picked_up, " | has_weapon: ", body.get("has_weapon"), " | claimed: ", Game.claimed_pickups.has(get_instance_id()))
 	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")):
 		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:

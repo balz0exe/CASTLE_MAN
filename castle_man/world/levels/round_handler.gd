@@ -378,9 +378,12 @@ func calc_coin_drop(player: CharacterBody2D, enemy: Enemy, round_num: int) -> in
 
 func drop_coins(coins: int, from: Node2D):
 	for c in range(coins):
+		if from == null:
+			return
 		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), from.global_position)
 		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
 		score += 1
+		await get_tree().process_frame
 	print("dropped "+str(coins)+" coins")
 
 func on_enemy_died(enemy: Enemy, round_id: int) -> void:
@@ -405,6 +408,6 @@ func on_player_died():
 
 func enemies_for_round(r: int) -> int:
 	var A = 8
-	var B = 1.5
-	var k = 1.2
+	var B = 1.2
+	var k = 1.1
 	return int(A + B * pow(r, k))
