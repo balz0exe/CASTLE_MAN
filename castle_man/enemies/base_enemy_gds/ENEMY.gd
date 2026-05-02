@@ -410,6 +410,7 @@ func fire() -> void:
 	var projectile
 	if ranged_proj is WeaponResource:
 		ENEMY_AI._face_towards(ENEMY_AI.enemy)
+		await get_tree().process_frame
 		projectile = WeaponPickup.new()
 		projectile.res = ranged_proj
 		projectile.from = self

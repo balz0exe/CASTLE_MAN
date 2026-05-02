@@ -314,8 +314,11 @@ func navigate() -> void:
 
 func lose_enemy(time: float) -> void:
 	if enemy != null and (enemy.is_in_group("player") or (enemy.is_in_group("enemies") and !enemy.friendly)):
+		if !player.friendly:
+			return
 		await Game.wait_for_seconds(time)
 		enemy = null
+		patrol_origin = player.global_position.x
 
 var follow_up: bool = false
 func _follow_up():

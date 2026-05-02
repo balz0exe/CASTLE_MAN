@@ -269,6 +269,7 @@ weapon_user = false
 ranged_type = true
 ranged_proj = ExtResource("2_i13um")
 max_health = 10.0
+lose_time = 5.0
 original_attack_range = 150
 follow_up = true
 max_speed = 30
@@ -287,6 +288,7 @@ script = ExtResource("3_u6xrf")
 script = ExtResource("4_isbt1")
 
 [node name="debug" type="Label" parent="." unique_id=1367774439]
+visible = false
 offset_left = -20.0
 offset_top = -46.0
 offset_right = 20.0

@@ -385,7 +385,7 @@ func drop_coins(coins: int, from: Node2D):
 		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), pos)
 		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
 		score += 1
-		await Game.wait_for_seconds(0.1)
+		await Game.wait_for_seconds(0.01)
 	print("dropped "+str(coins)+" coins")
 
 func on_enemy_died(enemy: Enemy, round_id: int) -> void:
