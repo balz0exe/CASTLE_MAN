@@ -34,14 +34,14 @@ var active_nonstackable_upgrades: Array[String] = []  # upgrades that can only b
 # =========================================
 
 var round_events = [
-	{ name = "falling weapons", script = load("res://world/levels/round events/falling_knives.gd"), weight = 4, min_round = 3 },
+	{ name = "falling knives", script = load("res://world/levels/round events/falling_knives.gd"), weight = 4, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
-	{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
+	#{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
 	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
 	{ name = "storm", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 5 },
-	#GARDEN (only mushrooms and sprouts)
+	{ name = "garden", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 4 },
 	#BLOOD MOON (only hell hounds and necromancers)
 ]
 
@@ -227,6 +227,11 @@ func new_round():
 	# Show upgrade selection and wait for player to choose before continuing
 	await _upgrade_event()
 
+	#check barrels
+	if Game.get_barrels().size() < 5:
+		print("barrels: "+str(Game.get_barrels().size()))
+		spawn_start_objects()
+
 	new_round()
 
 # =========================================
@@ -250,14 +255,8 @@ func events_for_round(r: int) -> int:
 	# Returns a random number of events scaled to round number
 	if r >= 3 and r < 6:
 		return randi() % 2
-	elif r >= 6 and r < 11:
-		return randi() % 3 + 1
-	elif r >= 11 and r < 13:
-		return randi() % 4 + 1
-	elif r >= 13 and r < 20:
-		return randi() % 4 + 1
-	elif r >= 20:
-		return randi() % 5 + 2
+	elif r >= 6:
+		return randi() % 2 + 1
 	return 0
 
 func run_round_events(round_id: int) -> void:
@@ -409,7 +408,7 @@ func on_player_died():
 # =========================================
 
 func enemies_for_round(r: int) -> int:
-	var A = 8
+	var A = 1
 	var B = 1.2
 	var k = 1.1
 	return int(A + B * pow(r, k))

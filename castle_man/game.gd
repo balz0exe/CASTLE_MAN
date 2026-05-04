@@ -121,13 +121,21 @@ func get_characters() -> Array[CharacterBody2D]:
 
 	return result
 	
-func get_objects() -> Array[Node2D]:
-	var result: Array[Node2D] = []
+func get_objects() -> Array[RigidBody2D]:
+	var result: Array[RigidBody2D] = []
 
 	for n in get_tree().get_nodes_in_group("objects"):
-		if n is Node2D:
+		if n is RigidBody2D:
 			result.append(n)
 
+	return result
+
+func get_barrels() -> Array[Node2D]:
+	var result: Array[Node2D] = []
+
+	for n in get_tree().get_nodes_in_group("barrels"):
+		result.append(n)
+	
 	return result
 
 func camera_shake(duration: float, intensity: float) -> void:

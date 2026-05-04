@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cet6t0u46caby"]
 
-[ext_resource type="Script" uid="uid://d13dh8isjj5l" path="res://enemies/scenes/necromancer.gd" id="1_hfsww"]
+[ext_resource type="Script" uid="uid://d13dh8isjj5l" path="res://enemies/scenes/scripts/necromancer.gd" id="1_hfsww"]
 [ext_resource type="PackedScene" uid="uid://dx1kpxx4gyrwm" path="res://enemies/scenes/skeleton.tscn" id="2_hfsww"]
 [ext_resource type="AudioStream" uid="uid://dp2n0c0pcgnyj" path="res://fx/audio_fx/necro_speak.wav" id="2_yuvr4"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_yeng5"]

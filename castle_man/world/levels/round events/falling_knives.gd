@@ -33,7 +33,7 @@ func run() -> void:
 func spawn_weapon():
 	if weapons.is_empty():
 		return
-
+	
 	var weapon = weapons.pick_random()
 
 	var x = randf_range(-spawn_area_width, spawn_area_width)
@@ -41,8 +41,8 @@ func spawn_weapon():
 
 	var obj = Game.spawn_object(weapon, pos)
 
-	# Optional: give it some variation
 	if obj is RigidBody2D:
+		obj.rotation = -90
 		obj.apply_impulse(Vector2(randf_range(-20, 20), randf_range(0, 20)))
 		obj.apply_torque(randf_range(-10, 10))
 

@@ -124,7 +124,6 @@ func start(value):
 # =========================================
 
 func raise():
-	up = true
 	original_height = height
 	for i in range((original_height - final_height) / 5):
 		height -= 5
@@ -134,6 +133,7 @@ func raise():
 		node.fire.emitting = true
 		node.fire.visible = true
 		node.fire.get_child(0).emitting = true
+	up = true
 
 # =========================================
 # LOWER — moves the platform back down and cleans up objects

@@ -26,7 +26,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_llmgx"]
 size = Vector2(26, 20)
 
-[node name="ExplodingBarrel" type="RigidBody2D" unique_id=134338807 groups=["objects"]]
+[node name="ExplodingBarrel" type="RigidBody2D" unique_id=134338807 groups=["barrels", "objects"]]
 collision_layer = 2
 script = ExtResource("1_pekkb")
 max_health = 20.0

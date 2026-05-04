@@ -33,7 +33,10 @@ func on_area_entered(hit_box: HitBox):
 				if hit_box.get_parent().is_in_group("player"): get_parent().take_damage(hit_box.get_parent().weapon.damage * hit_box.get_parent().damage_factor, hit_box.get_parent(), hit_box.get_parent().weapon.knockback)
 				elif hit_box.get_parent().is_in_group("enemies"): get_parent().take_damage(hit_box.get_parent().weapon.damage * hit_box.get_parent().damage_factor, hit_box.get_parent(), hit_box.get_parent().weapon.knockback)
 			else:
-				get_parent().take_damage(hit_box.get_parent().basic_damage, hit_box.get_parent())
+				if hit_box.get_parent().is_in_group("enemies"):
+					get_parent().take_damage(hit_box.get_parent().basic_damage, hit_box.get_parent())
+				else:
+					print("player tried to hit without weapon")
 		elif hit_box.dps_on == true:
 			while get_overlapping_areas().has(hit_box):
 				await Game.wait_for_seconds(0.1)

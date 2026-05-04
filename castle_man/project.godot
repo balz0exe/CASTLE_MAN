@@ -42,6 +42,7 @@ objects=""
 roundhandler=""
 LevelScene=""
 projectiles=""
+barrels=""
 
 [input]
 

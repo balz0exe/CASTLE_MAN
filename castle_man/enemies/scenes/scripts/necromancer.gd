@@ -3,7 +3,7 @@ extends Enemy
 var skeletons: Array[Enemy]
 
 func damage_particles() -> void:
-	Game.spawn_particle_oneshot("res://fx/particle_fx/blood_particles.tscn", self, Vector2(0, -5), Color(0.5, 0, 1, 0.8))
+	Game.spawn_particle_oneshot("res://fx/particle_fx/blood_particles.tscn", self, Vector2(0, -5), Color(0.5, 0, 1))
 
 func on_fired(projectile) -> void:
 	skeletons.append(projectile)
