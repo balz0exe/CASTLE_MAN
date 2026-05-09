@@ -66,7 +66,7 @@ var ai_state: Ai_State_Request = Ai_State_Request.idle
 
 @export var item: Resource
 @export var weapon_hand_offset: Vector2 = Vector2(0, 0)
-@export var follow_up: bool
+@export var follow_up: bool = true
 @export var patrol_range: float = 100
 var found_weapon  # FLAG: worth typing as Node2D or WeaponPickup when possible
 @export var attack_thrust_factor: float = 1.0
