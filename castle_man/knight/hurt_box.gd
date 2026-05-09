@@ -43,7 +43,7 @@ func on_area_entered(hit_box: HitBox):
 				if hit_box == null:
 					return
 				get_parent().take_damage(hit_box.dps, hit_box.get_parent(), 0.5)
-		if hit_box.get_parent().is_in_group("player") or get_parent().is_in_group("player"):
-			Game.hit_pause(0.05, 0.3)
+		if (hit_box.get_parent().is_in_group("player") and get_parent().is_in_group("enemies")) or get_parent().is_in_group("player"):
+			Game.hit_pause(0.01, 0.02)
 		if hit_box.get_parent().has_signal("hit"):
 			hit_box.get_parent().hit.emit(get_parent())

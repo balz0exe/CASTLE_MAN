@@ -85,7 +85,7 @@ func state_entered() -> void:
 
 		State.WAIT:
 			# Wait a random amount of time then go back to patrolling
-			while await Game.wait_for_seconds(randi_range(2, 5)):
+			while await Game.wait_for_seconds(randf_range(0.1, 1)):
 				if state != State.WAIT:
 					return
 			set_state(State.PATROL)
@@ -312,6 +312,8 @@ func navigate() -> void:
 			player.update_ai_request()
 
 func lose_enemy(time: float) -> void:
+	# Cut out of firendly and !friendly enemies
+	return
 	if enemy != null and (enemy.is_in_group("player") or (enemy.is_in_group("enemies") and !enemy.friendly)):
 		if !player.friendly:
 			return
@@ -329,7 +331,9 @@ func _follow_up():
 			player.update_ai_request()
 			follow_up = false
 		else:
-			await Game.wait_for_seconds(randf_range(1, 2))
+			await Game.wait_for_seconds(randf_range(0.3, 0.8))
+			player.ai_state = player.Ai_State_Request.jump
+			player.update_ai_request()
 			follow_up = false
 
 # =========================================

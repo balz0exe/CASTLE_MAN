@@ -40,9 +40,10 @@ var health: float = max_health
 var lives: int = 3
 var coins: int = 0
 var dead: bool = false
-var max_stamina: float = 25
+var max_stamina: float = 35
 var stamina: float = max_stamina
-var stamina_regen: float = 10
+var stamina_regen: float = 3
+var regen_timer: = 0.0
 
 # =========================================
 # COMBAT — partially shared with enemy.gd
@@ -94,14 +95,15 @@ var knocked_back: bool = false
 var recovery_timer: float = 0.0
 var sprint: bool = false
 var friction: int = 10
-var max_speed: float = 50
+var max_speed: float = 60
 var sprint_factor: float = 1.8
 var speed_potion: float = 1.0
 var prev_speed: float = max_speed
+var prev_stam: float = max_stamina
 var jump_strength: int = -300
 var roll_strength: float = 2
 var roll_distance: int = 10
-var roll_stam_cost: int = 6
+var roll_stam_cost: int = 10
 
 # Coyote time — allows jumping briefly after walking off a ledge
 var coyote_time: float = 0.2
@@ -186,14 +188,31 @@ func _physics_process(delta: float) -> void:
 	#else:
 		#max_speed = prev_speed * speed_potion
 
-	# --- Stamina regen (not during attacks) ---
+# --- Stamina regen (not during attacks) ---
+
+	if prev_stam > stamina:
+		regen_timer = 0.0
+	prev_stam = stamina
+	
 	if state_machine.current_state.get_state_name() != "AttackState":
 		if stamina < max_stamina:
-			#if not sprint:
-			stamina = clamp(stamina + stamina_regen * delta, 0, max_stamina)
+			regen_timer += delta
+			var regen_multiplier = clamp(regen_timer / 1, 1.0, 1000.0)  # ramps over 3 seconds, starts at 10%, caps at 3x
+			stamina = clamp(stamina + stamina_regen * regen_multiplier * delta, 0, max_stamina)
 		else:
 			stamina = max_stamina
-
+			regen_timer = 0.0  # reset when full
+			
+	
+	if state_machine.current_state.get_state_name() != "AttackState":
+		if stamina < max_stamina:
+			regen_timer += delta
+			var regen_multiplier = clamp(regen_timer / 1, 1.0, 1000.0)  # ramps over 3 seconds, starts at 10%, caps at 3x
+			stamina = clamp(stamina + stamina_regen * regen_multiplier * delta, 0, max_stamina)
+		else:
+			stamina = max_stamina
+			regen_timer = 0.0  # reset when full
+			
 	# --- Direction from velocity ---
 	if velocity.x > 0:
 		flip_h = false
@@ -290,6 +309,8 @@ func _physics_process(delta: float) -> void:
 	current_state = state_machine.current_state.get_state_name()
 	if current_state not in ["AttackState", "RollState", "HurtState"]:
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
+	if velocity.y < jump_strength - 100:
+		velocity.y = jump_strength
 	move_and_slide()
 
 # =========================================

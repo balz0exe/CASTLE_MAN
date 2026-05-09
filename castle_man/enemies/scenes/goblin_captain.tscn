@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bf0wawlgc7624"]
 
 [ext_resource type="Script" uid="uid://d3uxyjircap3o" path="res://enemies/scenes/scripts/goblin_captain.gd" id="1_1xo2g"]
+[ext_resource type="Resource" uid="uid://bw3eor0c5ex7q" path="res://world/objects/weapons/halberd/halberd.tres" id="2_j12kk"]
 [ext_resource type="Script" uid="uid://bssfda5lf2eqd" path="res://enemies/base_enemy_gds/ENEMY_AI.gd" id="3_ib4o3"]
 [ext_resource type="Script" uid="uid://bh0nuev2813xw" path="res://enemies/base_enemy_gds/enemy_state_machine.gd" id="4_jbii4"]
 [ext_resource type="Script" uid="uid://cuj64dfcrffqp" path="res://knight/shadow.gd" id="5_yk4sy"]
@@ -321,6 +322,12 @@ size = Vector2(15, 6.5)
 [node name="goblin_captain" type="CharacterBody2D" unique_id=1435472188 groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_1xo2g")
+basic_damage = 10.0
+item = ExtResource("2_j12kk")
+follow_up = true
+knockback_factor = 0.3
+combo_reset_time = 0.7
+max_speed = 60
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]

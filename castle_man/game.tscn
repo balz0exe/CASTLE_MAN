@@ -107,27 +107,27 @@ text = ": 0"
 
 [node name="StaminaBar" type="ColorRect" parent="CanvasLayer/Control" unique_id=1110337224]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 608.0
-offset_right = 37.0
-offset_bottom = 616.0
+offset_left = 34.0
+offset_top = 609.0
+offset_right = 65.0
+offset_bottom = 617.0
 color = Color(0.29803923, 0.8392157, 0, 1)
 script = ExtResource("2_fc0e3")
 
 [node name="HealthBar" type="ColorRect" parent="CanvasLayer/Control" unique_id=1148512425]
 layout_mode = 0
-offset_left = 6.0
+offset_left = 34.0
 offset_top = 623.0
-offset_right = 37.0
+offset_right = 65.0
 offset_bottom = 641.0
 color = Color(1, 0, 0, 1)
 script = ExtResource("2_e2o6t")
 
 [node name="Score" type="Label" parent="CanvasLayer/Control" unique_id=1554166782]
 layout_mode = 0
-offset_left = 1052.0
+offset_left = 1020.0
 offset_top = 594.0
-offset_right = 1182.0
+offset_right = 1150.0
 offset_bottom = 884.0
 theme_override_font_sizes/font_size = 18
 autowrap_mode = 3

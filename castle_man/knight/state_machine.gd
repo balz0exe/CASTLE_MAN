@@ -54,7 +54,7 @@ func _change_state(new_state_name: String):
 	var prev_state
 	if player == null:
 		return
-	if not (new_state == null or new_state == current_state) and not (new_state_name == "AttackState" and player.stamina <= player.weapon.stamina_cost) and not (new_state_name == "RollState" and player.stamina <= player.roll_stam_cost):
+	if not (new_state == null or new_state == current_state) and not (new_state_name == "AttackState" and (player.weapon != null and player.stamina <= player.weapon.stamina_cost)) and not (new_state_name == "RollState" and player.stamina <= player.roll_stam_cost):
 		current_state.exit()
 		prev_state = current_state
 		current_state = new_state

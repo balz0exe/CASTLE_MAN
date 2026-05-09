@@ -51,14 +51,15 @@ var round_events = [
 # =========================================
 
 var enemies = [
-	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 3, min_round = 6 },
+	{ name = "goblin", scene = load("res://enemies/scenes/goblin.tscn"), weight = 3, min_round = 5 },
 	{ name = "skeleton", scene = load("res://enemies/scenes/skeleton.tscn"), weight = 8, min_round = 2 },
 	{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 7 },
 	{ name = "slime", scene = load("res://enemies/scenes/slime.tscn"), weight = 10, min_round = 1 },
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 1 },
 	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
 	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
-	{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 8 },
+	#{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 5 },
+	
 	#OGRE (big, high knockback, slow movement)
 	#HELL HOUND (fast movement, quick attack)
 	#LIGHTNING SPROUT (tries to spawn lightning on player)
@@ -253,9 +254,9 @@ func _upgrade_event():
 
 func events_for_round(r: int) -> int:
 	# Returns a random number of events scaled to round number
-	if r >= 3 and r < 6:
+	if r >= 6 and r < 9:
 		return randi() % 2
-	elif r >= 6:
+	elif r >= 9:
 		return randi() % 2 + 1
 	return 0
 
@@ -274,7 +275,7 @@ func run_round_events(round_id: int) -> void:
 func pick_events(_round_num: int, count: int) -> Array:
 	# Filter to eligible events then weighted pick without replacement
 	var available = round_events.filter(func(e):
-		return e.min_round <= _round_num
+		return e.min_round + 5 <= _round_num
 	)
 	var picked: Array = []
 	for i in range(count):
@@ -383,13 +384,13 @@ func drop_coins(coins: int, from: Node2D):
 			return
 		var coin = Game.spawn_object(load("res://knight/powerups/coins/coin.tres"), pos)
 		coin.apply_impulse(Vector2(randi_range(-200,200), randi_range(5,12))*Engine.time_scale)
-		score += 1
 		await Game.wait_for_seconds(0.01)
 	print("dropped "+str(coins)+" coins")
 
 func on_enemy_died(enemy: Enemy, round_id: int) -> void:
 	var coins = calc_coin_drop(Game.get_player(), enemy, _round)
 	drop_coins(coins, enemy)
+	score += coins
 	if round_id != current_round_id:
 		return
 	enem_count -= 1
@@ -408,7 +409,7 @@ func on_player_died():
 # =========================================
 
 func enemies_for_round(r: int) -> int:
-	var A = 1
+	var A = 3
 	var B = 1.2
 	var k = 1.1
 	return int(A + B * pow(r, k))

@@ -284,7 +284,9 @@ throw_delay = 6.0
 ranged_type = true
 ranged_proj = ExtResource("2_hfsww")
 max_health = 50.0
-original_attack_range = 200
+original_attack_range = 250
+follow_up = true
+max_speed = 40
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106191677]
@@ -298,6 +300,7 @@ script = ExtResource("3_yeng5")
 script = ExtResource("4_e6ssw")
 
 [node name="debug" type="Label" parent="." unique_id=1367774439]
+visible = false
 offset_left = -20.0
 offset_top = -46.0
 offset_right = 20.0

@@ -269,7 +269,7 @@ func _follow_down():
 	if !follow_down:
 		follow_down = true
 		if flying:
-			await Game.wait_for_seconds(randf_range(0.5, 1))
+			await Game.wait_for_seconds(0.1)
 			global_position.y += 3
 			follow_down = false
 		else:
@@ -278,7 +278,8 @@ func _follow_down():
 				global_position.y += 3
 				follow_down = false
 			else:
-				await Game.wait_for_seconds(randf_range(1, 2))
+				await Game.wait_for_seconds(randf_range(0.1, 0.6))
+				global_position.y += 3
 				follow_down = false
 	
 

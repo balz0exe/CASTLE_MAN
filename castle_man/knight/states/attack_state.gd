@@ -106,7 +106,7 @@ func async_animations():
 	attacking = false
 	if !up_down_attack:
 		if player.is_on_floor() and !run_attack: player.velocity.x = 0
-		if run_attack: player.velocity.x = player.velocity.x/2
+		if run_attack: player.velocity.x = player.velocity.x/1.2
 	if run_attack:
 		player.animation.play("run")
 	else:

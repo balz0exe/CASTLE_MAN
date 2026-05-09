@@ -44,7 +44,7 @@ func _physics_process(_delta: float) -> void:
 					coll.position.y = -30 - (player.weapon_hit_box_reach_offset.x)
 				if player.animation.animation == "attack down":
 					coll.position.x = 0
-					coll.position.y = 20
+					coll.position.y = 20 - (player.weapon_hit_box_reach_offset.x)
 			else:
 				coll.position.y = player.weapon_hit_box_reach_offset.y
 				if player.direction == 1:
