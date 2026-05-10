@@ -6,9 +6,6 @@ var throw_direction: int
 
 func enter(_prev_state):
 	player.ENEMY_AI._face_towards(Game.get_player())
-	await get_tree().process_frame
-	if version != player.state_version:
-		return
 	throw_direction = player.direction
 	if state_machine.monitor:print("Entered Throw State")
 	player.combo_counter = 0
