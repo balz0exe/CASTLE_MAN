@@ -7,5 +7,5 @@ func _ready() -> void:
 		Game.spawn_particle_oneshot("res://fx/particle_fx/smoke.tscn", goblin)
 		goblin.friendly = true
 		await get_tree().process_frame
-		print("spawned goblin #: "+str(g+1)+" @: "+str(goblin.global_positioin))
+		print("spawned goblin #: "+str(g+1)+" @: "+str(goblin.global_position))
 		randomize()

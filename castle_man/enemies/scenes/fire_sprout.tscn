@@ -271,7 +271,6 @@ ranged_proj = ExtResource("2_i13um")
 max_health = 10.0
 lose_time = 5.0
 original_attack_range = 150
-follow_up = true
 max_speed = 30
 can_double_jump = false
 metadata/_custom_type_script = "uid://dduusotyiwunv"

@@ -6,9 +6,16 @@ var lava_up: bool = false
 var damage_per_hit: float = 10
 var original_height
 var map
+var original_enemies
 
 func start(value):
 	super(value)
+	original_enemies = Game.get_game_handler().enemies
+	Game.get_game_handler().enemies = [
+		{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 7 },
+		{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
+		{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
+		]
 	manager.lava_floor = true
 	map = load("res://world/levels/round events/floor_is_lava/lava_tile_map.tscn")
 	map = map.instantiate()
@@ -48,6 +55,7 @@ func lower_lava():
 
 func clean_up():
 	await lower_lava()
+	Game.get_game_handler().enemies = original_enemies
 	print("free map")
 	var _tween = create_tween()
 	_tween.tween_property(get_tree().get_first_node_in_group("LevelScene").canvas, "color", Game.COLOR, 3)

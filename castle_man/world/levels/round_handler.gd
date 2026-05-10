@@ -58,7 +58,7 @@ var enemies = [
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 8, min_round = 1 },
 	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
 	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
-	#{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 5 },
+	{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 5 },
 	
 	#OGRE (big, high knockback, slow movement)
 	#HELL HOUND (fast movement, quick attack)

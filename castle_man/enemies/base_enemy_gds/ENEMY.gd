@@ -20,6 +20,7 @@ class_name Enemy
 @onready var platform_cast = $PlatformCast
 @onready var sight_bubble = $SightBubble
 @onready var hit_box = $HitBox
+@onready var hurt_box = $HurtBox
 @onready var shadow = $Shadow
 
 var state_machine = Node
@@ -44,6 +45,7 @@ var coin_weight
 @export var will_throw = false
 @export var throw_delay: = 2.0
 @export var ranged_type: bool = false
+@export var fire_off_y: bool = false
 @export var ranged_proj: Resource
 @export var max_health: float = 100
 @export var basic_damage: float = 5
@@ -351,6 +353,8 @@ func die() -> void:
 		died.emit(self)
 		dead = true
 		dumb = true  # disables AI processing
+		hurt_box.monitorable = false
+		set_collision_layer_value(2, false)
 		if weapon:
 			disarm()
 		if shadow: shadow.queue_free()

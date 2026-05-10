@@ -85,6 +85,9 @@ func _ready() -> void:
 		await Game.wait_for_seconds(10)
 		await Game.fade_out_sprite(self, 5)
 		queue_free()
+	
+	await Game.wait_for_seconds(0.2)
+	Game.release_pickup(self)
 
 func set_values() -> void:
 	#while res == null and get_tree() != null:
@@ -226,13 +229,11 @@ func connect_interaction() -> void:
 	if interaction != null:
 		interaction.connect("body_entered", Callable(self, "_on_body_entered"))
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		Game.release_pickup(self)
-
 #Empty Functions
 
 func on_hit(target):
+	if (target.is_class("CharacterBody2D") and target.dead) or (target is WorldObject and target.broken):
+		return
 	if !proj_persist and target.is_in_group("enviroment"):
 		queue_free()
 	if behavior != null and behavior_node.has_method("on_hit"):

@@ -8,6 +8,8 @@ func _ready() -> void:
 func _on_area_entered(area: Node2D) -> void:
 	if !player.dead:
 		if area.get_parent().is_in_group("enemies") and player.velocity.y > 0:
+			if area.get_parent().dead:
+				return
 			if Input.is_action_pressed("ui_down") and player.can_bounce:
 				player.invincible_timer = 0.5
 			else:

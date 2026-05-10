@@ -14,6 +14,8 @@ func _ready() -> void:
 
 func on_hit(target):
 	if !hit:
+		if target.is_class("CharacterBody2D") and target.dead:
+			return
 		hit = true
 		get_parent().sleeping = true
 		await get_tree().process_frame

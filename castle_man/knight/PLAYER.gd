@@ -369,7 +369,7 @@ func disarm() -> void:
 	drop.global_position = global_position
 	drop.apply_impulse(Vector2(0, -10))
 	drop.apply_torque(-direction * 10)
-	await Game.wait_for_seconds(1.0)
+	await Game.wait_for_seconds(get_physics_process_delta_time())
 	Game.release_pickup(drop)
 
 # =========================================

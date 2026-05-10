@@ -3,6 +3,7 @@ extends RigidBody2D
 
 @onready var anim = $AnimatedSprite2D
 @onready var push_area = $PushArea
+@onready var hurt_box = $HurtBox
 
 @export var max_health: float = 1
 var health : float
@@ -73,7 +74,10 @@ func _break():
 		_drop_item()
 	broken = true
 	_broken.emit()
+	hurt_box.set_deferred("monitorable", false)
+	#hurt_box.monitorable = false
 	set_collision_layer_value(6, false)
+	set_collision_layer_value(1, false)
 	if pixel_break: Game.spawn_particle_oneshot("res://fx/particle_fx/object_break_particles.tscn", self)
 	await Game.fade_out_sprite(anim, 0.05)
 	if !pixel_break: queue_free()

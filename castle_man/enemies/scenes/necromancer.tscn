@@ -282,10 +282,10 @@ hit_sfx = ExtResource("2_yuvr4")
 weapon_user = false
 throw_delay = 6.0
 ranged_type = true
+fire_off_y = true
 ranged_proj = ExtResource("2_hfsww")
 max_health = 50.0
 original_attack_range = 250
-follow_up = true
 max_speed = 40
 metadata/_custom_type_script = "uid://dduusotyiwunv"
 

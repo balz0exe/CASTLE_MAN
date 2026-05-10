@@ -9,6 +9,10 @@ func _ready() -> void:
 	connect("area_entered", on_area_entered)
 	
 func on_area_entered(hit_box: HitBox):
+	if get_parent().is_class("CharacterBody2D") and get_parent().dead:
+		return
+	if get_parent() is WorldObject and get_parent().broken:
+		return
 	if hit_box.get_parent() is WeaponPickup and ((hit_box.get_parent().ignore_enemies and get_parent().is_in_group("enemies")) or (hit_box.get_parent().ignore_objects and get_parent().is_in_group("objects")) or (hit_box.get_parent().ignore_player and get_parent().is_in_group("player"))):
 		return
 	if (get_parent().is_in_group("player") and (get_parent().invincible or hit_box.damage_player == false)) or (get_parent().is_in_group("object") and hit_box.is_in_group("projectile")):

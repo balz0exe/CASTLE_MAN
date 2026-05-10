@@ -196,46 +196,80 @@ func _physics_process(delta: float) -> void:
 # =========================================
 
 func control_process(delta: float) -> void:
+	# Don't process AI if player is dumb, dead, or being hurt
 	if player.dumb or player.dead or player.state_machine.current_state.get_state_name() == "HurtState":
 		return
 
+	# Count down the flip cooldown timer
 	if flip_timer > 0:
 		flip_timer -= delta
 	else:
 		can_flip = true
 
+	# Count down the jump cooldown timer
 	if jump_timer > 0:
 		jump_timer -= delta
 	else:
 		can_jump = true
 
+	# Update attack range based on equipped weapon, or fall back to base range
 	if player.weapon != null:
 		player.attack_range = player.original_attack_range + player.weapon.range_diff
 	else:
 		player.attack_range = player.original_attack_range
 
+	# Run pathfinding/navigation logic
 	navigate()
 
+	# If searching for a weapon, skip combat logic entirely
 	if state == State.SEARCH_WEAPON:
 		return
 
+	# Only run combat logic if there's a living enemy target
 	var distance
 	if enemy != null and !enemy.dead:
 		distance = enemy.global_position - player.global_position
 
+		# --- RANGED ATTACK LOGIC ---
 		if player.ranged_type and distance != null:
-			if abs(distance.x) < 250 and abs(distance.y) < 30:
-				if abs(distance.x) < player.attack_range:
-					# Too close — back up to preferred range
+
+			# Only engage if enemy is within 250px horizontally
+			if abs(distance.x) < 250:
+
+				# If this enemy can't fire off the Y axis, require enemy to be on roughly the same level
+				if !player.fire_off_y and not abs(distance.y) < 30:
+					return
+
+				# Define the minimum preferred distance — 80px buffer inside attack_range
+				# The enemy will fire freely anywhere within this band instead of trying to stand exactly at attack_range
+				var preferred_min = player.attack_range - 80.0
+
+				if abs(distance.x) < preferred_min:
+					# Too close — back away to get into the firing band
 					set_state(State.CHASE)
 				elif throw_timer <= 0:
+					# Within acceptable firing range — shoot
 					player.ai_state = player.Ai_State_Request.throw
 
+		# --- MELEE / GENERAL CHASE LOGIC ---
+		# Chase if outside melee attack range, or always chase if ranged (ranged handles its own firing above)
 		if abs(distance.x) > player.attack_range - 20 or player.ranged_type:
+
+			# Handle thrown weapon logic separately
 			if player.weapon and player.will_throw:
-				if abs(distance.x) > player.weapon.ai_throw_range and abs(distance.y) < 30 and abs(distance.x) < 250:
+
+				# Throw if enemy is beyond throw range but still within 250px engagement distance
+				if abs(distance.x) > player.weapon.ai_throw_range and abs(distance.x) < 250:
+
+					# Same Y-axis check for thrown weapons
+					if !player.fire_off_y and not abs(distance.y) < 30:
+						return
+
+					# Fire the throw if cooldown has expired
 					if throw_timer <= 0:
 						player.ai_state = player.Ai_State_Request.throw
+
+			# Default to chasing the enemy
 			set_state(State.CHASE)
 
 		elif abs(distance.x) < player.attack_range + 20 and abs(distance.y) < 20 and state != State.WAIT:
