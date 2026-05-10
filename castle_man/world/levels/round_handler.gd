@@ -59,14 +59,14 @@ var enemies = [
 	{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
 	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
 	{ name = "necromancer", scene = load("res://enemies/scenes/necromancer.tscn"), weight = 2, min_round = 5 },
+	{ name = "golem", scene = load("res://enemies/scenes/golem.tscn"), weight = 3, min_round = 5 },
 	
-	#OGRE (big, high knockback, slow movement)
+	#OGRE (big, high knockback, slow movement, weapon user)
 	#HELL HOUND (fast movement, quick attack)
 	#LIGHTNING SPROUT (tries to spawn lightning on player)
 	#GARGOYLE (flying enemy with weapons)
 	#GOBLIN ON WARPIG (basic goblin but he comes in on a warpig you have to kill first)
 	#GOBLIN BOMBER (runs at player and kamakatzis)
-	#GOLEM (big high knockback slow throws rocks)
 	#DARK KNIGHT (all around decent stats low spawn chance *mini boss)
 ]
 

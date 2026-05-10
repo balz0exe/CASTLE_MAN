@@ -12,9 +12,9 @@ func start(value):
 	super(value)
 	original_enemies = Game.get_game_handler().enemies
 	Game.get_game_handler().enemies = [
-		{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 4, min_round = 7 },
-		{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 4, min_round = 4 },
-		{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 3 },
+		{ name = "captain", scene = load("res://enemies/scenes/goblin_captain.tscn"), weight = 2, min_round = 7 },
+		{ name = "bat", scene = load("res://enemies/scenes/bat.tscn"), weight = 8, min_round = 4 },
+		{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 4, min_round = 3 },
 		]
 	manager.lava_floor = true
 	map = load("res://world/levels/round events/floor_is_lava/lava_tile_map.tscn")

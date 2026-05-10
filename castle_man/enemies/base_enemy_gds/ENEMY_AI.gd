@@ -167,7 +167,7 @@ func _physics_process(delta: float) -> void:
 					set_state(State.WAIT)
 				_move_towards_x(ran_patrol_x)
 			else:
-				if Game.get_player().global_position.x - player.global_position.x > 80:
+				if abs(Game.get_player().global_position.x - player.global_position.x) > 80:
 					_move_towards_x(Game.get_player().global_position.x, true)
 				else:
 					set_state(State.WAIT)

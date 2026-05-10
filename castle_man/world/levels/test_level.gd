@@ -15,5 +15,5 @@ func _ready():
 		e.ENEMY_AI.enemy = Game.get_player()
 	
 	var event
-	event = load("res://world/levels/round events/garden.gd").new()
+	event = null
 	if event != null: Game.get_game_handler().add_child(event)

@@ -293,10 +293,10 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_kljln")
 }, {
-"duration": 3.0,
+"duration": 5.0,
 "texture": SubResource("AtlasTexture_eo4we")
 }, {
 "duration": 1.0,
@@ -324,7 +324,6 @@ collision_layer = 2
 script = ExtResource("1_1xo2g")
 basic_damage = 10.0
 item = ExtResource("2_j12kk")
-follow_up = true
 knockback_factor = 0.3
 combo_reset_time = 0.7
 max_speed = 60

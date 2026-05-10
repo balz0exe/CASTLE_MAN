@@ -5,6 +5,7 @@ extends RoundEvent
 var enemies = [
 	{ name = "mushroom", scene = load("res://enemies/scenes/mushroom.tscn"), weight = 3, min_round = 1 },
 	{ name = "fire sprout", scene = load("res://enemies/scenes/fire_sprout.tscn"), weight = 2, min_round = 1 },
+	{ name = "golem", scene = load("res://enemies/scenes/golem.tscn"), weight = 3, min_round = 5 },
 	]
 
 func _ready() -> void:
