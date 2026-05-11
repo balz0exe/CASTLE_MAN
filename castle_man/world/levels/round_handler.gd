@@ -39,7 +39,7 @@ var round_events = [
 	###{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
-	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
+	#{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
 	{ name = "storm", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 5 },
 	{ name = "garden", script = load("res://world/levels/round events/storm.gd"), weight = 3, min_round = 4 },
 	#BLOOD MOON (only hell hounds and necromancers)

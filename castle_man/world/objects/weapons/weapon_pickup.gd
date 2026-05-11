@@ -164,10 +164,6 @@ func _physics_process(delta: float) -> void:
 
 	var velocity = linear_velocity.length() / 20
 
-	if velocity < 0.05:
-		linear_velocity.x = lerp(linear_velocity.x, 0.0, delta*100)
-		linear_velocity.y = lerp(linear_velocity.x, 0.0, delta*100)
-
 	if picked_up or (projectile and !proj_persist and abs(linear_velocity.x) < 1):
 		queue_free()
 

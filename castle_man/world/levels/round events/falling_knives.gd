@@ -43,10 +43,10 @@ func spawn_weapon():
 	
 	if obj is RigidBody2D:
 		obj.rotation = -90
-		obj.projectile = true
-		obj.proj_persist = false
 		obj.apply_impulse(Vector2(randf_range(-20, 20), randf_range(0, 20)))
 		await get_tree().process_frame
+		obj.projectile = true
+		obj.proj_persist = false
 		while !obj.sleeping:
 			await get_tree().process_frame
 			if obj == null:

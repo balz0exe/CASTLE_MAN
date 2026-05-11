@@ -129,4 +129,3 @@ res = ExtResource("9_4hgr8")
 
 [node name="goblin" parent="." unique_id=1435472188 instance=ExtResource("19_i5w6p")]
 position = Vector2(-291, 105)
-item = ExtResource("15_u6bnq")

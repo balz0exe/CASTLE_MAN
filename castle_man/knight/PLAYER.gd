@@ -285,7 +285,7 @@ func _physics_process(delta: float) -> void:
 
 	# --- Invincibility frames ---
 	if invincible:
-		if state_machine.current_state.get_state_name() != "RollState":
+		if state_machine.current_state.get_state_name() != "RollState" and state_machine.current_state.get_state_name() != "AttackState":
 			blink()
 		hurt_box.coll.disabled = true
 		soft_coll.monitoring = false
