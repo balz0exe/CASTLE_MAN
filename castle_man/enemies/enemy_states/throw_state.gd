@@ -2,11 +2,9 @@
 extends EnemyState
 
 var _delta
-var throw_direction: int
 
 func enter(_prev_state):
-	player.ENEMY_AI._face_towards(Game.get_player())
-	throw_direction = player.direction
+	#player.ENEMY_AI._face_towards(Game.get_player())
 	if state_machine.monitor:print("Entered Throw State")
 	player.combo_counter = 0
 
@@ -17,7 +15,6 @@ func exit():
 	if state_machine.monitor:print("Exited Throw State")
 
 func physics_update(delta):
-	player.direction = throw_direction
 	_delta = delta
 	if player.velocity.y > 0:
 		player.velocity.y = 0
@@ -32,14 +29,16 @@ func update_animation():
 	await player.animation.animation_finished
 	if version != player.state_version:
 		return
-	if player.weapon and !player.ranged_type: player.weapon.throw(_delta)
+	if player.weapon and !player.ranged_type:
+		player.weapon.throw(_delta)
+		player.weapon._throw.emit()
 	elif player.ranged_type:
 		if !fired:
 			fired = true
 			player.fire()
-	await player.animation.animation_finished
-	if version != player.state_version:
-		return
+			await player.animation.animation_finished
+			if version != player.state_version:
+				return
 	state_machine.change_state("IdleState")
 
 

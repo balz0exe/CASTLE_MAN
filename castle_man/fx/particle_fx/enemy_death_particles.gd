@@ -6,8 +6,12 @@ var colors = []
 func _ready() -> void:
 	super()
 	connect("done_emitting", _done_emitting)
-	var frames = player.sprite_frames
-	var image = frames.get_frame_texture("die", 2).get_image()
+	var frames
+	if player is AnimatedSprite2D:
+		frames = player.sprite_frames
+	elif player is Sprite2D:
+		frames = null
+	var image = player.texture.get_image() if frames == null else frames.get_frame_texture("die", 2).get_image()
 	var half_size = Vector2(image.get_size()) / 2
 	
 	for x in range(image.get_width()):

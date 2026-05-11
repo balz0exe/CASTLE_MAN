@@ -4,3 +4,4 @@ extends Node
 
 func on_thrown(_delta):
 	parent.angular_velocity = 50
+	parent.global_position.y -= 15

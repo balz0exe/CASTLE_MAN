@@ -15,11 +15,19 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(29.5, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uli50"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yhlg"]
+atlas = ExtResource("9_q7i3h")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ww014"]
 atlas = ExtResource("9_q7i3h")
 region = Rect2(704, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6yhlg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_esf6s"]
+atlas = ExtResource("9_q7i3h")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_426ub"]
 atlas = ExtResource("9_q7i3h")
 region = Rect2(832, 0, 64, 64)
 
@@ -126,11 +134,17 @@ region = Rect2(384, 0, 64, 64)
 [sub_resource type="SpriteFrames" id="SpriteFrames_b5ht1"]
 animations = [{
 "frames": [{
-"duration": 3.0,
-"texture": SubResource("AtlasTexture_uli50")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6yhlg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ww014")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esf6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_426ub")
 }],
 "loop": false,
 "name": &"attack 1",
@@ -305,7 +319,7 @@ script = ExtResource("1_uli50")
 hurt_sfx = ExtResource("2_th5el")
 weapon_user = false
 basic_damage = 8.0
-original_attack_range = 70
+original_attack_range = 100
 knockback_factor = 0.3
 knockback_recovery = 0.3
 combo_reset_time = 5.0
@@ -352,7 +366,7 @@ hit_from_inside = true
 position = Vector2(0, -19)
 scale = Vector2(1, 0.6)
 sprite_frames = SubResource("SpriteFrames_b5ht1")
-animation = &"break"
+animation = &"attack 1"
 autoplay = "idle"
 speed_scale = 0.5
 
@@ -389,6 +403,8 @@ shape = SubResource("CircleShape2D_xens1")
 position = Vector2(0, -4)
 collision_layer = 16
 collision_mask = 0
+monitoring = false
+monitorable = false
 script = ExtResource("9_egpfr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1035466147]

@@ -164,6 +164,10 @@ func _physics_process(delta: float) -> void:
 
 	var velocity = linear_velocity.length() / 20
 
+	if velocity < 0.05:
+		linear_velocity.x = lerp(linear_velocity.x, 0.0, delta*100)
+		linear_velocity.y = lerp(linear_velocity.x, 0.0, delta*100)
+
 	if picked_up or (projectile and !proj_persist and abs(linear_velocity.x) < 1):
 		queue_free()
 
@@ -198,7 +202,7 @@ var picked_up = false
 
 func _on_body_entered(body: Node2D) -> void:
 	#print("body_entered: ", body.name, " | picked_up: ", picked_up, " | has_weapon: ", body.get("has_weapon"), " | claimed: ", Game.claimed_pickups.has(get_instance_id()))
-	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")):
+	if (!powerup and picked_up) or (powerup and body.is_in_group("enemies")) or (projectile and !proj_persist):
 		return
 	if body.has_method("equip_weapon") and equip_delay_timer <= 0:
 		if (body.is_in_group("enemies") and ((ranged or powerup) or pickup_timer > 0)) or body.dead:

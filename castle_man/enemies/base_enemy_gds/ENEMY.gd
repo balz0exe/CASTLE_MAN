@@ -172,12 +172,11 @@ func _physics_process(delta: float) -> void:
 	# Switch between basic and weapon-based attack pattern
 	if weapon == null:
 		basic_attack = true
-		combo_reset_time = 0.5
 	elif weapon_user:
 		basic_attack = false
 		combo_reset_time = original_combo_reset
 
-	debug.text = (str(ENEMY_AI.state))
+	debug.text = (str(combo_reset_timer))
 
 	# Death check
 	if health <= 0 and !dead:
@@ -253,7 +252,7 @@ func update_ai_request() -> void:
 		return
 
 	if current != "HurtState" and current != "AttackState":
-		if ai_state == Ai_State_Request.attack:
+		if ai_state == Ai_State_Request.attack and combo_reset_timer <= 0.0:
 			state_machine.change_state("AttackState")
 		if ai_state == Ai_State_Request.throw:
 			if (weapon and weapon.throwable) or ranged_type: state_machine.change_state("ThrowState")

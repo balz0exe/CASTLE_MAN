@@ -244,12 +244,14 @@ func spawn_particle_oneshot(fx: String, from: Node2D, offset: Vector2 = Vector2.
 		particles.position = offset
 	return particles
 
-func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false):
+func spawn_explosion(from: Node2D, radius: int = 30, damage: int = 10, knockback: float = 50, damage_from: bool = false, impact_only: bool = false) -> Node2D:
 	var explosion = load("res://world/misc/explosion/explosion.tscn")
 	explosion = explosion.instantiate()
+	explosion.impact_only = impact_only
 	explosion.damage_from = damage_from
 	call_deferred("explode", from, radius, damage, knockback, explosion)
-	play_sfx(load("res://fx/audio_fx/fireball_shoot.wav"), sfx_volume + 8, from)
+	if !impact_only: play_sfx(load("res://fx/audio_fx/fireball_shoot.wav"), sfx_volume + 8, from)
+	return explosion
 	
 func explode(from, radius, damage, knockback, explosion):
 	level.add_child(explosion)

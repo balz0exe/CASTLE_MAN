@@ -22,8 +22,13 @@ func attack():
 			start_exit()
 			return
 		if player.weapon: player.stamina -= player.weapon.stamina_cost
+		invincible()
 		played = false
 		attacking = true
+
+func invincible():
+	player.invincible = true
+	player.invincible_timer = 0.2
 
 func enter(_prev_state):
 	if not player.combo_cooldown_timer > 0:
@@ -33,6 +38,9 @@ func enter(_prev_state):
 	if prev_state == "RunState":
 		run_attack = true
 	if state_machine.monitor:print("Entered Attack State")
+	
+	invincible()
+	
 	if player.weapon == null:
 		start_exit()
 		return

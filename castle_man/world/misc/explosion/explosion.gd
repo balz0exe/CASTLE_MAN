@@ -1,15 +1,22 @@
 extends Area2D
 
 @onready var coll = $CollisionShape2D
-@onready var fire = $FireParticle
+@onready var fire: CPUParticles2D = $FireParticle
 @onready var circle = $CircleParticle
 
 var _damage
 var _knockback
 var from
 var damage_from = false
+var hit_pause: bool = true
+var impact_only = false
 
 func _ready() -> void:
+	if impact_only:
+		fire.color = Color.TRANSPARENT
+		fire.color_ramp = null
+		circle.color = Color.TRANSPARENT
+		circle.color_ramp = null
 	connect("body_entered", on_body_entered)
 
 func explode(radius: int = 30, damage: int = 10, knockback: float = 50):
@@ -22,7 +29,7 @@ func explode(radius: int = 30, damage: int = 10, knockback: float = 50):
 	_damage = damage
 	_knockback = knockback
 	
-	Game.hit_pause(0.1, 0.4, true)
+	if hit_pause: Game.hit_pause(0.1, 0.4, true)
 	
 	async_deactivate()
 	

@@ -1,7 +1,7 @@
 extends RoundEvent
 
 # --- CONFIG ---
-var spawn_delay: float = 1.0
+var spawn_delay: float = 0.3
 var spawn_area_width: float = 900
 var spawn_height: float = -200
 
@@ -19,9 +19,9 @@ func start(value):
 
 func run() -> void:
 	while running:
-		if round_id != manager.current_round_id:
-			queue_free()
-			return
+		#if round_id != manager.current_round_id:
+			#queue_free()
+			#return
 
 		spawn_weapon()
 
@@ -40,11 +40,19 @@ func spawn_weapon():
 	var pos = Vector2(x, spawn_height)
 
 	var obj = Game.spawn_object(weapon, pos)
-
+	
 	if obj is RigidBody2D:
 		obj.rotation = -90
+		obj.projectile = true
+		obj.proj_persist = false
 		obj.apply_impulse(Vector2(randf_range(-20, 20), randf_range(0, 20)))
-		obj.apply_torque(randf_range(-10, 10))
+		await get_tree().process_frame
+		while !obj.sleeping:
+			await get_tree().process_frame
+			if obj == null:
+				return
+		Game.spawn_particle_oneshot("res://fx/particle_fx/enemy_death_particles.tscn", obj.sprite, Vector2.ZERO, null, false)
+		Game.fade_out_sprite(obj.sprite)
 
 # --- CLEANUP ---
 func clean_up():

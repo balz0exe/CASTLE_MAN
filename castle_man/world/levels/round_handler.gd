@@ -36,7 +36,7 @@ var active_nonstackable_upgrades: Array[String] = []  # upgrades that can only b
 var round_events = [
 	{ name = "falling knives", script = load("res://world/levels/round events/falling_knives.gd"), weight = 4, min_round = 3 },
 	{ name = "floor is lava", script = load("res://world/levels/round events/floor_is_lava/floor_is_lava.gd"), weight = 6, min_round = 5 },
-	#{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
+	###{ name = "falling barrels", script = load("res://world/levels/round events/falling_barrels.gd"), weight = 12, min_round = 2 },
 	{ name = "falling exploding barrels", script = load("res://world/levels/round events/falling exploding barrels.gd"), weight = 4, min_round = 6 },
 	{ name = "moon gravity", script = load("res://world/levels/round events/moon_gravity.gd"), weight = 5, min_round = 5 },
 	{ name = "darkness", script = load("res://world/levels/round events/darkness/darkness.gd"), weight = 3, min_round = 2 },
@@ -257,7 +257,7 @@ func events_for_round(r: int) -> int:
 	if r >= 6 and r < 9:
 		return randi() % 2
 	elif r >= 9:
-		return randi() % 2 + 1
+		return randi() % 3
 	return 0
 
 func run_round_events(round_id: int) -> void:
