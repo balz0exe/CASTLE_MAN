@@ -72,10 +72,10 @@ var ai_state: Ai_State_Request = Ai_State_Request.idle
 @export var patrol_range: float = 100
 var found_weapon  # FLAG: worth typing as Node2D or WeaponPickup when possible
 @export var attack_thrust_factor: float = 1.0
-@export var knockback_factor: float = 1.0
+@export var knockback_factor: float = 2.0
 var knocked_back: bool
 var knockback_force: float
-@export var knockback_recovery: float = 0.35
+@export var knockback_recovery: float = 0.4
 var recovery_timer: float = 0.0
 var weapon: WeaponItem = null
 var throw_path: String
